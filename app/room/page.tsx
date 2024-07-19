@@ -23,18 +23,20 @@ export default function Page() {
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
   const [roomPassword, setRoomPassword] = useState('');
+  const [IsRoomPublic, setIsRoomPublic] = useState(false);
   const [passwordCorrect, setPasswordCorrect] = useState(false);
 
   useEffect(() => {
-    const fetchPassword = async () => {
+    const fetchRoomState = async () => {
       try {
-        const resp = await fetch(`/api/get-room-password?roomId=${roomId}`);
+        const resp = await fetch(`/api/get-room-state?roomId=${roomId}`);
         if (!resp.ok) {
-          console.error(`Error fetching password: ${resp.statusText}`);
+          console.error(`Error fetching room: ${resp.statusText}`);
           return;
         }
-        const data = await resp.json();
+        const data = await resp.json();        
         setRoomPassword(data["password"]);
+        setIsRoomPublic(data["isRoomPublic"]);
       } catch (e) {
         console.error('Fetch error:', e);
       }
@@ -54,7 +56,7 @@ export default function Page() {
       }
     };
 
-    fetchPassword();
+    fetchRoomState();
     fetchToken();
   }, [roomId, username]);
 
@@ -70,7 +72,7 @@ export default function Page() {
     return <div>Getting token...</div>;
   }
 
-  if (passwordCorrect) {
+  if (passwordCorrect || IsRoomPublic) {
     return (
       <LiveKitRoom
         video={true}
