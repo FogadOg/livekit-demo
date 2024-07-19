@@ -15,7 +15,7 @@ export default async function Home() {
         {publicRooms.map((room) => {
           return (
             <li key={room.id}>
-              <JoinRoomButton room={room} /> |{" "}
+              <JoinRoomButton room={room} /> | Particpents count:{" "}
               {rooms.find((liveRoom) => liveRoom.name == room.id.toString())
                 ?.numParticipants || 0}
             </li>
