@@ -72,7 +72,7 @@ export default function Page() {
     return <div>Getting token...</div>;
   }
 
-  if (passwordCorrect) {
+  if (passwordCorrect || IsRoomPublic) {
     return (
       <LiveKitRoom
         video={true}
