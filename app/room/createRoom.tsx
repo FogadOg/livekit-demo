@@ -8,11 +8,11 @@ interface CreateRoomProps {
 
 const CreateRoom = ({ create }: CreateRoomProps) => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault(); // don't refresh
 
-    const formData = new FormData(event.currentTarget); // Create FormData from the form
+    const formData = new FormData(event.currentTarget);
 
-    await create(formData); // Call the server action with FormData
+    await create(formData);
   };
   return (
     <form onSubmit={handleSubmit} className="flex flex-col">

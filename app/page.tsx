@@ -7,11 +7,14 @@ export default async function Home() {
   async function create(formData: FormData) {
     "use server";
 
-    const rawFormData = {
-      roomName: formData.get("roomName"),
-      public: formData.get("public"),
+    const validatedFormData = {
+      name: (formData.get("roomName") as string | null) || "default room",
+      public: (formData.get("public") || "off") === "on",
     };
-    console.log(formData);
+
+    const newRoom = await prisma.room.create({
+      data: validatedFormData,
+    });
   }
 
   return (
