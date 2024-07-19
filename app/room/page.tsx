@@ -16,10 +16,11 @@ import { useSearchParams } from "next/navigation";
 export default function Page() {
   const searchParams = useSearchParams();
   const roomId = searchParams.get("roomId");
+  const username = searchParams.get("username");
 
   // TODO: get user input for room and name
   const room = roomId || "quickstart-room";
-  const name = "quickstart-user";
+  const name = username || "user";
   const [token, setToken] = useState("");
 
   useEffect(() => {
