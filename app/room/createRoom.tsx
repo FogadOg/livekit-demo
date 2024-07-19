@@ -1,18 +1,21 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 
 interface CreateRoomProps {
-  create: (formData: FormData) => Promise<void>;
+  create: (formData: FormData) => Promise<string>;
 }
 
 const CreateRoom = ({ create }: CreateRoomProps) => {
+  const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // don't refresh
 
     const formData = new FormData(event.currentTarget);
 
-    await create(formData);
+    let path = await create(formData);
+    router.push(path);
   };
   return (
     <form onSubmit={handleSubmit} className="flex flex-col">

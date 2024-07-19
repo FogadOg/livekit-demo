@@ -4,6 +4,7 @@ import JoinRoomButton from "./room/joinRoomButton";
 
 export default async function Home() {
   const publicRooms = await prisma.room.findMany({ where: { public: true } });
+
   async function create(formData: FormData) {
     "use server";
 
@@ -15,6 +16,7 @@ export default async function Home() {
     const newRoom = await prisma.room.create({
       data: validatedFormData,
     });
+    return `/room?roomId=${newRoom.id}&username=Creator`;
   }
 
   return (
