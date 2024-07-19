@@ -6,20 +6,6 @@ import { RoomServiceClient, Room } from "livekit-server-sdk";
 export default async function Home() {
   const publicRooms = await prisma.room.findMany({ where: { public: true } });
 
-  async function create(formData: FormData) {
-    "use server";
-
-    const validatedFormData = {
-      name: (formData.get("roomName") as string | null) || "default room",
-      public: (formData.get("public") || "off") === "on",
-    };
-
-    const newRoom = await prisma.room.create({
-      data: validatedFormData,
-    });
-    return `/room?roomId=${newRoom.id}&username=Creator`;
-  }
-
   let roomService = new RoomServiceClient(
     process.env.NEXT_PUBLIC_LIVEKIT_URL!,
     process.env.LIVEKIT_API_KEY,
@@ -44,7 +30,7 @@ export default async function Home() {
 
       <div className="mt-5"></div>
 
-      <CreateRoom create={create} />
+      <CreateRoom />
     </main>
   );
 }

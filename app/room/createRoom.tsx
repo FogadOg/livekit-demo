@@ -2,19 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { handleCreateRoomForm } from "@/app/actions";
 
-interface CreateRoomProps {
-  create: (formData: FormData) => Promise<string>;
-}
-
-const CreateRoom = ({ create }: CreateRoomProps) => {
+const CreateRoom = () => {
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // don't refresh
 
     const formData = new FormData(event.currentTarget);
 
-    let path = await create(formData);
+    let path = await handleCreateRoomForm(formData);
     router.push(path);
   };
   return (
