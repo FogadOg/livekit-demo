@@ -25,7 +25,7 @@ const CreateRoom = () => {
             type="text"
             name="roomName"
             id="roomName"
-            className="bg-black border-2 rounded"
+            className="border-black border-2 rounded"
           />
         </div>
         <div>
@@ -33,7 +33,11 @@ const CreateRoom = () => {
           <input type="checkbox" name="public" id="public" />
         </div>
         <div>
-          <input type="submit" value="Submit" />
+          <input
+            type="submit"
+            value="Submit"
+            className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded p-2"
+          />
         </div>
       </form>
     </>
