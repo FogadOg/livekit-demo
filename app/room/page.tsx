@@ -25,6 +25,7 @@ export default function Page() {
   const room = roomId || "quickstart-room";
   const name = username || "user";
   const [token, setToken] = useState("");
+  const [password, setPassowrd] = useState(false);
 
   useEffect(() => {
     (async () => {
