@@ -1,5 +1,6 @@
 "use server";
 
+import roomService from "@/lib/roomService";
 import prisma from "../lib/prisma";
 
 export async function handleCreateRoomForm(formData: FormData) {
@@ -12,4 +13,14 @@ export async function handleCreateRoomForm(formData: FormData) {
     data: validatedFormData,
   });
   return `/room?roomId=${newRoom.id}&username=Creator`;
+}
+
+export async function checkUsernameTaken(roomId: string, username: string) {
+  console.log("Checking if user here!");
+  const participants = await roomService.listParticipants(roomId);
+  const nameTaken = participants.some(
+    (participant) => participant.identity === username
+  );
+  console.log(nameTaken);
+  return nameTaken;
 }
