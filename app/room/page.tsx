@@ -12,14 +12,18 @@ import "@livekit/components-styles";
 import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
   const searchParams = useSearchParams();
   const roomId = searchParams.get("roomId");
+  const username = searchParams.get("username");
 
   // TODO: get user input for room and name
   const room = roomId || "quickstart-room";
-  const name = "quickstart-user";
+  const name = username || "user";
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -49,6 +53,9 @@ export default function Page() {
       // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
       style={{ height: "100dvh" }}
+      onDisconnected={() => {
+        router.replace("/");
+      }}
     >
       {/* Your custom component with basic video conferencing functionality. */}
       <MyVideoConference />
