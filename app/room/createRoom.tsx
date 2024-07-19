@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { handleCreateRoomForm } from "@/app/actions";
 
 const CreateRoom = () => {
+  const [roomPublic, setRoomPublic] = useState(false);
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // don't refresh
@@ -31,8 +32,27 @@ const CreateRoom = () => {
         </div>
         <div>
           <label htmlFor="roomName">Public:</label>
-          <input type="checkbox" name="public" id="public" />
+          <input
+            type="checkbox"
+            name="public"
+            id="public"
+            onClick={() => setRoomPublic(!roomPublic)}
+          />
         </div>
+
+        {!roomPublic && (
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="text"
+              name="password"
+              id="password"
+              className="border-black border-2 rounded"
+              required
+            />
+          </div>
+        )}
+
         <div>
           <input
             type="submit"

@@ -7,7 +7,7 @@ export async function handleCreateRoomForm(formData: FormData) {
   const validatedFormData = {
     name: (formData.get("roomName") as string | null) || "default room",
     public: (formData.get("public") || "off") === "on",
-    password: "",
+    password: (formData.get("password") as string | null) || "",
   };
 
   const newRoom = await prisma.room.create({
