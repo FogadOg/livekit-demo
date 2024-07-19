@@ -28,12 +28,12 @@ export default function Page() {
   useEffect(() => {
     const fetchPassword = async () => {
       try {
-        const resp = await fetch(`/api/get-room-password?roomId=${roomId}`);
+        const resp = await fetch(`/api/get-room-state?roomId=${roomId}`);
         if (!resp.ok) {
-          console.error(`Error fetching password: ${resp.statusText}`);
+          console.error(`Error fetching room: ${resp.statusText}`);
           return;
         }
-        const data = await resp.json();
+        const data = await resp.json();        
         setRoomPassword(data["password"]);
       } catch (e) {
         console.error('Fetch error:', e);

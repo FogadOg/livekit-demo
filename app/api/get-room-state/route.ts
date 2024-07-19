@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const room = await prisma.room.findUnique({
-      where: { id: parseInt(roomId) }, // Ensure roomId is an integer
+      where: { id: parseInt(roomId) },
       select: { password: true },
     });
 
