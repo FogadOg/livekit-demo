@@ -1,16 +1,11 @@
-import prisma from "../lib/prisma";
+import prisma from "@/lib/prisma";
+import roomService from "@/lib/roomService";
+
 import CreateRoom from "./room/createRoom";
 import JoinRoomButton from "./room/joinRoomButton";
-import { RoomServiceClient, Room } from "livekit-server-sdk";
 
 export default async function Home() {
   const publicRooms = await prisma.room.findMany({ where: { public: true } });
-
-  let roomService = new RoomServiceClient(
-    process.env.NEXT_PUBLIC_LIVEKIT_URL!,
-    process.env.LIVEKIT_API_KEY,
-    process.env.LIVEKIT_API_SECRET
-  );
   const rooms = await roomService.listRooms();
 
   return (
