@@ -16,61 +16,95 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
-
   const searchParams = useSearchParams();
-  const roomId = searchParams.get("roomId");
-  const username = searchParams.get("username");
+  const roomId = searchParams.get('roomId');
+  const username = searchParams.get('username');
 
-  // TODO: get user input for room and name
-  const room = roomId || "quickstart-room";
-  const name = username || "user";
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
+  const [password, setPassword] = useState('');
+  const [roomPassword, setRoomPassword] = useState('');
+  const [passwordCorrect, setPasswordCorrect] = useState(false);
 
   useEffect(() => {
-    (async () => {
+    const fetchPassword = async () => {
       try {
-        const resp = await fetch(
-          `/api/get-participant-token?room=${room}&username=${name}`
-        );
+        const resp = await fetch(`/api/get-room-password?roomId=${roomId}`);
+        if (!resp.ok) {
+          console.error(`Error fetching password: ${resp.statusText}`);
+          return;
+        }
+        const data = await resp.json();
+        setRoomPassword(data["password"]);
+      } catch (e) {
+        console.error('Fetch error:', e);
+      }
+    };
+
+    const fetchToken = async () => {
+      try {
+        const resp = await fetch(`/api/get-participant-token?room=${roomId}&username=${username}`);
+        if (!resp.ok) {
+          console.error(`Error fetching token: ${resp.statusText}`);
+          return;
+        }
         const data = await resp.json();
         setToken(data.token);
       } catch (e) {
-        console.error(e);
+        console.error('Fetch error:', e);
       }
-    })();
-  }, []);
+    };
 
-  if (token === "") {
+    fetchPassword();
+    fetchToken();
+  }, [roomId, username]);
+
+  const handlePasswordCheck = () => {
+    if (password === roomPassword) {
+      setPasswordCorrect(true);
+    } else {
+      alert('Incorrect password');
+    }
+  };
+
+  if (token === '') {
     return <div>Getting token...</div>;
   }
 
+  if (passwordCorrect) {
+    return (
+      <LiveKitRoom
+        video={true}
+        audio={true}
+        token={token}
+        serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+        data-lk-theme="default"
+        style={{ height: '100dvh' }}
+        onDisconnected={() => {
+          router.replace('/');
+        }}
+      >
+        <MyVideoConference />
+        <RoomAudioRenderer />
+        <ControlBar />
+      </LiveKitRoom>
+    );
+  }
+
   return (
-    <LiveKitRoom
-      video={true}
-      audio={true}
-      token={token}
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-      // Use the default LiveKit theme for nice styles.
-      data-lk-theme="default"
-      style={{ height: "100dvh" }}
-      onDisconnected={() => {
-        router.replace("/");
-      }}
-    >
-      {/* Your custom component with basic video conferencing functionality. */}
-      <MyVideoConference />
-      {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-      <RoomAudioRenderer />
-      {/* Controls for the user to start/stop audio, video, and screen
-      share tracks and to leave the room. */}
-      <ControlBar />
-    </LiveKitRoom>
+    <div>
+      <input 
+        type="password" 
+        placeholder="Enter room password" 
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handlePasswordCheck}>
+        Join Room
+      </button>
+    </div>
   );
 }
 
 function MyVideoConference() {
-  // `useTracks` returns all camera and screen share tracks. If a user
-  // joins without a published camera track, a placeholder track is returned.
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -78,13 +112,12 @@ function MyVideoConference() {
     ],
     { onlySubscribed: false }
   );
+
   return (
     <GridLayout
       tracks={tracks}
-      style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
+      style={{ height: 'calc(100vh - var(--lk-control-bar-height))' }}
     >
-      {/* The GridLayout accepts zero or one child. The child is used
-      as a template to render all passed in tracks. */}
       <ParticipantTile />
     </GridLayout>
   );

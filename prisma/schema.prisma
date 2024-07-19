@@ -19,5 +19,6 @@ model User {
 model Room{
   id Int @id @default(autoincrement())
   name String
+  password String
   public Boolean
 }
