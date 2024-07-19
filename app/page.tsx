@@ -25,7 +25,7 @@ export default async function Home() {
       <ul>
         {publicRooms.map((room) => {
           return (
-            <li>
+            <li key={room.id}>
               - <JoinRoomButton room={room} />
             </li>
           );
