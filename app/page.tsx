@@ -1,4 +1,3 @@
-import Image from "next/image";
 import prisma from "../lib/prisma";
 
 export default async function Home() {
@@ -9,7 +8,13 @@ export default async function Home() {
       <h1>Public rooms</h1>
       <ul>
         {publicRooms.map((room) => {
-          return <li>{room.name}</li>;
+          return (
+            <li>
+              <a href={"/room?roomId=" + room.id} className="underline">
+                {room.name}
+              </a>
+            </li>
+          );
         })}
       </ul>
     </>
