@@ -14,11 +14,17 @@ const CreateRoom = () => {
     let path = await handleCreateRoomForm(formData);
     router.push(path);
   };
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
+    <form onSubmit={handleSubmit} className="flex flex-col ">
       <div>
         <label htmlFor="roomName">Room name:</label>
-        <input type="text" name="roomName" id="roomName" />
+        <input
+          type="text"
+          name="roomName"
+          id="roomName"
+          className="bg-black border-2 rounded"
+        />
       </div>
       <div>
         <label htmlFor="roomName">Public:</label>
