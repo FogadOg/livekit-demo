@@ -26,6 +26,7 @@ const CreateRoom = () => {
             name="roomName"
             id="roomName"
             className="border-black border-2 rounded"
+            required
           />
         </div>
         <div>
