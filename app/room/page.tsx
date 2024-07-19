@@ -26,7 +26,7 @@ export default function Page() {
   const [passwordCorrect, setPasswordCorrect] = useState(false);
 
   useEffect(() => {
-    const fetchPassword = async () => {
+    const fetchRoomState = async () => {
       try {
         const resp = await fetch(`/api/get-room-state?roomId=${roomId}`);
         if (!resp.ok) {
