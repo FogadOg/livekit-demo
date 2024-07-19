@@ -23,6 +23,7 @@ export default function Page() {
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
   const [roomPassword, setRoomPassword] = useState('');
+  const [IsRoomPublic, setIsRoomPublic] = useState(false);
   const [passwordCorrect, setPasswordCorrect] = useState(false);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function Page() {
         }
         const data = await resp.json();        
         setRoomPassword(data["password"]);
+        setIsRoomPublic(data["isRoomPublic"]);
       } catch (e) {
         console.error('Fetch error:', e);
       }
@@ -54,7 +56,7 @@ export default function Page() {
       }
     };
 
-    fetchPassword();
+    fetchRoomState();
     fetchToken();
   }, [roomId, username]);
 
