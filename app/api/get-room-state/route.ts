@@ -12,11 +12,11 @@ export async function GET(req: NextRequest) {
   try {
     const room = await prisma.room.findUnique({
       where: { id: parseInt(roomId) },
-      select: { password: true },
+      select: { password: true, name: true, public: true },
     });
 
     if (room) {
-      return NextResponse.json({ password: room.password });
+      return NextResponse.json({ password: room.password, roomName: room.name, isRoomPublic: room.public });
     } else {
       return NextResponse.json({ error: 'Room not found' }, { status: 404 });
     }
