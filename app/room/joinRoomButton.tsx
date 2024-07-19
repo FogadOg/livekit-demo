@@ -24,7 +24,14 @@ const JoinRoomButton = ({ room }: JoinRoomButtonProps) => {
     }
   };
 
-  return <button onClick={handleClick}>{room.name}</button>;
+  return (
+    <button
+      onClick={handleClick}
+      className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-2 py-1"
+    >
+      Join
+    </button>
+  );
 };
 
 export default JoinRoomButton;
