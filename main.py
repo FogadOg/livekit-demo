@@ -1,12 +1,20 @@
 import asyncio
 import logging
 
-from livekit.agents import JobContext, JobRequest, WorkerOptions, cli
 from livekit.agents.llm import (
     ChatContext,
     ChatMessage,
     ChatRole,
 )
+from livekit.agents import (
+    JobContext,
+    JobRequest,
+    WorkerOptions,
+    cli,
+    stt,
+    transcription,
+)
+from livekit import agents, rtc
 from livekit.agents.voice_assistant import VoiceAssistant
 from livekit.plugins import deepgram, elevenlabs, openai, silero
 import os
@@ -17,47 +25,52 @@ os.environ["DEEPGRAM_API_KEY"] = "5319aa090351c7d09ceb58c703b3484719079350"
 
 os.environ["LIVEKIT_SERVER_URL"] = "wss://127.0.0.1:7880"
 
-# This function is the entrypoint for the agent.
-async def entrypoint(ctx: JobContext):
-    # Create an initial chat context with a system prompt
-    initial_ctx = ChatContext(
-        messages=[
-            ChatMessage(
-                role=ChatRole.SYSTEM,
-                text="You are a voice assistant created by LiveKit. Your interface with users will be voice. Pretend we're having a conversation, no special formatting or headings, just natural speech.",
-            )
-        ]
-    )
 
-    # VoiceAssistant is a class that creates a full conversational AI agent.
-    # See https://github.com/livekit/agents/blob/main/livekit-agents/livekit/agents/voice_assistant/assistant.py
-    # for details on how it works.
-    assistant = VoiceAssistant(
-        vad=silero.VAD(), # Voice Activity Detection
-        stt=deepgram.STT(), # Speech-to-Text
-        #llm=openai.LLM(), # Language Model
-        #tts=elevenlabs.TTS(), # Text-to-Speech
-        chat_ctx=initial_ctx, # Chat history context
-    )
-
-    # Start the voice assistant with the LiveKit room
-    assistant.start(ctx.room)
-
-    await asyncio.sleep(3)
-
-    # Greets the user with an initial message
-    await assistant.say("Hey, how can I help you today?", allow_interruptions=True)
+async def _forward_transcription(
+    stt_stream: stt.SpeechStream,
+    stt_forwarder: transcription.STTSegmentsForwarder,
+):
+    """Forward the transcription to the client and log the transcript in the console"""
+    async for ev in stt_stream:
+        stt_forwarder.update(ev)
+        if ev.type == stt.SpeechEventType.INTERIM_TRANSCRIPT:
+            print(ev.alternatives[0].text, end="")
+        elif ev.type == stt.SpeechEventType.FINAL_TRANSCRIPT:
+            print("\n")
+            print(" -> ", ev.alternatives[0].text)
 
 
-# This function is called when the worker receives a job request
-# from a LiveKit server.
+async def entrypoint(job: JobContext):
+    logging.info("starting speech-to-text example")
+    stt = deepgram.STT()
+    tasks = []
+
+    async def transcribe_track(participant: rtc.RemoteParticipant, track: rtc.Track):
+        audio_stream = rtc.AudioStream(track)
+        stt_forwarder = transcription.STTSegmentsForwarder(
+            room=job.room, participant=participant, track=track
+        )
+        stt_stream = stt.stream()
+        stt_task = asyncio.create_task(
+            _forward_transcription(stt_stream, stt_forwarder)
+        )
+        tasks.append(stt_task)
+
+        async for ev in audio_stream:
+            stt_stream.push_frame(ev.frame)
+
+    @job.room.on("track_subscribed")
+    def on_track_subscribed(
+        track: rtc.Track,
+        publication: rtc.TrackPublication,
+        participant: rtc.RemoteParticipant,
+    ):
+        if track.kind == rtc.TrackKind.KIND_AUDIO:
+            tasks.append(asyncio.create_task(transcribe_track(participant, track)))
+
+
 async def request_fnc(req: JobRequest) -> None:
-    logging.info("received request %s", req)
-    # Accept the job tells the LiveKit server that this worker
-    # wants the job. After the LiveKit server acknowledges that job is accepted,
-    # the entrypoint function is called.
-    await req.accept(entrypoint)
-
+    await req.accept(entrypoint, auto_subscribe=agents.AutoSubscribe.AUDIO_ONLY)
 
 if __name__ == "__main__":
     # Initialize the worker with the request function
