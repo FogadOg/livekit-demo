@@ -32,6 +32,8 @@ export default async function Home() {
       <JoinPrivateRoom
         privateRoomIds={privateRooms.map((room) => room.id.toString())}
       />
+
+      <div className="mt-5"></div>
       <CreateRoom />
     </main>
   );

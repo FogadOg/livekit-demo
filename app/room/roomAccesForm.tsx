@@ -84,7 +84,7 @@ const RoomAccessForm = ({
     );
   }
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 ">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 m-5">
       <div>
         <label htmlFor="roomId">Username:</label>
         <input
