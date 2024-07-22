@@ -13,7 +13,7 @@ export async function handleCreateRoomForm(formData: FormData) {
   const newRoom = await prisma.room.create({
     data: validatedFormData,
   });
-  return `/room?roomId=${newRoom.id}&username=Creator`;
+  return `/room?roomId=${newRoom.id}`;
 }
 
 export async function checkUsernameTaken(roomId: string, username: string) {
