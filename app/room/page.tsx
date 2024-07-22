@@ -17,12 +17,12 @@ import { useRouter } from "next/navigation";
 export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const roomId = searchParams.get('roomId');
-  const username = searchParams.get('username');
+  const roomId = searchParams.get("roomId");
+  const username = searchParams.get("username");
 
-  const [token, setToken] = useState('');
-  const [password, setPassword] = useState('');
-  const [roomPassword, setRoomPassword] = useState('');
+  const [token, setToken] = useState("");
+  const [password, setPassword] = useState("");
+  const [roomPassword, setRoomPassword] = useState("");
   const [IsRoomPublic, setIsRoomPublic] = useState(false);
   const [passwordCorrect, setPasswordCorrect] = useState(false);
 
@@ -34,17 +34,19 @@ export default function Page() {
           console.error(`Error fetching room: ${resp.statusText}`);
           return;
         }
-        const data = await resp.json();        
+        const data = await resp.json();
         setRoomPassword(data["password"]);
         setIsRoomPublic(data["isRoomPublic"]);
       } catch (e) {
-        console.error('Fetch error:', e);
+        console.error("Fetch error:", e);
       }
     };
 
     const fetchToken = async () => {
       try {
-        const resp = await fetch(`/api/get-participant-token?room=${roomId}&username=${username}`);
+        const resp = await fetch(
+          `/api/get-participant-token?room=${roomId}&username=${username}`
+        );
         if (!resp.ok) {
           console.error(`Error fetching token: ${resp.statusText}`);
           return;
@@ -52,7 +54,7 @@ export default function Page() {
         const data = await resp.json();
         setToken(data.token);
       } catch (e) {
-        console.error('Fetch error:', e);
+        console.error("Fetch error:", e);
       }
     };
 
@@ -60,15 +62,15 @@ export default function Page() {
     fetchToken();
   }, [roomId, username]);
 
-  const handlePasswordCheck = () => {
+  const handleSubmit = () => {
     if (password === roomPassword) {
       setPasswordCorrect(true);
     } else {
-      alert('Incorrect password');
+      alert("Incorrect password");
     }
   };
 
-  if (token === '') {
+  if (token === "") {
     return <div>Getting token...</div>;
   }
 
@@ -80,9 +82,9 @@ export default function Page() {
         token={token}
         serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
         data-lk-theme="default"
-        style={{ height: '100dvh' }}
+        style={{ height: "100dvh" }}
         onDisconnected={() => {
-          router.replace('/');
+          router.replace("/");
         }}
       >
         <MyVideoConference />
@@ -93,16 +95,37 @@ export default function Page() {
   }
 
   return (
-    <div>
-      <input 
-        type="password" 
-        placeholder="Enter room password" 
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handlePasswordCheck}>
-        Join Room
-      </button>
-    </div>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 ">
+      <div>
+        <label htmlFor="roomId">Username:</label>
+        <input
+          name="username"
+          id="username"
+          type="text"
+          placeholder="Username"
+          onChange={(e) => setPassword(e.target.value)}
+          className="border-black border-2 rounded"
+        />
+      </div>
+      <div>
+        <label htmlFor="password">Room password:</label>
+        <input
+          name="password"
+          id="password"
+          type="password"
+          placeholder="Room password"
+          onChange={(e) => setPassword(e.target.value)}
+          className="border-black border-2 rounded"
+        />
+      </div>
+      <div>
+        <input
+          type="submit"
+          value="Join"
+          className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-2 py-1"
+        />
+      </div>
+    </form>
   );
 }
 
@@ -118,7 +141,7 @@ function MyVideoConference() {
   return (
     <GridLayout
       tracks={tracks}
-      style={{ height: 'calc(100vh - var(--lk-control-bar-height))' }}
+      style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
       <ParticipantTile />
     </GridLayout>
