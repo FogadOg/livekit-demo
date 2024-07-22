@@ -1,12 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '../../../lib/prisma';
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import roomService from "@/lib/roomService";
+import { Participant } from "livekit-client";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const roomId = searchParams.get('roomId');
 
-  if (!roomId) {
-    return NextResponse.json({ error: 'Room ID is required' }, { status: 400 });
+  const roomId = searchParams.get("roomId");
+  if (!roomId || !searchParams.has("roomId") || !Number(roomId)) {
+    return NextResponse.json({ error: "Room ID is required" }, { status: 400 });
   }
 
   try {
@@ -15,13 +17,25 @@ export async function GET(req: NextRequest) {
       select: { password: true, name: true, public: true },
     });
 
+    let participants = await roomService.listParticipants(roomId);
+    let participantsNames = participants.map(
+      (participant: any) => participant.identity
+    );
     if (room) {
-      return NextResponse.json({ password: room.password, roomName: room.name, isRoomPublic: room.public });
+      return NextResponse.json({
+        password: room.password,
+        roomName: room.name,
+        isRoomPublic: room.public,
+        participants: participantsNames,
+      });
     } else {
-      return NextResponse.json({ error: 'Room not found' }, { status: 404 });
+      return NextResponse.json({ error: "Room not found" }, { status: 404 });
     }
   } catch (error) {
-    console.error('Error fetching room password:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error("Error fetching room password:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
