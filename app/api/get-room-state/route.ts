@@ -18,13 +18,15 @@ export async function GET(req: NextRequest) {
     });
 
     let participants = await roomService.listParticipants(roomId);
-    participants = participants.map((participant: any) => participant.identity);
+    let participantsNames = participants.map(
+      (participant: any) => participant.identity
+    );
     if (room) {
       return NextResponse.json({
         password: room.password,
         roomName: room.name,
         isRoomPublic: room.public,
-        participants: participants,
+        participants: participantsNames,
       });
     } else {
       return NextResponse.json({ error: "Room not found" }, { status: 404 });
