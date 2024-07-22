@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
         password: room.password,
         roomName: room.name,
         isRoomPublic: room.public,
+        participants: ["jason", "mavon"],
       });
     } else {
       return NextResponse.json({ error: "Room not found" }, { status: 404 });

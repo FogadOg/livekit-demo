@@ -3,13 +3,24 @@
 import "@livekit/components-styles";
 import { useEffect, useState, FormEvent } from "react";
 
+// ! WARNING
+// ! This is not safe, should be rebuilt if not demo
+// ! User can use somebody elses name and kick them
+// ! User can see room password
+
 interface RoomProps {
-  roomId: String;
+  roomId: string;
+  userId: string;
   setAccessRoom: Function;
   setUserId: Function;
 }
 
-const RoomAccessForm = ({ roomId, setAccessRoom, setUserId }: RoomProps) => {
+const RoomAccessForm = ({
+  roomId,
+  setAccessRoom,
+  userId,
+  setUserId,
+}: RoomProps) => {
   const [roomPassword, setRoomPassword] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,6 +29,7 @@ const RoomAccessForm = ({ roomId, setAccessRoom, setUserId }: RoomProps) => {
   const [validPassword, setValidPassword] = useState(false);
   const [validUserId, setValidUserId] = useState(false);
 
+  const [participants, setParticipants] = useState(["test"]);
   const [roomExist, setRoomExist] = useState(true);
 
   useEffect(() => {
@@ -28,6 +40,8 @@ const RoomAccessForm = ({ roomId, setAccessRoom, setUserId }: RoomProps) => {
           const data = await resp.json();
           setRoomPassword(data["password"]);
           setIsRoomPublic(data["isRoomPublic"]);
+          setParticipants(data["participants"]);
+          console.log(data);
         } else if (resp.status === 404) {
           setRoomExist(false);
         } else {
@@ -50,10 +64,14 @@ const RoomAccessForm = ({ roomId, setAccessRoom, setUserId }: RoomProps) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (password === roomPassword) {
-      setValidUserId(true);
       setValidPassword(true);
     } else {
       alert("Incorrect password");
+    }
+    if (!participants.includes(userId)) {
+      setValidUserId(true);
+    } else {
+      alert("Username taken");
     }
   };
 
