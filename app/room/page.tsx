@@ -66,7 +66,7 @@ export default function Page() {
     return <div>Getting token...</div>;
   }
 
-  if (passwordCorrect || IsRoomPublic || true) {
+  if (passwordCorrect || IsRoomPublic ) {
     return <RoomView roomId={"32"} userId={"helo"} />;
   }
 
