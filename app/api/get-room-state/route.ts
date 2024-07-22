@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "../../../lib/prisma";
+import prisma from "@/lib/prisma";
+import roomService from "@/lib/roomService";
+import { Participant } from "livekit-client";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -15,12 +17,14 @@ export async function GET(req: NextRequest) {
       select: { password: true, name: true, public: true },
     });
 
+    let participants = await roomService.listParticipants(roomId);
+    participants = participants.map((participant: any) => participant.identity);
     if (room) {
       return NextResponse.json({
         password: room.password,
         roomName: room.name,
         isRoomPublic: room.public,
-        participants: ["jason", "mavon"],
+        participants: participants,
       });
     } else {
       return NextResponse.json({ error: "Room not found" }, { status: 404 });

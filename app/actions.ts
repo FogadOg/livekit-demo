@@ -17,11 +17,9 @@ export async function handleCreateRoomForm(formData: FormData) {
 }
 
 export async function checkUsernameTaken(roomId: string, username: string) {
-  console.log("Checking if user here!");
   const participants = await roomService.listParticipants(roomId);
   const nameTaken = participants.some(
     (participant) => participant.identity === username
   );
-  console.log(nameTaken);
   return nameTaken;
 }
