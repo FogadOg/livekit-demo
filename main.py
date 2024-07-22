@@ -15,8 +15,7 @@ os.environ["LIVEKIT_API_KEY"] = "devkey"
 os.environ["LIVEKIT_API_SECRET"] = "secret"
 os.environ["DEEPGRAM_API_KEY"] = "5319aa090351c7d09ceb58c703b3484719079350"
 
-os.environ["LIVEKIT_SERVER_URL"] = "http://127.0.0.1:7880"
-LIVEKIT_SERVER_URL = "wss://127.0.0.1:7880"
+os.environ["LIVEKIT_SERVER_URL"] = "wss://127.0.0.1:7880"
 
 # This function is the entrypoint for the agent.
 async def entrypoint(ctx: JobContext):
