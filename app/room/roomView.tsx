@@ -1,6 +1,8 @@
 "use client";
 
+import { LayoutContextProvider } from "@livekit/components-react";
 import {
+  Chat,
   ControlBar,
   GridLayout,
   LiveKitRoom,
@@ -49,21 +51,24 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
   }
 
   return (
-    <LiveKitRoom
-      video={true}
-      audio={true}
-      token={token}
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-      data-lk-theme="default"
-      style={{ height: "100dvh" }}
-      onDisconnected={() => {
-        router.replace("/");
-      }}
-    >
-      <MyVideoConference />
-      <RoomAudioRenderer />
-      <ControlBar />
-    </LiveKitRoom>
+    <LayoutContextProvider>
+      <LiveKitRoom
+        video={true}
+        audio={true}
+        token={token}
+        serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+        data-lk-theme="default"
+        style={{ height: "100dvh" }}
+        onDisconnected={() => {
+          router.replace("/");
+        }}
+      >
+        <MyVideoConference />
+        <RoomAudioRenderer />
+        <ControlBar />
+        <Chat />
+      </LiveKitRoom>
+    </LayoutContextProvider>
   );
 };
 
