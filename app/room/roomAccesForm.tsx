@@ -18,18 +18,21 @@ const RoomAccessForm = ({ roomId, setAccessRoom, setUserId }: RoomProps) => {
   const [validPassword, setValidPassword] = useState(false);
   const [validUserId, setValidUserId] = useState(false);
 
+  const [roomExist, setRoomExist] = useState(true);
+
   useEffect(() => {
     const fetchRoomState = async () => {
       try {
         const resp = await fetch(`/api/get-room-state?roomId=${roomId}`);
-        if (!resp.ok) {
+        if (resp.ok) {
+          const data = await resp.json();
+          setRoomPassword(data["password"]);
+          setIsRoomPublic(data["isRoomPublic"]);
+        } else if (resp.status === 404) {
+          setRoomExist(false);
+        } else {
           console.error(`Error fetching room: ${resp.statusText}`);
-          return;
         }
-        const data = await resp.json();
-        setRoomPassword(data["password"]);
-        setIsRoomPublic(data["isRoomPublic"]);
-        console.log(data);
       } catch (e) {
         console.error("Fetch error:", e);
       }
@@ -54,6 +57,14 @@ const RoomAccessForm = ({ roomId, setAccessRoom, setUserId }: RoomProps) => {
     }
   };
 
+  if (!roomExist) {
+    return (
+      <>
+        <h1 className="font-bold text-xl">Sorry coudln't find the room</h1>
+        <p>Coudn't find the room you are looking for</p>
+      </>
+    );
+  }
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 ">
       <div>
