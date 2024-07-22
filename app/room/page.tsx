@@ -1,18 +1,10 @@
 "use client";
 
-import {
-  ControlBar,
-  GridLayout,
-  LiveKitRoom,
-  ParticipantTile,
-  RoomAudioRenderer,
-  useTracks,
-} from "@livekit/components-react";
-import "@livekit/components-styles";
-import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+
+import RoomView from "./roomView";
 
 export default function Page() {
   const router = useRouter();
@@ -74,24 +66,8 @@ export default function Page() {
     return <div>Getting token...</div>;
   }
 
-  if (passwordCorrect || IsRoomPublic) {
-    return (
-      <LiveKitRoom
-        video={true}
-        audio={true}
-        token={token}
-        serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-        data-lk-theme="default"
-        style={{ height: "100dvh" }}
-        onDisconnected={() => {
-          router.replace("/");
-        }}
-      >
-        <MyVideoConference />
-        <RoomAudioRenderer />
-        <ControlBar />
-      </LiveKitRoom>
-    );
+  if (passwordCorrect || IsRoomPublic || true) {
+    return <RoomView roomId={"32"} userId={"helo"} />;
   }
 
   return (
@@ -126,24 +102,5 @@ export default function Page() {
         />
       </div>
     </form>
-  );
-}
-
-function MyVideoConference() {
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false },
-    ],
-    { onlySubscribed: false }
-  );
-
-  return (
-    <GridLayout
-      tracks={tracks}
-      style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
-    >
-      <ParticipantTile />
-    </GridLayout>
   );
 }
