@@ -7,6 +7,7 @@ import JoinPrivateRoom from "./room/joinPrivateRoom";
 
 export default async function Home() {
   const publicRooms = await prisma.room.findMany({ where: { public: true } });
+  const privateRooms = await prisma.room.findMany({ where: { public: false } });
   const rooms = await roomService.listRooms();
 
   return (
@@ -33,7 +34,9 @@ export default async function Home() {
 
       <div className="mt-5"></div>
 
-      <JoinPrivateRoom />
+      <JoinPrivateRoom
+        privateRoomIds={privateRooms.map((room) => room.id.toString())}
+      />
       <CreateRoom />
     </main>
   );
