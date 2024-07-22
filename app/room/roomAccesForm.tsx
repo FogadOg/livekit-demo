@@ -1,22 +1,21 @@
 "use client";
 
 import "@livekit/components-styles";
-import { useEffect, useState } from "react";
-import React from "react";
+import { useEffect, useState, FormEvent } from "react";
 
 interface RoomProps {
   roomId: String;
-  userId: String;
   setAccessRoom: Function;
   setUserId: Function;
 }
 
-const RoomAccessForm = ({ roomId, userId, setAccessRoom }: RoomProps) => {
+const RoomAccessForm = ({ roomId, setAccessRoom, setUserId }: RoomProps) => {
   const [roomPassword, setRoomPassword] = useState("");
   const [password, setPassword] = useState("");
+
   const [IsRoomPublic, setIsRoomPublic] = useState(false);
 
-  const [passwordCorrect, setPasswordCorrect] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
   const [validUserId, setValidUserId] = useState(false);
 
   useEffect(() => {
@@ -30,6 +29,7 @@ const RoomAccessForm = ({ roomId, userId, setAccessRoom }: RoomProps) => {
         const data = await resp.json();
         setRoomPassword(data["password"]);
         setIsRoomPublic(data["isRoomPublic"]);
+        console.log(data);
       } catch (e) {
         console.error("Fetch error:", e);
       }
@@ -39,14 +39,16 @@ const RoomAccessForm = ({ roomId, userId, setAccessRoom }: RoomProps) => {
   }, []);
 
   useEffect(() => {
-    if (passwordCorrect && validUserId) {
+    if (validPassword && validUserId) {
       setAccessRoom(true);
     }
-  }, [passwordCorrect, validUserId]);
+  }, [validPassword, validUserId]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (password === roomPassword) {
-      setPasswordCorrect(true);
+      setValidUserId(true);
+      setValidPassword(true);
     } else {
       alert("Incorrect password");
     }
@@ -57,27 +59,29 @@ const RoomAccessForm = ({ roomId, userId, setAccessRoom }: RoomProps) => {
       <div>
         <label htmlFor="roomId">Username:</label>
         <input
-          name="username"
           id="username"
           type="text"
           placeholder="Username"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setUserId(e.target.value)}
           className="border-black border-2 rounded"
           required
         />
       </div>
-      <div>
-        <label htmlFor="password">Room password:</label>
-        <input
-          name="password"
-          id="password"
-          type="password"
-          placeholder="Room password"
-          onChange={(e) => setPassword(e.target.value)}
-          className="border-black border-2 rounded"
-          required
-        />
-      </div>
+
+      {!IsRoomPublic && (
+        <div>
+          <label htmlFor="password">Room password:</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Room password"
+            onChange={(e) => setPassword(e.target.value)}
+            className="border-black border-2 rounded"
+            required
+          />
+        </div>
+      )}
+
       <div>
         <input
           type="submit"

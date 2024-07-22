@@ -20,7 +20,6 @@ export default function Page() {
   return (
     <RoomAccesForm
       roomId={roomId!}
-      userId={userId}
       setAccessRoom={setAccessRoom}
       setUserId={setUserId}
     />
