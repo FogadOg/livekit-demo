@@ -63,10 +63,12 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           router.replace("/");
         }}
       >
-        <MyVideoConference />
+        <div className="flex">
+          <MyVideoConference />
+          <Chat />
+        </div>
         <RoomAudioRenderer />
         <ControlBar />
-        <Chat />
       </LiveKitRoom>
     </LayoutContextProvider>
   );
