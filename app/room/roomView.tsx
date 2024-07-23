@@ -9,7 +9,10 @@ import {
   ParticipantTile,
   RoomAudioRenderer,
   useTracks,
+  useTrackTranscription,
+  useLocalParticipant,
 } from "@livekit/components-react";
+
 import "@livekit/components-styles";
 import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
@@ -66,6 +69,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         <div className="flex">
           <MyVideoConference />
           <Chat />
+          <Transcript />
         </div>
         <RoomAudioRenderer />
         <ControlBar />
@@ -91,6 +95,22 @@ function MyVideoConference() {
       <ParticipantTile />
     </GridLayout>
   );
+}
+
+function Transcript() {
+  // Initialize transcription to undefined
+  const localParticipant = useLocalParticipant();
+  const { segments } = useTrackTranscription({
+    publication: localParticipant.microphoneTrack,
+    source: Track.Source.Microphone,
+    participant: localParticipant.localParticipant,
+  });
+
+  if (segments && segments.length > 0) {
+    return <h1>{segments.at(-1)?.text}</h1>;
+  } else {
+    return <h1>No transcription</h1>;
+  }
 }
 
 export default RoomView;
