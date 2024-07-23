@@ -30,7 +30,7 @@ const RoomAccessForm = ({
   const [validUserId, setValidUserId] = useState(false);
 
   const [participants, setParticipants] = useState(["test"]);
-  const [roomExist, setRoomExist] = useState(roomId != null);
+  const [roomExist, setRoomExist] = useState(roomId != null && roomId != "");
 
   useEffect(() => {
     const fetchRoomState = async () => {
