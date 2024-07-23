@@ -1,7 +1,7 @@
 "use client";
 
-import { LayoutContextProvider } from "@livekit/components-react";
 import {
+  LayoutContextProvider,
   Chat,
   ControlBar,
   GridLayout,
