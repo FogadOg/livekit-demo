@@ -23,3 +23,17 @@ export async function checkUsernameTaken(roomId: string, username: string) {
   );
   return nameTaken;
 }
+
+export async function handleCreateIngressForm(formData: FormData) {
+  const validatedFormData = {
+    roomName: (formData.get("roomName") as string | null) || "",
+    username: (formData.get("username") as string | null) || "",
+    password: (formData.get("password") as string | null) || "",
+  };
+
+  if (validatedFormData.roomName === "" || validatedFormData.username === "") {
+    return { error: "We need roomName and username" };
+  }
+
+  return { url: "", password: "" };
+}

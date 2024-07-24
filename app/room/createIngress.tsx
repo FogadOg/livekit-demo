@@ -2,18 +2,22 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { handleCreateRoomForm } from "@/app/actions";
+import { handleCreateIngressForm } from "@/app/actions";
 
 const CreateIngress = () => {
-  const [roomPublic, setRoomPublic] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // don't refresh
 
     const formData = new FormData(event.currentTarget);
 
-    let path = await handleCreateRoomForm(formData);
-    router.push(path);
+    let data = await handleCreateIngressForm(formData);
+    if (data.error) {
+      setError(data.error);
+    } else {
+      alert("Url: " + data["url"] + "\nPassword: " + data["password"]);
+    }
   };
 
   return (
@@ -59,6 +63,7 @@ const CreateIngress = () => {
             className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded p-2"
           />
         </div>
+        <p>{error}</p>
       </form>
     </>
   );
