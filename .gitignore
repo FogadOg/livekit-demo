@@ -39,3 +39,5 @@ next-env.d.ts
 # Prisma
 prisma/dev.db
 prisma/dev.db-journal
+
+secret.py
