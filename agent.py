@@ -1,11 +1,6 @@
 import asyncio
 import logging
 
-from livekit.agents.llm import (
-    ChatContext,
-    ChatMessage,
-    ChatRole,
-)
 from livekit.agents import (
     JobContext,
     JobRequest,
@@ -15,8 +10,7 @@ from livekit.agents import (
     transcription,
 )
 from livekit import agents, rtc
-from livekit.agents.voice_assistant import VoiceAssistant
-from livekit.plugins import deepgram, elevenlabs, openai, silero
+from livekit.plugins import deepgram
 import os
 
 os.environ["LIVEKIT_API_KEY"] = "devkey"
