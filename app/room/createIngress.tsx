@@ -1,12 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { handleCreateIngressForm } from "@/app/actions";
 
+type IngressData = {
+  url?: string;
+  password?: string;
+};
+
 const CreateIngress = () => {
   const [error, setError] = useState("");
-  const router = useRouter();
+  const [data, setData] = useState<IngressData>({});
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     setError("");
     event.preventDefault(); // don't refresh
@@ -14,10 +18,9 @@ const CreateIngress = () => {
     const formData = new FormData(event.currentTarget);
 
     let data = await handleCreateIngressForm(formData);
+    setData(data);
     if (data.error) {
       setError(data.error);
-    } else {
-      alert("Url: " + data["url"] + "\nPassword: " + data["password"]);
     }
   };
 
@@ -64,7 +67,13 @@ const CreateIngress = () => {
             className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded p-2"
           />
         </div>
-        <p>{error}</p>
+        <p className="text-red-500">{error}</p>
+        {data.hasOwnProperty("url") && data.hasOwnProperty("password") && (
+          <>
+            <p className="">URL: {data["url"]}</p>
+            <p className="">Password: {data["password"]}</p>
+          </>
+        )}
       </form>
     </>
   );
