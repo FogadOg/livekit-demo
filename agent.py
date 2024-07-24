@@ -12,10 +12,11 @@ from livekit.agents import (
 from livekit import agents, rtc
 from livekit.plugins import deepgram
 import os
+from secret import DEEPGRAM_API_KEY
 
 os.environ["LIVEKIT_API_KEY"] = "devkey"
 os.environ["LIVEKIT_API_SECRET"] = "secret"
-os.environ["DEEPGRAM_API_KEY"] = "5319aa090351c7d09ceb58c703b3484719079350"
+os.environ["DEEPGRAM_API_KEY"] = DEEPGRAM_API_KEY
 
 os.environ["LIVEKIT_SERVER_URL"] = "wss://127.0.0.1:7880"
 
