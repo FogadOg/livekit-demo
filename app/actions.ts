@@ -2,6 +2,7 @@
 
 import roomService from "@/lib/roomService";
 import prisma from "../lib/prisma";
+import { IngressClient, IngressInfo, IngressInput } from "livekit-server-sdk";
 
 export async function handleCreateRoomForm(formData: FormData) {
   const validatedFormData = {
@@ -60,5 +61,24 @@ export async function handleCreateIngressForm(formData: FormData) {
     return { error: "Username taken" };
   }
 
-  return { url: "", password: "" };
+  // Creating ingress
+  const ingressClient = new IngressClient(
+    process.env.NEXT_PUBLIC_LIVEKIT_URL!,
+    process.env.LIVEKIT_API_KEY,
+    process.env.LIVEKIT_API_SECRET
+  );
+  const ingressRequest = {
+    name: "my-ingress",
+    roomName: validatedFormData.roomId,
+    participantIdentity: validatedFormData.username,
+    participantName: validatedFormData.username,
+    enableTranscoding: true,
+  };
+
+  const ingressData = await ingressClient.createIngress(
+    IngressInput.RTMP_INPUT,
+    ingressRequest
+  );
+
+  return { url: ingressData.url, password: ingressData.streamKey };
 }
