@@ -26,13 +26,38 @@ export async function checkUsernameTaken(roomId: string, username: string) {
 
 export async function handleCreateIngressForm(formData: FormData) {
   const validatedFormData = {
-    roomName: (formData.get("roomName") as string | null) || "",
+    roomId: (formData.get("roomId") as string | null) || "",
     username: (formData.get("username") as string | null) || "",
     password: (formData.get("password") as string | null) || "",
   };
 
-  if (validatedFormData.roomName === "" || validatedFormData.username === "") {
-    return { error: "We need roomName and username" };
+  if (validatedFormData.roomId === "" || validatedFormData.username === "") {
+    return { error: "We need room name and username" };
+  }
+
+  if (isNaN(+validatedFormData.roomId)) {
+    return { error: "Room id must be number" };
+  }
+
+  const room = await prisma.room.findFirst({
+    where: { id: Number(validatedFormData.roomId) },
+  });
+  if (!room) {
+    return {
+      error: "Found no room with that id",
+    };
+  }
+  if (!room.public && room.password != validatedFormData.password) {
+    return { error: "Wrong room password" };
+  }
+
+  const nameTaken = await checkUsernameTaken(
+    validatedFormData.username,
+    validatedFormData.username
+  );
+
+  if (nameTaken) {
+    return { error: "Username taken" };
   }
 
   return { url: "", password: "" };

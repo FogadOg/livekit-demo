@@ -8,6 +8,7 @@ const CreateIngress = () => {
   const [error, setError] = useState("");
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    setError("");
     event.preventDefault(); // don't refresh
 
     const formData = new FormData(event.currentTarget);
@@ -22,14 +23,14 @@ const CreateIngress = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold">Create room</h1>
+      <h1 className="text-2xl font-bold">Create ingress</h1>
       <form onSubmit={handleSubmit} className="flex flex-col ">
         <div>
-          <label htmlFor="roomName">Room name:</label>
+          <label htmlFor="roomId">Room id:</label>
           <input
             type="text"
-            name="roomName"
-            id="roomName"
+            name="roomId"
+            id="roomId"
             className="border-black border-2 rounded"
             required
           />
@@ -49,7 +50,7 @@ const CreateIngress = () => {
         <div>
           <label htmlFor="password">Password if needed:</label>
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             className="border-black border-2 rounded"
