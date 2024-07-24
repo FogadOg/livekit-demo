@@ -4,6 +4,7 @@ import roomService from "@/lib/roomService";
 import CreateRoom from "./room/createRoom";
 import JoinPublicRoom from "./room/joinPublicRoom";
 import JoinPrivateRoom from "./room/joinPrivateRoom";
+import CreateIngress from "./room/createIngress";
 
 export default async function Home() {
   const publicRooms = await prisma.room.findMany({ where: { public: true } });
@@ -35,6 +36,10 @@ export default async function Home() {
 
       <div className="mt-5"></div>
       <CreateRoom />
+
+      <div className="mt-5"></div>
+
+      <CreateIngress />
     </main>
   );
 }
