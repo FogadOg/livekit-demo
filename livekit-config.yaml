@@ -1,0 +1,12 @@
+# Example config.yaml for LiveKit Server
+
+# General server settings
+log_level: debug
+
+# Redis configuration
+redis:
+  address: localhost:6379
+
+ingress:
+  rtmp_base_url: rtmp://localhost:1935/live
+  whip_base_url: http://localhost:8080/whip
