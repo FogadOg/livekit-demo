@@ -21,7 +21,7 @@ import { RoomEvent, Track } from "livekit-client";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Transcript from "./transcription/transcript"
+import Caption from "./transcription/caption"
 interface RoomProps {
   roomId: String;
   userId: String;
@@ -71,7 +71,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         <div className="flex">
           <MyVideoConference />
           <Chat />
-          <Transcript />
+          <Caption />
         </div>
         <RoomAudioRenderer />
         <ControlBar />
