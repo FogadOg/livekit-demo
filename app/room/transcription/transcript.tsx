@@ -12,7 +12,7 @@ export const Transcript = () => {
             {participants.map((participant) => {
               return (
                 <div key={participant.identity}>
-                  <h3>{participant.identity}:</h3>
+                  <h3 className="font-bold">{participant.identity}:</h3>
                   <TranscriptionTile identity={participant.identity} />
                 </div>
               );
