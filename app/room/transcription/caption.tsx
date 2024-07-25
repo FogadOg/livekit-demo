@@ -1,4 +1,5 @@
-import { TranscriptionTile } from "./transcriptionUtil/transcriptionTile";
+import { GetParticipantTrack } from "./transcriptionUtil/getTranscription";
+import { Transcription } from "./transcriptionUtil/transcription";
 import {
   TrackReferenceOrPlaceholder,
   useEnsureTrackRef,
@@ -6,11 +7,13 @@ import {
 
 const Caption = ({ trackRef }: { trackRef?: TrackReferenceOrPlaceholder }) => {
   const trackReference = useEnsureTrackRef(trackRef);
-
+  const participantTrack = GetParticipantTrack(
+    trackReference.participant.identity
+  );
   return (
     <div className="flex flex-col gap-16 h-full ">
       <div className="flex-1">
-        <TranscriptionTile identity={trackReference.participant.identity} />
+        {participantTrack && <Transcription audioTrack={participantTrack} />}
       </div>
     </div>
   );
