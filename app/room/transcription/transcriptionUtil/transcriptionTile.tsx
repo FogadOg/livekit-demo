@@ -1,5 +1,5 @@
 import React from "react";
-import { ActualTranscription } from "./actualTranscription";
+import { Transcription } from "./transcription";
 import { GetTranscript } from "./getTranscription";
 
 export const TranscriptionTile = ({ identity }: { identity: string }) => {
@@ -8,6 +8,6 @@ export const TranscriptionTile = ({ identity }: { identity: string }) => {
     if (!audioTrack) {
       return <></>;
     } else {
-      return <ActualTranscription audioTrack={audioTrack} />;
+      return <Transcription audioTrack={audioTrack} />;
     }
   }
