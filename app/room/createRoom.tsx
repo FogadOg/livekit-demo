@@ -30,15 +30,17 @@ const CreateRoom = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="public">Public: </label>
+
+        <label className="label cursor-pointer" htmlFor="public">
+          <span className="label-text">Remember me</span>
           <input
-            type="checkbox"
             name="public"
             id="public"
+            type="checkbox"
+            className="checkbox mr-auto ml-2"
             onClick={() => setRoomPublic(!roomPublic)}
           />
-        </div>
+        </label>
 
         {!roomPublic && (
           <div>
