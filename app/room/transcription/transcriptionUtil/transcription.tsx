@@ -9,44 +9,12 @@ import {
   import { RoomEvent, Track } from "livekit-client";
   import React from "react";
 
-
-
-
-
-  function getTranscript(
-    identity: string
-  ): TrackReferenceOrPlaceholder | undefined {
-    const tracks = useTracks();
-    const participants = useParticipants({
-      updateOnlyOn: [RoomEvent.ParticipantMetadataChanged],
-    });
-    const participant = participants.find((p) => p.identity === identity);
-    if (!participant) {
-      return undefined;
-    }
   
-    let participantTrack: TrackReferenceOrPlaceholder | undefined;
-    const aat = tracks.find(
-      (trackRef) =>
-        trackRef.publication.kind === Track.Kind.Audio &&
-        trackRef.participant.identity === identity
-    );
-    if (aat) {
-      participantTrack = aat;
-    } else if (participant) {
-      participantTrack = {
-        participant: participant,
-        source: Track.Source.Microphone,
-      };
-    }
-    return participantTrack;
-  }
-  
-  function ActualTranscription({
+export const ActualTranscription =({
     audioTrack,
   }: {
     audioTrack: TrackReferenceOrPlaceholder;
-  }) {
+  }) => {
     const { segments } = useTrackTranscription(audioTrack);
   
     if (segments && segments.length > 0) {
@@ -56,11 +24,3 @@ import {
     }
   }
 
-  export const TranscriptionTile = ({ identity }: { identity: string }) => {
-    const audioTrack = getTranscript(identity);
-    if (!audioTrack) {
-      return <></>;
-    } else {
-      return <ActualTranscription audioTrack={audioTrack} />;
-    }
-  }
