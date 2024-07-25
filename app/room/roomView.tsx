@@ -71,7 +71,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           <MyVideoConference />
           <Chat />
           
-          <Modal title="Transcription" content={<Transcript/>} buttonText="Open transcript"/>
+          <Modal title="Transcription" content={<Transcript/>} buttonText="View transcript"/>
         </div>
         <RoomAudioRenderer />
         <ControlBar />
