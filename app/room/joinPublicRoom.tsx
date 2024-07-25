@@ -19,10 +19,7 @@ const JoinPublicRoom = ({ room, participantsCount }: JoinPublicRoomProps) => {
       <h2 className="text-xl font-medium">{room.name}</h2>
       <p>Particpents count: {participantsCount}</p>
 
-      <button
-        onClick={handleClick}
-        className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-2 py-1"
-      >
+      <button onClick={handleClick} className="btn btn-primary">
         Join
       </button>
     </div>

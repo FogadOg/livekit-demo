@@ -54,11 +54,7 @@ const CreateRoom = () => {
         )}
 
         <div>
-          <input
-            type="submit"
-            value="Submit"
-            className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded p-2"
-          />
+          <input type="submit" value="Submit" className="btn btn-primary" />
         </div>
       </form>
     </>

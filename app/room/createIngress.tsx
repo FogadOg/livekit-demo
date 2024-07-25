@@ -64,7 +64,7 @@ const CreateIngress = () => {
           <input
             type="submit"
             value="Create ingress"
-            className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded p-2"
+            className="btn btn-primary"
           />
         </div>
         <p className="text-red-500">{error}</p>

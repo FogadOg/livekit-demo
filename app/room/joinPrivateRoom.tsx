@@ -36,11 +36,7 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
           />
         </div>
         <div>
-          <input
-            type="submit"
-            value="Join"
-            className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-2 py-1"
-          />
+          <input type="submit" value="Join" className="btn btn-primary" />
         </div>
       </form>
     </div>
