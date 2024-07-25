@@ -1,4 +1,4 @@
-import {TranscriptionTile} from "./transcriptionUtil/transcription"
+import {TranscriptionTile} from "./transcriptionUtil/transcriptionTile"
 import {
     useParticipants,
   } from "@livekit/components-react";
