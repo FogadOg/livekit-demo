@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   useTrackTranscription,
-  TrackReferenceOrPlaceholder
-} from '@livekit/components-react';
+  TrackReferenceOrPlaceholder,
+} from "@livekit/components-react";
 
 // Import necessary LiveKit types and styles
-import '@livekit/components-styles';
-import { Track } from 'livekit-client';
+import "@livekit/components-styles";
 
 export const Transcription = ({
   audioTrack,
 }: {
   audioTrack: TrackReferenceOrPlaceholder;
 }) => {
-  const [segmentsDict, setSegmentsDict] = useState<{ [key: string]: string }>({});
+  const [segmentsDict, setSegmentsDict] = useState<{ [key: string]: string }>(
+    {}
+  );
 
   const { segments } = useTrackTranscription(audioTrack);
 
@@ -21,9 +22,10 @@ export const Transcription = ({
     if (segments) {
       setSegmentsDict((prevSegmentsDict) => {
         const updatedDict = { ...prevSegmentsDict };
+        updatedDict[audioTrack.participant.identity] = "";
 
         segments.forEach((segment) => {
-          updatedDict[audioTrack.participant.identity] += segment.text;
+          updatedDict[audioTrack.participant.identity] += segment.text + " ";
         });
 
         return updatedDict;
@@ -31,9 +33,10 @@ export const Transcription = ({
     }
   }, [segments, audioTrack.participant.identity]);
 
-
   const latestSegmentKey = Object.keys(segmentsDict).pop();
-  const latestSegmentText = latestSegmentKey ? segmentsDict[latestSegmentKey] : 'No transcription available';
+  const latestSegmentText = latestSegmentKey
+    ? segmentsDict[latestSegmentKey]
+    : "No transcription available";
 
-  return <>{latestSegmentText}</>;
+  return <p>{latestSegmentText}</p>;
 };
