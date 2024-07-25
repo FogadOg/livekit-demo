@@ -86,7 +86,11 @@ function MyVideoConference() {
     ],
     { onlySubscribed: false }
   );
-  const filteredTracks = tracks.filter((track) => !track.participant.isAgent);
+
+  const filteredTracks =
+    tracks.length > 0
+      ? tracks.filter((track) => !track.participant.isAgent)
+      : tracks;
 
   return (
     <GridLayout
