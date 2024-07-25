@@ -32,7 +32,7 @@ const CreateRoom = () => {
         </div>
 
         <label className="label cursor-pointer" htmlFor="public">
-          <span className="label-text">Remember me</span>
+          <span className="label-text">Public</span>
           <input
             name="public"
             id="public"
