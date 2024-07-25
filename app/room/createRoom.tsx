@@ -21,17 +21,17 @@ const CreateRoom = () => {
       <h1 className="text-2xl font-bold">Create room</h1>
       <form onSubmit={handleSubmit} className="flex flex-col ">
         <div>
-          <label htmlFor="roomName">Room name:</label>
           <input
             type="text"
             name="roomName"
             id="roomName"
             className="input input-bordered"
+            placeholder="Room name"
             required
           />
         </div>
         <div>
-          <label htmlFor="roomName">Public:</label>
+          <label htmlFor="public">Public: </label>
           <input
             type="checkbox"
             name="public"
@@ -42,12 +42,12 @@ const CreateRoom = () => {
 
         {!roomPublic && (
           <div>
-            <label htmlFor="password">Password:</label>
             <input
               type="text"
               name="password"
               id="password"
               className="input input-bordered"
+              placeholder="Password"
               required
             />
           </div>

@@ -27,11 +27,11 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
       <h1 className="text-2xl font-bold">Join private room</h1>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <div>
-          <label htmlFor="roomId">Room id:</label>
           <input
             type="text"
             name="roomId"
             id="roomId"
+            placeholder="Room id"
             className="input input-bordered"
           />
         </div>

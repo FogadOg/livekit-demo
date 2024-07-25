@@ -86,7 +86,6 @@ const RoomAccessForm = ({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 m-5">
       <div>
-        <label htmlFor="roomId">Username:</label>
         <input
           id="username"
           type="text"
@@ -99,7 +98,6 @@ const RoomAccessForm = ({
 
       {!IsRoomPublic && (
         <div>
-          <label htmlFor="password">Room password:</label>
           <input
             id="password"
             type="password"
