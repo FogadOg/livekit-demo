@@ -10,7 +10,7 @@ import {
   import React from "react";
 
 
-export const GetTranscript = (
+export const GetTranscript=(
     identity: string
   ): TrackReferenceOrPlaceholder | undefined => {
     const tracks = useTracks();
