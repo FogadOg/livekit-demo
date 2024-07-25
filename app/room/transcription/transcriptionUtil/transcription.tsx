@@ -18,7 +18,7 @@ export const Transcription = ({
     return (
       <p>
         {segments.map((segment) => {
-          return <>{segment.text + " "}</>;
+          return <span key={segment.id}>{segment.text + " "}</span>;
         })}
       </p>
     );
