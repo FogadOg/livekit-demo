@@ -86,10 +86,11 @@ function MyVideoConference() {
     ],
     { onlySubscribed: false }
   );
+  const filteredTracks = tracks.filter((track) => !track.participant.isAgent);
 
   return (
     <GridLayout
-      tracks={tracks}
+      tracks={filteredTracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
       <>
