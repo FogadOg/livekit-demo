@@ -9,16 +9,14 @@ const Caption = () => {
     return (
       <div className="flex flex-col gap-16 h-full ">
         <div className="flex-1">
-          <p>
             {participants.map((participant) => {
               return (
-                <>
-                  <h1>{participant.identity}:</h1>
+                <div key={participant.identity}>
+                  <h3>{participant.identity}:</h3>
                   <TranscriptionTile identity={participant.identity} />
-                </>
+                </div>
               );
             })}
-          </p>
         </div>
       </div>
     );
