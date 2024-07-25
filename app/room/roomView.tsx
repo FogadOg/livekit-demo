@@ -13,7 +13,7 @@ import {
   TrackReferenceOrPlaceholder,
   useParticipants,
 } from "@livekit/components-react";
-
+import { Modal } from "../component/modal"
 import "@livekit/components-styles";
 import { RoomEvent, Track } from "livekit-client";
 import { useEffect, useMemo, useState } from "react";
@@ -70,7 +70,8 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         <div className="flex">
           <MyVideoConference />
           <Chat />
-          <Transcript/>
+          
+          <Modal title="Transcription" content={<Transcript/>} buttonText="Open transcript"/>
         </div>
         <RoomAudioRenderer />
         <ControlBar />

@@ -1,6 +1,14 @@
 import React from 'react';
+import { Transcript } from '../room/transcription/transcript';
 
-export const Modal: React.FC = () => {
+interface ModalProps {
+  title: string;
+  content: any;
+  buttonText: string;
+
+}
+
+export const Modal: React.FC<ModalProps> = ({ title, content, buttonText}) => {
   const handleShowModal = () => {
     const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
     if (modal) {
@@ -18,7 +26,7 @@ export const Modal: React.FC = () => {
   return (
     <>
       <button className="btn" onClick={handleShowModal}>
-        Open Modal
+        {buttonText}
       </button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
@@ -30,8 +38,10 @@ export const Modal: React.FC = () => {
               ✕
             </button>
           </form>
-          <h3 className="text-lg font-bold">Hello!</h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
+          <h3 className="text-lg font-bold text-slate-600">{title}</h3>
+          <div>
+            <p className="py-4 text-slate-600">{content}</p>
+          </div>
         </div>
       </dialog>
     </>
