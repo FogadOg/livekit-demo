@@ -34,7 +34,7 @@ const CreateIngress = () => {
             type="text"
             name="roomId"
             id="roomId"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
             required
           />
         </div>
@@ -45,7 +45,7 @@ const CreateIngress = () => {
             type="text"
             name="username"
             id="username"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
             required
           />
         </div>
@@ -56,7 +56,7 @@ const CreateIngress = () => {
             type="password"
             name="password"
             id="password"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
           />
         </div>
 

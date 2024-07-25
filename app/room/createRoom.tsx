@@ -26,7 +26,7 @@ const CreateRoom = () => {
             type="text"
             name="roomName"
             id="roomName"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
             required
           />
         </div>
@@ -47,7 +47,7 @@ const CreateRoom = () => {
               type="text"
               name="password"
               id="password"
-              className="border-black border-2 rounded"
+              className="input input-bordered"
               required
             />
           </div>

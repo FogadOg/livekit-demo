@@ -32,7 +32,7 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
             type="text"
             name="roomId"
             id="roomId"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
           />
         </div>
         <div>

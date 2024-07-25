@@ -92,7 +92,7 @@ const RoomAccessForm = ({
           type="text"
           placeholder="Username"
           onChange={(e) => setUserId(e.target.value)}
-          className="border-black border-2 rounded"
+          className="input input-bordered"
           required
         />
       </div>
@@ -105,7 +105,7 @@ const RoomAccessForm = ({
             type="password"
             placeholder="Room password"
             onChange={(e) => setPassword(e.target.value)}
-            className="border-black border-2 rounded"
+            className="input input-bordered"
             required
           />
         </div>
