@@ -1,5 +1,5 @@
 import React from "react";
-import { ActualTranscription } from "./transcription";
+import { ActualTranscription } from "./actualTranscription";
 import { GetTranscript } from "./getTranscription";
 
 export const TranscriptionTile = ({ identity }: { identity: string }) => {
