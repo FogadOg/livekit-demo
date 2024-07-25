@@ -22,6 +22,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import Caption from "./transcription/caption"
+import { Transcript } from "./transcription/transcript";
 interface RoomProps {
   roomId: String;
   userId: String;
@@ -71,7 +72,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         <div className="flex">
           <MyVideoConference />
           <Chat />
-          <Caption />
+          <Transcript/>
         </div>
         <RoomAudioRenderer />
         <ControlBar />
