@@ -12,6 +12,7 @@ import {
 
 
 
+
   function getTranscript(
     identity: string
   ): TrackReferenceOrPlaceholder | undefined {
@@ -41,15 +42,6 @@ import {
     return participantTrack;
   }
   
-  function TranscriptionTile({ identity }: { identity: string }) {
-    const audioTrack = getTranscript(identity);
-    if (!audioTrack) {
-      return <></>;
-    } else {
-      return <ActualTranscription audioTrack={audioTrack} />;
-    }
-  }
-  
   function ActualTranscription({
     audioTrack,
   }: {
@@ -63,28 +55,12 @@ import {
       return <h1>No transcription</h1>;
     }
   }
-  
 
-
-  const Transcript = () => {
-    const participants = useParticipants();
-  
-    return (
-      <div className="flex flex-col gap-16 h-full ">
-        <div className="flex-1">
-          <p>
-            {participants.map((participant) => {
-              return (
-                <>
-                  <h1>{participant.identity}:</h1>
-                  <TranscriptionTile identity={participant.identity} />
-                </>
-              );
-            })}
-          </p>
-        </div>
-      </div>
-    );
+  export const TranscriptionTile = ({ identity }: { identity: string }) => {
+    const audioTrack = getTranscript(identity);
+    if (!audioTrack) {
+      return <></>;
+    } else {
+      return <ActualTranscription audioTrack={audioTrack} />;
+    }
   }
-  
-  export default Transcript;

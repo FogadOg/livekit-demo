@@ -21,7 +21,7 @@ import { RoomEvent, Track } from "livekit-client";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Transcript from "./transcription"
+import Transcript from "./transcription/transcript"
 interface RoomProps {
   roomId: String;
   userId: String;
@@ -94,7 +94,10 @@ function MyVideoConference() {
       tracks={tracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
-      <ParticipantTile />
+      <div className="flex flex-col m-5">
+
+        <ParticipantTile />
+      </div>
     </GridLayout>
   );
 }
