@@ -32,7 +32,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
           <form method="dialog"></form>
           <h3 className="text-lg font-bold text-slate-600">{title}</h3>
           <div>
-            <p className="py-4 text-slate-600">{content}</p>
+            <div className="py-4 text-slate-600">{content}</div>
           </div>
 
           <button className="btn ml-[85%]" onClick={handleCloseModal}>
