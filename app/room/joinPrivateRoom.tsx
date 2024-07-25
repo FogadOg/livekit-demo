@@ -27,20 +27,16 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
       <h1 className="text-2xl font-bold">Join private room</h1>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <div>
-          <label htmlFor="roomId">Room id:</label>
           <input
             type="text"
             name="roomId"
             id="roomId"
-            className="border-black border-2 rounded"
+            placeholder="Room id"
+            className="input input-bordered"
           />
         </div>
         <div>
-          <input
-            type="submit"
-            value="Join"
-            className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-2 py-1"
-          />
+          <input type="submit" value="Join" className="btn btn-primary" />
         </div>
       </form>
     </div>

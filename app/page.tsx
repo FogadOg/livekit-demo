@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <main className="p-5">
       <h1 className="text-2xl font-bold">Public rooms</h1>
-      <section className="flex flex-wrap gap-2">
+      <section className="flex flex-wrap gap-4">
         {publicRooms.map((room) => {
           return (
             <JoinPublicRoom
@@ -34,12 +34,10 @@ export default async function Home() {
         privateRoomIds={privateRooms.map((room) => room.id.toString())}
       />
 
-      <div className="mt-5"></div>
-      <CreateRoom />
-
-      <div className="mt-5"></div>
-
-      <CreateIngress />
+      <div className="mt-5 flex gap-4">
+        <CreateRoom />
+        <CreateIngress />
+      </div>
     </main>
   );
 }

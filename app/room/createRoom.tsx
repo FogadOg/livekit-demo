@@ -17,51 +17,49 @@ const CreateRoom = () => {
   };
 
   return (
-    <>
-      <h1 className="text-2xl font-bold">Create room</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col ">
+    <div className="card bg-base-100 w-80 shadow-md border">
+      <form onSubmit={handleSubmit} className="flex flex-col card-body">
+        <h2 className="text-2xl font-bold card-title">Create room</h2>
         <div>
-          <label htmlFor="roomName">Room name:</label>
           <input
             type="text"
             name="roomName"
             id="roomName"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
+            placeholder="Room name"
             required
           />
         </div>
-        <div>
-          <label htmlFor="roomName">Public:</label>
+
+        <label className="label cursor-pointer" htmlFor="public">
+          <span className="label-text">Public</span>
           <input
-            type="checkbox"
             name="public"
             id="public"
+            type="checkbox"
+            className="checkbox mr-auto ml-2"
             onClick={() => setRoomPublic(!roomPublic)}
           />
-        </div>
+        </label>
 
         {!roomPublic && (
           <div>
-            <label htmlFor="password">Password:</label>
             <input
               type="text"
               name="password"
               id="password"
-              className="border-black border-2 rounded"
+              className="input input-bordered"
+              placeholder="Password"
               required
             />
           </div>
         )}
 
         <div>
-          <input
-            type="submit"
-            value="Submit"
-            className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded p-2"
-          />
+          <input type="submit" value="Submit" className="btn btn-primary" />
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

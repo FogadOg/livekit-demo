@@ -86,37 +86,31 @@ const RoomAccessForm = ({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 m-5">
       <div>
-        <label htmlFor="roomId">Username:</label>
         <input
           id="username"
           type="text"
           placeholder="Username"
           onChange={(e) => setUserId(e.target.value)}
-          className="border-black border-2 rounded"
+          className="input input-bordered"
           required
         />
       </div>
 
       {!IsRoomPublic && (
         <div>
-          <label htmlFor="password">Room password:</label>
           <input
             id="password"
             type="password"
             placeholder="Room password"
             onChange={(e) => setPassword(e.target.value)}
-            className="border-black border-2 rounded"
+            className="input input-bordered"
             required
           />
         </div>
       )}
 
       <div>
-        <input
-          type="submit"
-          value="Join"
-          className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-2 py-1"
-        />
+        <input type="submit" value="Join" className="btn btn-primary" />
       </div>
     </form>
   );

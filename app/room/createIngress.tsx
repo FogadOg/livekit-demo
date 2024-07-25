@@ -25,38 +25,38 @@ const CreateIngress = () => {
   };
 
   return (
-    <>
-      <h1 className="text-2xl font-bold">Create ingress</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <div className="card bg-base-100 w-80 shadow-md border">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 card-body">
+        <h1 className="text-2xl font-bold">Create ingress</h1>
         <div>
-          <label htmlFor="roomId">Room id: </label>
           <input
             type="text"
             name="roomId"
             id="roomId"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
+            placeholder="Room id"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="username">Username: </label>
           <input
             type="text"
             name="username"
             id="username"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
+            placeholder="Username"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="password">Password if needed: </label>
           <input
             type="password"
             name="password"
             id="password"
-            className="border-black border-2 rounded"
+            className="input input-bordered"
+            placeholder="Password if needed"
           />
         </div>
 
@@ -64,7 +64,7 @@ const CreateIngress = () => {
           <input
             type="submit"
             value="Create ingress"
-            className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded p-2"
+            className="btn btn-primary"
           />
         </div>
         <p className="text-red-500">{error}</p>
@@ -75,7 +75,7 @@ const CreateIngress = () => {
           </>
         )}
       </form>
-    </>
+    </div>
   );
 };
 

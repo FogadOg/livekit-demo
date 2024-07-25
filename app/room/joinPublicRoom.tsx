@@ -15,16 +15,16 @@ const JoinPublicRoom = ({ room, participantsCount }: JoinPublicRoomProps) => {
   };
 
   return (
-    <div key={room.id} className="border w-64 p-5 rounded border-gray-300">
-      <h2 className="text-xl font-medium">{room.name}</h2>
-      <p>Particpents count: {participantsCount}</p>
-
-      <button
-        onClick={handleClick}
-        className="bg-gray-300 hover:bg-gray-400 cursor-pointer rounded px-2 py-1"
-      >
-        Join
-      </button>
+    <div key={room.id} className="card bg-base-100 w-64 shadow-md border ">
+      <div className="card-body">
+        <h2 className="card-title">{room.name}</h2>
+        <p>Particpents count: {participantsCount}</p>
+        <div className="card-actions justify-end">
+          <button onClick={handleClick} className="btn btn-primary">
+            Join
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
