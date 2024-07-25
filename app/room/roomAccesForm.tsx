@@ -41,7 +41,6 @@ const RoomAccessForm = ({
           setRoomPassword(data["password"]);
           setIsRoomPublic(data["isRoomPublic"]);
           setParticipants(data["participants"]);
-          console.log(data);
         } else if (resp.status === 404) {
           setRoomExist(false);
         } else {
