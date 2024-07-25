@@ -70,12 +70,6 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         <div className="flex">
           <MyVideoConference />
           <Chat />
-
-          <Modal
-            title="Transcription"
-            content={<Transcript />}
-            buttonText="View transcript"
-          />
         </div>
         <RoomAudioRenderer />
         <ControlBar />
@@ -103,7 +97,16 @@ function MyVideoConference() {
       tracks={filteredTracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
-      <ParticipantTile />
+      <div className="relative">
+        <ParticipantTile className="h-full" />
+        <div className="absolute top-5 left-5">
+          <Modal
+            title="Transcription"
+            content={<Transcript />}
+            buttonText="View transcript"
+          />
+        </div>
+      </div>
     </GridLayout>
   );
 }
