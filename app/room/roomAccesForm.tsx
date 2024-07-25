@@ -32,6 +32,8 @@ const RoomAccessForm = ({
   const [participants, setParticipants] = useState(["test"]);
   const [roomExist, setRoomExist] = useState(roomId != null && roomId != "");
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchRoomState = async () => {
       try {
@@ -49,6 +51,7 @@ const RoomAccessForm = ({
       } catch (e) {
         console.error("Fetch error:", e);
       }
+      setLoading(false);
     };
 
     fetchRoomState();
@@ -74,6 +77,15 @@ const RoomAccessForm = ({
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-2 m-5">
+        <div className="skeleton h-[48px] w-[250px]"></div>
+        <div className="skeleton h-[48px] w-[250px]"></div>
+        <div className="skeleton h-[48px] w-[62px]"></div>
+      </div>
+    );
+  }
   if (!roomExist) {
     return (
       <>
