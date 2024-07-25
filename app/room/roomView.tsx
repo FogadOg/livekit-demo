@@ -10,9 +10,7 @@ import {
   RoomAudioRenderer,
   useTracks,
   useTrackTranscription,
-  useLocalParticipant,
   TrackReferenceOrPlaceholder,
-  useRemoteParticipants,
   useParticipants,
 } from "@livekit/components-react";
 
@@ -89,12 +87,19 @@ function MyVideoConference() {
     { onlySubscribed: false }
   );
 
+  const filteredTracks =
+    tracks.length > 0
+      ? tracks.filter((track) => !track.participant.isAgent)
+      : tracks;
+
   return (
     <GridLayout
-      tracks={tracks}
+      tracks={filteredTracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
-      <ParticipantTile />
+      <>
+        <ParticipantTile />
+      </>
     </GridLayout>
   );
 }
