@@ -77,8 +77,8 @@ const RoomAccessForm = ({
   if (!roomExist) {
     return (
       <>
-        <h1 className="font-bold text-xl">Sorry coudln't find the room</h1>
-        <p>Coudn't find the room you are looking for</p>
+        <h1 className="font-bold text-xl">Sorry couldn't find the room</h1>
+        <p>Couldn't find the room you are looking for</p>
       </>
     );
   }
