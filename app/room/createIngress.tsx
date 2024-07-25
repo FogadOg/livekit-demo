@@ -25,9 +25,9 @@ const CreateIngress = () => {
   };
 
   return (
-    <>
-      <h1 className="text-2xl font-bold">Create ingress</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <div className="card bg-base-100 w-80 shadow-md border">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 card-body">
+        <h1 className="text-2xl font-bold">Create ingress</h1>
         <div>
           <input
             type="text"
@@ -75,7 +75,7 @@ const CreateIngress = () => {
           </>
         )}
       </form>
-    </>
+    </div>
   );
 };
 
