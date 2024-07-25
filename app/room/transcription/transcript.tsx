@@ -1,27 +1,14 @@
-import {TranscriptionTile} from "./transcriptionUtil/transcriptionTile"
-import {
-    useParticipants,
-  } from "@livekit/components-react";
+import React, { useEffect, useState } from "react";
+import { TranscriptionTile } from "./transcriptionUtil/transcriptionTile";
+import { useParticipants, useTrackTranscription } from "@livekit/components-react";
+import { GetTranscript } from "./transcriptionUtil/getTranscription";
+
+
+
   
-const Transcript = () => {
-    const participants = useParticipants();
+export const Transcript = () => {
+ 
+    return (<></>);
+    
+};
   
-    return (
-      <div className="flex flex-col gap-16 h-full ">
-        <div className="flex-1">
-          <p>
-            {participants.map((participant) => {
-              return (
-                <>
-                  <h1>{participant.identity}:</h1>
-                  <TranscriptionTile identity={participant.identity} />
-                </>
-              );
-            })}
-          </p>
-        </div>
-      </div>
-    );
-  }
-  
-  export default Transcript;
