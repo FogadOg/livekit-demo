@@ -1,25 +1,19 @@
-import {TranscriptionTile} from "./transcriptionUtil/transcriptionTile"
+import { TranscriptionTile } from "./transcriptionUtil/transcriptionTile";
 import {
-    useParticipants,
-  } from "@livekit/components-react";
-  
-const Caption = () => {
-    const participants = useParticipants();
-  
-    return (
-      <div className="flex flex-col gap-16 h-full ">
-        <div className="flex-1">
-            {participants.map((participant) => {
-              return (
-                <div key={participant.identity}>
-                  <h3>{participant.identity}:</h3>
-                  <TranscriptionTile identity={participant.identity} />
-                </div>
-              );
-            })}
-        </div>
+  TrackReferenceOrPlaceholder,
+  useEnsureTrackRef,
+} from "@livekit/components-react";
+
+const Caption = ({ trackRef }: { trackRef?: TrackReferenceOrPlaceholder }) => {
+  const trackReference = useEnsureTrackRef(trackRef);
+
+  return (
+    <div className="flex flex-col gap-16 h-full ">
+      <div className="flex-1">
+        <TranscriptionTile identity={trackReference.participant.identity} />
       </div>
-    );
-  }
-  
-  export default Caption;
+    </div>
+  );
+};
+
+export default Caption;

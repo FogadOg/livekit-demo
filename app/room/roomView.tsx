@@ -106,20 +106,11 @@ function MyVideoConference() {
             content={<Transcript />}
             buttonText="View transcript"
           />
-          <ProofOfConcept />
+          <Caption />
         </div>
       </div>
     </GridLayout>
   );
-}
-
-function ProofOfConcept({
-  trackRef,
-}: {
-  trackRef?: TrackReferenceOrPlaceholder;
-}) {
-  const trackReference = useEnsureTrackRef(trackRef);
-  return <p>{trackReference.participant.identity}</p>;
 }
 
 export default RoomView;
