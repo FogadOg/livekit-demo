@@ -12,6 +12,7 @@ import {
   useTrackTranscription,
   TrackReferenceOrPlaceholder,
   useParticipants,
+  useEnsureTrackRef,
 } from "@livekit/components-react";
 import { Modal } from "../component/modal";
 import "@livekit/components-styles";
@@ -105,10 +106,20 @@ function MyVideoConference() {
             content={<Transcript />}
             buttonText="View transcript"
           />
+          <ProofOfConcept />
         </div>
       </div>
     </GridLayout>
   );
+}
+
+function ProofOfConcept({
+  trackRef,
+}: {
+  trackRef?: TrackReferenceOrPlaceholder;
+}) {
+  const trackReference = useEnsureTrackRef(trackRef);
+  return <p>{trackReference.participant.identity}</p>;
 }
 
 export default RoomView;
