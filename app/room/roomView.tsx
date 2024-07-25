@@ -13,13 +13,13 @@ import {
   TrackReferenceOrPlaceholder,
   useParticipants,
 } from "@livekit/components-react";
-import { Modal } from "../component/modal"
+import { Modal } from "../component/modal";
 import "@livekit/components-styles";
 import { RoomEvent, Track } from "livekit-client";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Caption from "./transcription/caption"
+import Caption from "./transcription/caption";
 import { Transcript } from "./transcription/transcript";
 interface RoomProps {
   roomId: String;
@@ -70,8 +70,12 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         <div className="flex">
           <MyVideoConference />
           <Chat />
-          
-          <Modal title="Transcription" content={<Transcript/>} buttonText="View transcript"/>
+
+          <Modal
+            title="Transcription"
+            content={<Transcript />}
+            buttonText="View transcript"
+          />
         </div>
         <RoomAudioRenderer />
         <ControlBar />
@@ -99,13 +103,9 @@ function MyVideoConference() {
       tracks={filteredTracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
-      <div className="flex flex-col m-5">
-
-        <ParticipantTile />
-      </div>
+      <ParticipantTile />
     </GridLayout>
   );
 }
-
 
 export default RoomView;
