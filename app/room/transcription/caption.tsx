@@ -5,16 +5,26 @@ import {
   useEnsureTrackRef,
 } from "@livekit/components-react";
 
-const Caption = ({ trackRef }: { trackRef?: TrackReferenceOrPlaceholder }) => {
+const Caption = ({
+  trackRef,
+  agentPresent,
+}: {
+  trackRef?: TrackReferenceOrPlaceholder;
+  agentPresent?: boolean;
+}) => {
   const trackReference = useEnsureTrackRef(trackRef);
   const participantTrack = GetParticipantTrack(
     trackReference.participant.identity
   );
+
+  if (!agentPresent) {
+    return <p>Sorry, no agent present to transcribe</p>;
+  }
   return (
-    <div className="flex flex-col gap-16 h-full ">
-      <div className="flex-1">
-        {participantTrack && <Transcription audioTrack={participantTrack} />}
-      </div>
+    <div className="flex-1">
+      {participantTrack && (
+        <Transcription audioTrack={participantTrack} onlyLastSegment={true} />
+      )}
     </div>
   );
 };
