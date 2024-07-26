@@ -24,6 +24,7 @@ import Caption from "./transcription/caption";
 import { Transcript } from "./transcription/transcript";
 import { CustomControlBar } from "../component/customControlBar";
 import { deleteRoomIfEmpty } from "../actions/deleteRoomIfEmpty";
+import { addUserToRoom } from "../actions/addUserToRoom";
 interface RoomProps {
   roomId: string;
   userId: string;
@@ -64,7 +65,6 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
     return <div>Getting token...</div>;
   }
 
-  return (
     <LayoutContextProvider>
       <LiveKitRoom
         video={true}
@@ -77,9 +77,9 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           deleteRoomIfEmpty(roomId);
           router.replace("/");
         }}
-        onConnected={
-
-        }
+        onConnected={() => {
+          addUserToRoom(Number(userId), Number(roomId))
+        }}
       >
         <div className="flex">
           <MyVideoConference />
