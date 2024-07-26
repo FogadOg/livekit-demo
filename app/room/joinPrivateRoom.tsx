@@ -18,7 +18,7 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
 
     setError("");
     if (privateRoomIds.includes(roomId)) {
-      router.push(`/room?roomId=${roomId}&username=Hello World`);
+      router.push(`/room?roomId=${roomId}`);
     } else {
       setError("Room doesn't exist");
     }
