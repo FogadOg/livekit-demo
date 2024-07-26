@@ -1,6 +1,6 @@
-import React from 'react';
-import { ControlBar, ControlBarProps } from '@livekit/components-react';
-import {Modal} from "./modal"
+import React from "react";
+import { ControlBar, ControlBarProps } from "@livekit/components-react";
+import { Modal } from "./modal";
 import { Transcript } from "../room/transcription/transcript";
 
 interface CustomControlBarProps extends ControlBarProps {
@@ -12,16 +12,15 @@ export function CustomControlBar({
   ...props
 }: CustomControlBarProps) {
   return (
-    <div className="my-custom-control-bar lk-control-bar">
+    <div className="lk-control-bar">
       {customControl && (
-          <Modal
-            title="Transcription"
-            content={<Transcript />}
-            buttonText="View transcript"
-          />
+        <Modal
+          title="Transcription"
+          content={<Transcript />}
+          buttonText="View transcript"
+        />
       )}
       <ControlBar {...props} />
-
     </div>
   );
 }
