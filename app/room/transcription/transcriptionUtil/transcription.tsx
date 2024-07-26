@@ -28,7 +28,10 @@ export const Transcription = ({
   }
 
   if (onlyLastSegment && segments && segments.length > 0) {
-    return <p>{segments.at(-1)?.text}</p>;
+    return <p className="bg-[rgba(0,0,0,0.5)] p-2">{segments.at(-1)?.text}</p>;
+  }
+  if (onlyLastSegment) {
+    return <p></p>;
   }
   return <p>No transcription available</p>;
 };
