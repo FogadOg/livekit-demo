@@ -15,7 +15,7 @@ const Caption = ({ trackRef }: { trackRef?: TrackReferenceOrPlaceholder }) => {
     <div className="flex flex-col gap-16 h-full ">
       <div className="flex-1">
         {participantTrack && (
-          <Transcription audioTrack={participantTrack} lastSegment={true} />
+          <Transcription audioTrack={participantTrack} onlyLastSegment={true} />
         )}
       </div>
     </div>

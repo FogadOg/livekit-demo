@@ -9,15 +9,15 @@ import "@livekit/components-styles";
 
 export const Transcription = ({
   audioTrack,
-  lastSegment = false,
+  onlyLastSegment = false,
 }: {
   audioTrack: TrackReferenceOrPlaceholder;
 
-  lastSegment?: boolean;
+  onlyLastSegment?: boolean;
 }) => {
   const { segments } = useTrackTranscription(audioTrack);
 
-  if (segments.length > 0 && !lastSegment) {
+  if (segments.length > 0 && !onlyLastSegment) {
     return (
       <p>
         {segments.map((segment) => {
@@ -27,7 +27,7 @@ export const Transcription = ({
     );
   }
 
-  if (lastSegment && segments && segments.length > 0) {
+  if (onlyLastSegment && segments && segments.length > 0) {
     return <p>{segments.at(-1)?.text}</p>;
   }
   return <p>No transcription available</p>;
