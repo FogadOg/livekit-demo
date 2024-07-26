@@ -12,7 +12,7 @@ export default async function Home() {
   const rooms = await roomService.listRooms();
 
   return (
-    <main className="p-5">
+    <main className="px-16 py-5">
       <h1 className="text-2xl font-bold">Public rooms</h1>
       <section className="flex flex-wrap gap-4">
         {publicRooms.map((room) => {
