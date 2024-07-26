@@ -82,3 +82,12 @@ export async function handleCreateIngressForm(formData: FormData) {
 
   return { url: ingressData.url, password: ingressData.streamKey };
 }
+
+export async function deleteRoomIfEmpty(roomId: string) {
+  const roomParticipants = await roomService.listParticipants(roomId);
+  console.log("Room epmtpoadfjs");
+  if (roomParticipants.length - 1 === 0) {
+    await prisma.room.delete({ where: { id: Number(roomId) } });
+    await roomService.deleteRoom(roomId);
+  }
+}

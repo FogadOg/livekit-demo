@@ -8,13 +8,23 @@ import CreateIngress from "./room/createIngress";
 import { Navbar } from "./component/navbar";
 
 export default async function Home() {
-  const publicRooms = await prisma.room.findMany({ where: { public: true } });
-  const privateRooms = await prisma.room.findMany({ where: { public: false } });
-  const rooms = await roomService.listRooms();
+  let rooms = await prisma.room.findMany();
+
+  const liveRooms = await roomService.listRooms();
+  const liveRoomIds = liveRooms.map((room) => room.name);
+
+  for (let room of rooms) {
+    if (!liveRoomIds.includes(room.id.toString())) {
+      rooms = rooms.filter((r) => r.id !== room.id);
+      prisma.room.delete({ where: { id: room.id } });
+    }
+  }
+  const publicRooms = rooms.filter((room) => room.public);
+  const privateRooms = rooms.filter((room) => !room.public);
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <main className="px-16 py-5">
         <h1 className="text-2xl font-bold">Public rooms</h1>
         <section className="flex flex-wrap gap-4">
@@ -23,8 +33,9 @@ export default async function Home() {
               <JoinPublicRoom
                 room={room}
                 participantsCount={
-                  rooms.find((liveRoom) => liveRoom.name == room.id.toString())
-                    ?.numParticipants || 0
+                  liveRooms.find(
+                    (liveRoom) => liveRoom.name == room.id.toString()
+                  )?.numParticipants || 0
                 }
               />
             );
@@ -42,7 +53,6 @@ export default async function Home() {
           <CreateIngress />
         </div>
       </main>
-    
     </>
   );
 }
