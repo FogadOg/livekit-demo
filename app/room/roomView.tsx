@@ -102,7 +102,7 @@ function MyVideoConference() {
     >
       <div className="relative">
         <ParticipantTile className="h-full" />
-        <div className="absolute bottom-5 left-[50%] translate-x-[-50%]  bg-[rgba(0,0,0,0.5)] p-2">
+        <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%]  xl:max-w-[65%] bg-[rgba(0,0,0,0.5)] p-2">
           <Caption agentPresent={agentPresent} />
         </div>
       </div>
