@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import Caption from "./transcription/caption";
 import { Transcript } from "./transcription/transcript";
-import {CustomControlBar} from "../component/customControlBar"
+import { CustomControlBar } from "../component/customControlBar";
 interface RoomProps {
   roomId: String;
   userId: String;
@@ -74,7 +74,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           <Chat />
         </div>
         <RoomAudioRenderer />
-        <CustomControlBar/>
+        <CustomControlBar />
       </LiveKitRoom>
     </LayoutContextProvider>
   );
@@ -102,7 +102,7 @@ function MyVideoConference() {
     >
       <div className="relative">
         <ParticipantTile className="h-full" />
-        <div className="absolute top-5 left-5">
+        <div className="absolute bottom-5 left-[50%] translate-x-[-50%]  bg-[rgba(0,0,0,0.5)] p-2">
           <Caption agentPresent={agentPresent} />
         </div>
       </div>
