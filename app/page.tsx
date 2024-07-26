@@ -5,6 +5,7 @@ import CreateRoom from "./room/createRoom";
 import JoinPublicRoom from "./room/joinPublicRoom";
 import JoinPrivateRoom from "./room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
+import { Navbar } from "./component/navbar";
 
 export default async function Home() {
   const publicRooms = await prisma.room.findMany({ where: { public: true } });
@@ -12,32 +13,36 @@ export default async function Home() {
   const rooms = await roomService.listRooms();
 
   return (
-    <main className="px-16 py-5">
-      <h1 className="text-2xl font-bold">Public rooms</h1>
-      <section className="flex flex-wrap gap-4">
-        {publicRooms.map((room) => {
-          return (
-            <JoinPublicRoom
-              room={room}
-              participantsCount={
-                rooms.find((liveRoom) => liveRoom.name == room.id.toString())
-                  ?.numParticipants || 0
-              }
-            />
-          );
-        })}
-      </section>
+    <>
+      <Navbar/>
+      <main className="px-16 py-5">
+        <h1 className="text-2xl font-bold">Public rooms</h1>
+        <section className="flex flex-wrap gap-4">
+          {publicRooms.map((room) => {
+            return (
+              <JoinPublicRoom
+                room={room}
+                participantsCount={
+                  rooms.find((liveRoom) => liveRoom.name == room.id.toString())
+                    ?.numParticipants || 0
+                }
+              />
+            );
+          })}
+        </section>
 
-      <div className="mt-5"></div>
+        <div className="mt-5"></div>
 
-      <JoinPrivateRoom
-        privateRoomIds={privateRooms.map((room) => room.id.toString())}
-      />
+        <JoinPrivateRoom
+          privateRoomIds={privateRooms.map((room) => room.id.toString())}
+        />
 
-      <div className="mt-5 flex gap-4">
-        <CreateRoom />
-        <CreateIngress />
-      </div>
-    </main>
+        <div className="mt-5 flex gap-4">
+          <CreateRoom />
+          <CreateIngress />
+        </div>
+      </main>
+    
+    </>
   );
 }
