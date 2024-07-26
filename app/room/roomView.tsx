@@ -93,6 +93,7 @@ function MyVideoConference() {
       ? tracks.filter((track) => !track.participant.isAgent)
       : tracks;
 
+  const agentPresent = filteredTracks.length !== tracks.length;
   return (
     <GridLayout
       tracks={filteredTracks}
@@ -106,7 +107,7 @@ function MyVideoConference() {
             content={<Transcript />}
             buttonText="View transcript"
           />
-          <Caption />
+          <Caption agentPresent={agentPresent} />
         </div>
       </div>
     </GridLayout>
