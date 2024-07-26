@@ -1,7 +1,7 @@
 "use server";
 
 import roomService from "@/lib/roomService";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 import { IngressClient, IngressInfo, IngressInput } from "livekit-server-sdk";
 
 export async function handleCreateRoomForm(formData: FormData) {
