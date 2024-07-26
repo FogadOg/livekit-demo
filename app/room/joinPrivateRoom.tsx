@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 
 interface JoinPrivateRoomProps {
   privateRoomIds: String[];
@@ -9,16 +9,18 @@ interface JoinPrivateRoomProps {
 
 const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
   const router = useRouter();
+  const [error, setError] = useState("");
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // don't refresh
     const formData = new FormData(event.currentTarget);
 
     let roomId = (formData.get("roomId") as string | null) || "default name";
 
+    setError("");
     if (privateRoomIds.includes(roomId)) {
-      router.push(`/room?roomId=${roomId}&username=Hello World`);
+      router.push(`/room?roomId=${roomId}`);
     } else {
-      console.log("Room doesn't exist");
+      setError("Room doesn't exist");
     }
   };
 
@@ -33,11 +35,13 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
             id="roomId"
             placeholder="Room id"
             className="input input-bordered"
+            required
           />
         </div>
         <div>
           <input type="submit" value="Join" className="btn btn-primary" />
         </div>
+        <p className="text-red-500">{error}</p>
       </form>
     </div>
   );

@@ -18,7 +18,7 @@ const Caption = ({
   );
 
   if (!agentPresent) {
-    return <p>Sorry, no agent present to transcribe</p>;
+    return <p></p>;
   }
   return (
     <div className="flex-1">
