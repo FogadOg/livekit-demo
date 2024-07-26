@@ -33,5 +33,5 @@ export const Transcription = ({
   if (onlyLastSegment) {
     return <p></p>;
   }
-  return <p>No transcription available</p>;
+  return <p>User not spoken</p>;
 };
