@@ -23,9 +23,11 @@ import React from "react";
 import Caption from "./transcription/caption";
 import { Transcript } from "./transcription/transcript";
 import { CustomControlBar } from "../component/customControlBar";
+import { deleteRoomIfEmpty } from "../actions/deleteRoomIfEmpty";
+import { addUserToRoom } from "../actions/addUserToRoom";
 interface RoomProps {
-  roomId: String;
-  userId: String;
+  roomId: string;
+  userId: string;
 }
 
 const RoomView = ({ roomId, userId }: RoomProps) => {
@@ -49,14 +51,20 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
       }
     };
 
+    const handleUnload = () => {
+      deleteRoomIfEmpty(roomId);
+    };
+
+    window.addEventListener("unload", handleUnload);
+
     fetchToken();
+    return window.removeEventListener("unload", handleUnload);
   }, [roomId, userId]);
 
   if (token === "") {
     return <div>Getting token...</div>;
   }
 
-  return (
     <LayoutContextProvider>
       <LiveKitRoom
         video={true}
@@ -66,7 +74,11 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         data-lk-theme="default"
         style={{ height: "100dvh" }}
         onDisconnected={() => {
+          deleteRoomIfEmpty(roomId);
           router.replace("/");
+        }}
+        onConnected={() => {
+          addUserToRoom(Number(userId), Number(roomId))
         }}
       >
         <div className="flex">
