@@ -64,7 +64,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
   if (token === "") {
     return <div>Getting token...</div>;
   }
-
+    return (
     <LayoutContextProvider>
       <LiveKitRoom
         video={true}
