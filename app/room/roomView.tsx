@@ -106,7 +106,7 @@ function MyVideoConference() {
             content={<Transcript />}
             buttonText="View transcript"
           />
-          <Caption />
+          <Transcript />
         </div>
       </div>
     </GridLayout>
