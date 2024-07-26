@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { handleCreateIngressForm } from "@/app/actions";
+import { handleCreateIngressForm } from "@/app/actions/deleteRoomIfEmpty";
 
 type IngressData = {
   url?: string;
