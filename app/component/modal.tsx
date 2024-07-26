@@ -30,9 +30,9 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog"></form>
-          <h3 className="text-lg font-bold text-slate-600">{title}</h3>
+          <h3 className="text-lg font-bold ">{title}</h3>
           <div>
-            <div className="py-4 text-slate-600">{content}</div>
+            <div className="py-4 ">{content}</div>
           </div>
 
           <button className="btn ml-[85%]" onClick={handleCloseModal}>
