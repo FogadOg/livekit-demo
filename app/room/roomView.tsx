@@ -23,7 +23,7 @@ import React from "react";
 import Caption from "./transcription/caption";
 import { Transcript } from "./transcription/transcript";
 import { CustomControlBar } from "../component/customControlBar";
-import { deleteRoomIfEmpty } from "../actions/actions";
+import { deleteRoomIfEmpty } from "../actions/deleteRoomIfEmpty";
 interface RoomProps {
   roomId: string;
   userId: string;
