@@ -77,9 +77,6 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           deleteRoomIfEmpty(roomId);
           router.replace("/");
         }}
-        onConnected={() => {
-          addUserToRoom(Number(userId), Number(roomId))
-        }}
       >
         <div className="flex">
           <MyVideoConference />
