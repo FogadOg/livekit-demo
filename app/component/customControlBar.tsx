@@ -12,9 +12,7 @@ export function CustomControlBar({
   ...props
 }: CustomControlBarProps) {
   return (
-    <div className="my-custom-control-bar">
-      <ControlBar {...props} />
-
+    <div className="my-custom-control-bar lk-control-bar">
       {customControl && (
           <Modal
             title="Transcription"
@@ -22,6 +20,8 @@ export function CustomControlBar({
             buttonText="View transcript"
           />
       )}
+      <ControlBar {...props} />
+
     </div>
   );
 }
