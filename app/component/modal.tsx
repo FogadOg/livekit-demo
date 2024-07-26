@@ -24,7 +24,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
 
   return (
     <>
-      <button className="btn" onClick={handleShowModal}>
+      <button className="btn lk-button" onClick={handleShowModal}>
         {buttonText}
       </button>
       <dialog id="my_modal_3" className="modal">
