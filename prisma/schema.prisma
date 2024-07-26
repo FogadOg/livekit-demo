@@ -14,6 +14,7 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
   name String
+  rooms RoomOnUser[]
 }
 
 model Room{
@@ -21,4 +22,14 @@ model Room{
   name String
   password String
   public Boolean
+  users    RoomOnUser[]
+}
+
+model RoomOnUser {
+  userId Int
+  roomId Int
+  user   User @relation(fields: [userId], references: [id])
+  room   Room @relation(fields: [roomId], references: [id])
+
+  @@id([userId, roomId])
 }
