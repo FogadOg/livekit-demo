@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import RoomView from "./roomView";
-import RoomAccesForm from "./roomAccesForm";
+import RoomView from "./components/room/roomView";
+import RoomAccesForm from "./components/room/roomAccesForm";
 
 export default function Page() {
   const searchParams = useSearchParams();
   const roomId = searchParams.get("roomId");
 
   const [userId, setUserId] = useState("");
-  const [accesRoom, setAccessRoom] = useState(false); //Access to room?
+  const [accessRoom, setAccessRoom] = useState(false); //Access to room?
 
-  if (accesRoom) {
+  if (accessRoom) {
     return <RoomView roomId={roomId!} userId={userId} />;
   }
 
