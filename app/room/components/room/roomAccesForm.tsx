@@ -5,14 +5,14 @@ import { useEffect, useState, FormEvent } from "react";
 
 // ! WARNING
 // ! This is not safe, should be rebuilt if not demo
-// ! User can use somebody elses name and kick them
+// ! User can use somebody else's name and kick them
 // ! User can see room password
 
 interface RoomProps {
   roomId: string;
   userId: string;
-  setAccessRoom: Function;
-  setUserId: Function;
+  setAccessRoom: (access: boolean) => void;
+  setUserId: (id: string) => void;
 }
 
 const RoomAccessForm = ({
@@ -21,59 +21,67 @@ const RoomAccessForm = ({
   userId,
   setUserId,
 }: RoomProps) => {
-  const [roomPassword, setRoomPassword] = useState("");
-  const [password, setPassword] = useState("");
+  const [roomPassword, setRoomPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const [IsRoomPublic, setIsRoomPublic] = useState(false);
+  const [isRoomPublic, setIsRoomPublic] = useState<boolean>(false);
 
-  const [validPassword, setValidPassword] = useState(false);
-  const [validUserId, setValidUserId] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState<boolean>(false);
+  const [isValidUserId, setIsValidUserId] = useState<boolean>(false);
 
-  const [participants, setParticipants] = useState(["test"]);
-  const [roomExist, setRoomExist] = useState(roomId != null && roomId != "");
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [roomExists, setRoomExists] = useState<boolean>(
+    Boolean(roomId)
+  );
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchRoomState = async () => {
+      setLoading(true);
       try {
-        const resp = await fetch(`/api/get-room-state?roomId=${roomId}`);
-        if (resp.ok) {
-          const data = await resp.json();
-          setRoomPassword(data["password"]);
-          setIsRoomPublic(data["isRoomPublic"]);
-          setParticipants(data["participants"]);
-        } else if (resp.status === 404) {
-          setRoomExist(false);
+        const response = await fetch(`/api/get-room-state?roomId=${roomId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setRoomPassword(data.password || "");
+          setIsRoomPublic(data.isRoomPublic || false);
+          setParticipants(data.participants || []);
+          setRoomExists(true);
+        } else if (response.status === 404) {
+          setRoomExists(false);
         } else {
-          console.error(`Error fetching room: ${resp.statusText}`);
+          console.error(`Error fetching room: ${response.statusText}`);
         }
-      } catch (e) {
-        console.error("Fetch error:", e);
+      } catch (error) {
+        console.error("Fetch error:", error);
+        setRoomExists(false);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchRoomState();
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
-    if (validPassword && validUserId) {
+    if (isValidPassword && isValidUserId) {
       setAccessRoom(true);
     }
-  }, [validPassword, validUserId]);
+  }, [isValidPassword, isValidUserId, setAccessRoom]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (password === roomPassword) {
-      setValidPassword(true);
+      setIsValidPassword(true);
     } else {
       alert("Incorrect password");
+      setIsValidPassword(false);
     }
     if (!participants.includes(userId)) {
-      setValidUserId(true);
+      setIsValidUserId(true);
     } else {
       alert("Username taken");
+      setIsValidUserId(false);
     }
   };
 
@@ -86,14 +94,16 @@ const RoomAccessForm = ({
       </div>
     );
   }
-  if (!roomExist) {
+
+  if (!roomExists) {
     return (
       <>
-        <h1 className="font-bold text-xl">Sorry couldn't find the room</h1>
+        <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
         <p>Couldn't find the room you are looking for</p>
       </>
     );
   }
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 m-5">
       <div>
@@ -101,18 +111,20 @@ const RoomAccessForm = ({
           id="username"
           type="text"
           placeholder="Username"
+          value={userId}
           onChange={(e) => setUserId(e.target.value)}
           className="input input-bordered"
           required
         />
       </div>
 
-      {!IsRoomPublic && (
+      {!isRoomPublic && (
         <div>
           <input
             id="password"
             type="password"
             placeholder="Room password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="input input-bordered"
             required

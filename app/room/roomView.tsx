@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import Caption from "./transcription/caption";
 import { CustomControlBar } from "../component/customControlBar";
-import { deleteRoomIfEmpty } from "../actions/deleteRoomIfEmpty";
+import { deleteRoomIfEmpty } from "../actions/roomActions";
 interface RoomProps {
   roomId: string;
   userId: string;

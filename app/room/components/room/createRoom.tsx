@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { handleCreateRoomForm } from "@/app/actions/deleteRoomIfEmpty";
+import { handleCreateRoomForm } from "@/app/actions/roomActions";
 
 const CreateRoom = () => {
   const [roomPublic, setRoomPublic] = useState(false);

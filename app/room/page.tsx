@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import RoomView from "./roomView";
-import RoomAccesForm from "./roomAccesForm";
+import RoomView from "./components/room/roomView";
+import RoomAccesForm from "./components/room/roomAccesForm";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -13,16 +13,10 @@ export default function Page() {
   const tokenProvided = (token as string | null) !== null && token !== "";
 
   const [userId, setUserId] = useState("");
-  const [accesRoom, setAccessRoom] = useState(false); //Access to room?
+  const [accessRoom, setAccessRoom] = useState(false); //Access to room?
 
-  if (accesRoom || tokenProvided) {
-    return (
-      <RoomView
-        roomId={roomId!}
-        userId={userId}
-        providedToken={token !== null ? token : undefined}
-      />
-    );
+  if (accessRoom) {
+    return <RoomView roomId={roomId!} userId={userId} />;
   }
 
   return (

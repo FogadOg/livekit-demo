@@ -1,7 +1,7 @@
 import React from "react";
 import { ControlBar, ControlBarProps } from "@livekit/components-react";
 import { Modal } from "./modal";
-import { Transcript } from "../room/transcription/transcript";
+import { Transcript } from "../room/components/transcription/transcript";
 
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;

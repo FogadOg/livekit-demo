@@ -1,11 +1,11 @@
 import prisma from "@/lib/prisma";
 import roomService from "@/lib/roomService";
 
-import CreateRoom from "./room/createRoom";
-import JoinPublicRoom from "./room/joinPublicRoom";
-import JoinPrivateRoom from "./room/joinPrivateRoom";
+import CreateRoom from "./room/components/room/createRoom";
+import JoinPublicRoom from "./room/components/room/joinPublicRoom";
+import JoinPrivateRoom from "./room/components/room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
-import { Navbar } from "./component/navbar";
+import { Navbar } from "./components/navbar";
 
 export default async function Home() {
   let rooms = await prisma.room.findMany();
