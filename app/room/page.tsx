@@ -11,9 +11,9 @@ export default function Page() {
   const roomId = searchParams.get("roomId");
 
   const [userId, setUserId] = useState("");
-  const [accesRoom, setAccessRoom] = useState(false); //Access to room?
+  const [accessRoom, setAccessRoom] = useState(false); //Access to room?
 
-  if (accesRoom) {
+  if (accessRoom) {
     return <RoomView roomId={roomId!} userId={userId} />;
   }
 
