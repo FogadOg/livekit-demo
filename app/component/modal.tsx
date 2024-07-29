@@ -1,5 +1,5 @@
 import React from "react";
-import { Transcript } from "../room/transcription/transcript";
+import { Transcript } from "../room/components/transcription/transcript";
 
 interface ModalProps {
   title: string;

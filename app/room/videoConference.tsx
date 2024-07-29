@@ -9,7 +9,7 @@ import {
 import { Track } from "livekit-client";
 import "@livekit/components-styles";
 
-import Caption from "./transcription/caption";
+import Caption from "./components/transcription/caption";
 
 
 
