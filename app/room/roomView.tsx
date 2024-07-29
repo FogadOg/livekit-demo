@@ -16,7 +16,7 @@ import "@livekit/components-styles";
 
 import Caption from "./transcription/caption";
 import { CustomControlBar } from "../component/customControlBar";
-import { deleteRoomIfEmpty } from "../actions/deleteRoomIfEmpty";
+import { deleteRoomIfEmpty } from "../actions/roomActions";
 
 interface RoomProps {
   roomId: string;
