@@ -35,7 +35,7 @@ interface RoomPageProps {
   layout: string;
 }
 
-export default function RoomPage({ url, token, layout }: RoomPageProps) {
+export default function EgressRoom({ url, token, layout }: RoomPageProps) {
   const [error, setError] = useState<Error>();
   if (!url || !token) {
     return <div className="error">missing required params url and token</div>;
