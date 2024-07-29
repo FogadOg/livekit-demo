@@ -1,9 +1,8 @@
 "use server";
 
-import roomService from "@/lib/roomService";
+import roomService from "../../lib/roomService";
 import prisma from "../../lib/prisma";
 import { IngressClient, IngressInput } from "livekit-server-sdk";
-
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
