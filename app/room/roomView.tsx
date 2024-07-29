@@ -28,9 +28,10 @@ import { addUserToRoom } from "../actions/addUserToRoom";
 interface RoomProps {
   roomId: string;
   userId: string;
+  providedToken?: string;
 }
 
-const RoomView = ({ roomId, userId }: RoomProps) => {
+const RoomView = ({ roomId, userId, providedToken }: RoomProps) => {
   const router = useRouter();
 
   const [token, setToken] = useState("");
@@ -57,19 +58,24 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
 
     window.addEventListener("unload", handleUnload);
 
-    fetchToken();
+    if (!providedToken) {
+      fetchToken();
+    } else {
+      setToken(providedToken);
+    }
+
     return window.removeEventListener("unload", handleUnload);
   }, [roomId, userId]);
 
   if (token === "") {
     return <div>Getting token...</div>;
   }
-    return (
+  return (
     <LayoutContextProvider>
       <LiveKitRoom
         video={true}
         audio={true}
-        token={token}
+        token={providedToken ? providedToken : token}
         serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
         data-lk-theme="default"
         style={{ height: "100dvh" }}
