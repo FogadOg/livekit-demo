@@ -4,18 +4,6 @@ import roomService from "@/lib/roomService";
 import prisma from "../../lib/prisma";
 import { IngressClient, IngressInfo, IngressInput } from "livekit-server-sdk";
 
-export async function handleCreateRoomForm(formData: FormData) {
-  const validatedFormData = {
-    name: (formData.get("roomName") as string | null) || "default room",
-    public: (formData.get("public") || "off") === "on",
-    password: (formData.get("password") as string | null) || "",
-  };
-
-  const newRoom = await prisma.room.create({
-    data: validatedFormData,
-  });
-  return `/room?roomId=${newRoom.id}`;
-}
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
