@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   LayoutContextProvider,
   Chat,
@@ -9,14 +11,13 @@ import {
   RoomAudioRenderer,
   useTracks,
 } from "@livekit/components-react";
-import "@livekit/components-styles";
 import { Track } from "livekit-client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import React from "react";
+import "@livekit/components-styles";
+
 import Caption from "./transcription/caption";
 import { CustomControlBar } from "../component/customControlBar";
 import { deleteRoomIfEmpty } from "../actions/deleteRoomIfEmpty";
+
 interface RoomProps {
   roomId: string;
   userId: string;
@@ -24,22 +25,24 @@ interface RoomProps {
 
 const RoomView = ({ roomId, userId }: RoomProps) => {
   const router = useRouter();
+  const [token, setToken] = useState<string>("");
 
-  const [token, setToken] = useState("");
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const resp = await fetch(
+        const response = await fetch(
           `/api/get-participant-token?room=${roomId}&username=${userId}`
         );
-        if (!resp.ok) {
-          console.error(`Error fetching token: ${resp.statusText}`);
+
+        if (!response.ok) {
+          console.error(`Error fetching token: ${response.statusText}`);
           return;
         }
-        const data = await resp.json();
+
+        const data = await response.json();
         setToken(data.token);
-      } catch (e) {
-        console.error("Fetch error:", e);
+      } catch (error) {
+        console.error("Fetch error:", error);
       }
     };
 
@@ -50,13 +53,17 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
     window.addEventListener("unload", handleUnload);
 
     fetchToken();
-    return window.removeEventListener("unload", handleUnload);
+
+    return () => {
+      window.removeEventListener("unload", handleUnload);
+    };
   }, [roomId, userId]);
 
-  if (token === "") {
+  if (!token) {
     return <div>Getting token...</div>;
   }
-    return (
+
+  return (
     <LayoutContextProvider>
       <LiveKitRoom
         video={true}
@@ -81,7 +88,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
   );
 };
 
-function MyVideoConference() {
+const MyVideoConference = () => {
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -90,12 +97,9 @@ function MyVideoConference() {
     { onlySubscribed: false }
   );
 
-  const filteredTracks =
-    tracks.length > 0
-      ? tracks.filter((track) => !track.participant.isAgent)
-      : tracks;
-
+  const filteredTracks = tracks.filter((track) => !track.participant.isAgent);
   const agentPresent = filteredTracks.length !== tracks.length;
+
   return (
     <GridLayout
       tracks={filteredTracks}
@@ -103,12 +107,12 @@ function MyVideoConference() {
     >
       <div className="relative">
         <ParticipantTile className="h-full" />
-        <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%]  xl:max-w-[65%]">
+        <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
           <Caption agentPresent={agentPresent} />
         </div>
       </div>
     </GridLayout>
   );
-}
+};
 
 export default RoomView;
