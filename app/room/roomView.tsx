@@ -3,28 +3,20 @@
 import {
   LayoutContextProvider,
   Chat,
-  ControlBar,
   GridLayout,
   LiveKitRoom,
   ParticipantTile,
   RoomAudioRenderer,
   useTracks,
-  useTrackTranscription,
-  TrackReferenceOrPlaceholder,
-  useParticipants,
-  useEnsureTrackRef,
 } from "@livekit/components-react";
-import { Modal } from "../component/modal";
 import "@livekit/components-styles";
-import { RoomEvent, Track } from "livekit-client";
+import { Track } from "livekit-client";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import Caption from "./transcription/caption";
-import { Transcript } from "./transcription/transcript";
 import { CustomControlBar } from "../component/customControlBar";
 import { deleteRoomIfEmpty } from "../actions/deleteRoomIfEmpty";
-import { addUserToRoom } from "../actions/addUserToRoom";
 interface RoomProps {
   roomId: string;
   userId: string;
