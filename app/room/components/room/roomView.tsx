@@ -10,7 +10,7 @@ import {
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
-import { CustomControlBar } from "../../../component/customControlBar";
+import { CustomControlBar } from "../../../components/customControlBar";
 import { deleteRoomIfEmpty } from "../../../actions/roomActions";
 import { VideoConference } from "../../videoConference";
 
