@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import RoomView from "./roomView";
-import RoomAccesForm from "./roomAccesForm";
+import RoomView from "./components/room/roomView";
+import RoomAccesForm from "./components/room/roomAccesForm";
 
 export default function Page() {
   const searchParams = useSearchParams();

@@ -10,9 +10,9 @@ import {
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
-import { CustomControlBar } from "../component/customControlBar";
-import { deleteRoomIfEmpty } from "../actions/roomActions";
-import { VideoConference } from "./videoConference";
+import { CustomControlBar } from "../../../component/customControlBar";
+import { deleteRoomIfEmpty } from "../../../actions/roomActions";
+import { VideoConference } from "../../videoConference";
 
 interface RoomProps {
   roomId: string;
