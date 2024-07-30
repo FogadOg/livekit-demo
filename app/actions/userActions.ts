@@ -74,13 +74,13 @@ export async function handleCreateIngressForm(formData: FormData) {
 
   return { url: ingressData.url, password: ingressData.streamKey };
 }
+const egressClient = new EgressClient(
+  process.env.NEXT_PUBLIC_LIVEKIT_URL!,
+  process.env.LIVEKIT_API_KEY,
+  process.env.LIVEKIT_API_SECRET
+);
 
 export async function toggleRecording(roomId: string) {
-  const egressClient = new EgressClient(
-    process.env.NEXT_PUBLIC_LIVEKIT_URL!,
-    process.env.LIVEKIT_API_KEY,
-    process.env.LIVEKIT_API_SECRET
-  );
   const prismaRoom = await prisma.room.findFirst({
     where: { id: Number(roomId) },
   });
