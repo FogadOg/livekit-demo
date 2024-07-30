@@ -28,21 +28,24 @@ export function CustomControlBar({
   return (
     <div className="lk-control-bar">
       {customControl && (
-        <Modal
-          title="Transcription"
-          content={<Transcript />}
-          buttonText="View transcript"
-        />
+        <>
+          <Modal
+            title="Transcription"
+            content={<Transcript />}
+            buttonText="View transcript"
+          />
+
+          <button
+            className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
+            onClick={() => {
+              toggleRecording(room.name);
+              setRecording(!recording);
+            }}
+          >
+            Record{recording && "ing"}
+          </button>
+        </>
       )}
-      <button
-        className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
-        onClick={() => {
-          toggleRecording(room.name);
-          setRecording(!recording);
-        }}
-      >
-        Record{recording && "ing"}
-      </button>
       <ControlBar {...props} />
     </div>
   );
