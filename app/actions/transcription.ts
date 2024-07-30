@@ -24,3 +24,8 @@ export async function appendTranscription(
     data: { transcription: user.transcription + transcription },
   });
 }
+
+export const GetTranscription = async (roomId: number) => {
+  const users = await prisma.user.findMany({ where: { roomId: roomId } });
+  return users;
+};

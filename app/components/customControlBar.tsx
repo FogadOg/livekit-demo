@@ -27,10 +27,10 @@ export function CustomControlBar({
 
   return (
     <div className="lk-control-bar">
-      {customControl && false && (
+      {customControl && (
         <Modal
           title="Transcription"
-          content={<Transcript />}
+          content={<Transcript roomId={Number(room.name)} />}
           buttonText="View transcript"
         />
       )}

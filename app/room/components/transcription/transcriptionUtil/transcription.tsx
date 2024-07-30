@@ -9,7 +9,7 @@ import {
 // Import necessary LiveKit types and styles
 import "@livekit/components-styles";
 
-import { appendTranscription } from "@/app/actions/saveTranscription";
+import { appendTranscription } from "@/app/actions/transcription";
 
 export const Transcription = ({
   audioTrack,
