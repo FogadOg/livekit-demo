@@ -17,7 +17,7 @@ model User {
 
   transcription String @default("")
 
-  room   Room @relation(fields: [roomId], references: [id])
+  room   Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId Int // Relation scalar fielt (used above)
 }
 
