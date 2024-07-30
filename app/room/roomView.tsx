@@ -14,8 +14,8 @@ import { Track } from "livekit-client";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import Caption from "./transcription/caption";
-import { CustomControlBar } from "../component/customControlBar";
+import Caption from "./components/transcription/caption";
+import { CustomControlBar } from "../components/customControlBar";
 import { deleteRoomIfEmpty } from "../actions/roomActions";
 interface RoomProps {
   roomId: string;
