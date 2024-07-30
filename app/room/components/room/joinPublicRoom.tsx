@@ -24,7 +24,7 @@ const JoinPublicRoom = ({ room, participantsCount }: JoinPublicRoomProps) => {
             <div className="badge badge-secondary">Active</div>
           )}
         </div>
-        <p>Particpents count: {participantsCount}</p>
+        <p>Participants count: {participantsCount}</p>
         <div className="card-actions justify-end">
           <button onClick={handleClick} className="btn btn-primary">
             Join
