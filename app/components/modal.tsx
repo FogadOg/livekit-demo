@@ -14,7 +14,6 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
       modal.showModal();
     }
     setVisible(true);
-    console.log(true);
   };
 
   const handleCloseModal = () => {
@@ -23,7 +22,6 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
       modal.close();
     }
     setVisible(false);
-    console.log(false);
   };
 
   return (
