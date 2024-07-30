@@ -9,11 +9,9 @@ import RoomAccesForm from "./components/room/roomAccesForm";
 export default function Page() {
   const searchParams = useSearchParams();
   const roomId = searchParams.get("roomId");
-  const token = searchParams.get("token");
-  const tokenProvided = (token as string | null) !== null && token !== "";
 
   const [userId, setUserId] = useState("");
-  const [accessRoom, setAccessRoom] = useState(false); //Access to room?
+  const [accessRoom, setAccessRoom] = useState(false);
 
   if (accessRoom) {
     return <RoomView roomId={roomId!} userId={userId} />;
