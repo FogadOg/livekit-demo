@@ -15,7 +15,7 @@ const JoinPublicRoom = ({ room, participantsCount }: JoinPublicRoomProps) => {
   };
 
   return (
-    <div key={room.id} className="card bg-base-100 w-64 shadow-md border ">
+    <div key={room.id} className="card bg-base-100 w-64 shadow-2xl rounded-3xl">
       <div className="card-body">
         <h2 className="card-title">{room.name}</h2>
         <p>Participants count: {participantsCount}</p>
