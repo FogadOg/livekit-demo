@@ -21,8 +21,8 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
   };
 
   return (
-    <div>
-      <button onClick={handleSubmit} className="btn btn-primary">
+    <div className="flex justify-center items-center">
+      <button onClick={handleSubmit} className="btn btn-primary w-full">
         Join private room
       </button>
     </div>
