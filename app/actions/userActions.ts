@@ -88,7 +88,7 @@ export async function toggleRecording(roomId: string) {
   if (prismaRoom?.egressId === "") {
     console.log("Creating Egress");
     const fileOutput = new EncodedFileOutput({
-      filepath: `/out/videos/${prismaRoom?.name}-{room_name}.mp4`,
+      filepath: `/out/videos/{room_name}-${prismaRoom?.name}.mp4`,
     });
 
     const info = await egressClient.startRoomCompositeEgress(
