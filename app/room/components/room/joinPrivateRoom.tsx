@@ -22,7 +22,6 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Join private room</h1>
         <div>
           <button onClick={handleSubmit} className="btn btn-primary">
             Join private room
