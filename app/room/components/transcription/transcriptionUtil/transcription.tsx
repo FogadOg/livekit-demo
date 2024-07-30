@@ -39,9 +39,7 @@ export const Transcription = ({
         segments.at(-1)?.text! + " "
       );
       setSavedIndex(segments.length);
-      console.log("Saving", segments.at(-1)?.text!);
     } else {
-      console.log("Didn't save");
     }
   }
 
