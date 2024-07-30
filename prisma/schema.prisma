@@ -22,6 +22,7 @@ model Room{
   name String
   password String
   public Boolean
+  egressId String @default("")
   users    RoomOnUser[]
 }
 
