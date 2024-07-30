@@ -1,17 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
 
 interface JoinPrivateRoomProps {
-  privateRoomIds: String[];
+  privateRoomIds: string[];
 }
 
 const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
   const router = useRouter();
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 
-    const roomId: string | null = window.prompt("room id") as string | null || "default name";
+  const handleClick = () => {
+    const roomId: string = window.prompt("Enter room id") || "default name";
 
     if (privateRoomIds.includes(roomId)) {
       router.push(`/room?roomId=${roomId}`);
@@ -22,7 +21,7 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
 
   return (
     <div className="flex justify-center items-center">
-      <button onClick={handleSubmit} className="btn btn-primary w-full">
+      <button onClick={handleClick} className="btn btn-primary w-full">
         Join private room
       </button>
     </div>
