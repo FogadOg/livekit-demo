@@ -1,38 +1,37 @@
-import { TranscriptionTile } from "./transcriptionUtil/transcriptionTile";
-import { useParticipants } from "@livekit/components-react";
+import { GetTranscription } from "@/app/actions/transcription";
+import { User } from "@prisma/client";
+import { useEffect, useState } from "react";
 
-export const Transcript = () => {
-  const participants = useParticipants();
-  const filteredParticipants =
-    participants.length > 0
-      ? participants.filter((participant) => !participant.isAgent)
-      : participants;
+export const Transcript = ({ roomId }: { roomId: number }) => {
+  const [users, setUsers] = useState<User[]>([]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      let promisedUsers = await GetTranscription(roomId);
+      setUsers(promisedUsers);
+    };
+    fetchUsers();
+  }, []);
 
-  const agentPresent = participants.length !== filteredParticipants.length;
-  if (!agentPresent) {
+  if (users.length === 0) {
     return (
       <div className="flex flex-col gap-16 h-full ">
         <div className="flex-1">
-          {filteredParticipants.map((participant) => {
-            return (
-              <div key={participant.identity}>
-                <h3 className="font-bold">{participant.identity}:</h3>
-                <p>Transcription not available</p>
-              </div>
-            );
-          })}
+          <div>
+            <h3>Transcription not available, no agent</h3>
+          </div>
         </div>
       </div>
     );
   }
+
   return (
     <div className="flex flex-col gap-16 h-full ">
       <div className="flex-1">
-        {filteredParticipants.map((participant) => {
+        {users.map((user) => {
           return (
-            <div key={participant.identity}>
-              <h3 className="font-bold">{participant.identity}:</h3>
-              <TranscriptionTile identity={participant.identity} />
+            <div key={user.name}>
+              <h3 className="font-bold">{user.name}:</h3>
+              <p>{user.transcription}</p>
             </div>
           );
         })}

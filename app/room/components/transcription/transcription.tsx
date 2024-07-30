@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
 import {
   useTrackTranscription,
   TrackReferenceOrPlaceholder,
+  useRoomInfo,
 } from "@livekit/components-react";
 
 // Import necessary LiveKit types and styles
 import "@livekit/components-styles";
+
+import { appendTranscription } from "@/app/actions/transcription";
 
 export const Transcription = ({
   audioTrack,
@@ -16,6 +20,26 @@ export const Transcription = ({
   onlyLastSegment?: boolean;
 }) => {
   const { segments } = useTrackTranscription(audioTrack);
+  //Saving only if new entry
+  const [savedIndex, setSavedIndex] = useState(0);
+
+  const roomInfo = useRoomInfo();
+
+  if (audioTrack.participant.isLocal) {
+    if (
+      segments &&
+      segments.length > 0 &&
+      segments.at(-1)?.final &&
+      segments.length > savedIndex
+    ) {
+      appendTranscription(
+        audioTrack.participant.identity,
+        Number(roomInfo.name),
+        segments.at(-1)?.text! + " "
+      );
+      setSavedIndex(segments.length);
+    }
+  }
 
   if (segments.length > 0 && !onlyLastSegment) {
     return (

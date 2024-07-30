@@ -1,5 +1,5 @@
-import { GetParticipantTrack } from "./transcriptionUtil/getTranscription";
-import { Transcription } from "./transcriptionUtil/transcription";
+import { GetParticipantTrack } from "./getTranscription";
+import { Transcription } from "./transcription";
 import {
   TrackReferenceOrPlaceholder,
   useEnsureTrackRef,
