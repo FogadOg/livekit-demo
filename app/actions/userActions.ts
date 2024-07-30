@@ -75,29 +75,43 @@ export async function handleCreateIngressForm(formData: FormData) {
   return { url: ingressData.url, password: ingressData.streamKey };
 }
 
-export async function startRecording(roomId: string) {
+export async function toggleRecording(roomId: string) {
   const egressClient = new EgressClient(
     process.env.NEXT_PUBLIC_LIVEKIT_URL!,
     process.env.LIVEKIT_API_KEY,
     process.env.LIVEKIT_API_SECRET
   );
-  const roomName = await prisma.room.findFirst({
+  const prismaRoom = await prisma.room.findFirst({
     where: { id: Number(roomId) },
   });
 
-  const fileOutput = new EncodedFileOutput({
-    filepath: `/out/videos/${roomName}-{room_name}.mp4`,
-  });
+  if (prismaRoom?.egressId === "") {
+    console.log("Creating Egress");
+    const fileOutput = new EncodedFileOutput({
+      filepath: `/out/videos/${prismaRoom?.name}-{room_name}.mp4`,
+    });
 
-  const info = await egressClient.startRoomCompositeEgress(
-    roomId,
-    {
-      file: fileOutput,
-    },
-    {
-      layout: "grid-dark",
-      customBaseUrl: "http://172.17.0.1:3000/egress?",
-    }
-  );
-  const egressID = info.egressId;
+    const info = await egressClient.startRoomCompositeEgress(
+      roomId,
+      {
+        file: fileOutput,
+      },
+      {
+        layout: "grid-dark",
+        customBaseUrl: "http://172.17.0.1:3000/egress?",
+      }
+    );
+
+    await prisma.room.update({
+      where: { id: Number(roomId) },
+      data: { egressId: info.egressId },
+    });
+  } else {
+    console.log("Stopping Egress");
+    await egressClient.stopEgress(prismaRoom?.egressId!);
+    await prisma.room.update({
+      where: { id: Number(roomId) },
+      data: { egressId: "" },
+    });
+  }
 }
