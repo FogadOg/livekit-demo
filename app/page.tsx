@@ -26,23 +26,24 @@ export default async function Home() {
     <>
       <Navbar />
       <main className="px-16 py-5">
-        <h1 className="text-2xl font-bold">Public rooms</h1>
-        <section className="flex flex-wrap gap-4">
-          {publicRooms.map((room) => {
-            return (
-              <JoinPublicRoom
-                room={room}
-                participantsCount={
-                  liveRooms.find(
-                    (liveRoom) => liveRoom.name == room.id.toString()
-                  )?.numParticipants || 0
-                }
-              />
-            );
-          })}
-        </section>
+        <div>
+          <h1 className="text-2xl font-bold">Public rooms</h1>
+          <section className="flex flex-wrap gap-4">
+            {publicRooms.map((room) => {
+              return (
+                <JoinPublicRoom
+                  room={room}
+                  participantsCount={
+                    liveRooms.find(
+                      (liveRoom) => liveRoom.name == room.id.toString()
+                    )?.numParticipants || 0
+                  }
+                />
+              );
+            })}
+          </section>
+        </div>
 
-        <div className="mt-5"></div>
 
         <JoinPrivateRoom
           privateRoomIds={privateRooms.map((room) => room.id.toString())}
