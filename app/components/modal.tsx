@@ -15,6 +15,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
       modal.showModal();
     }
     setVisible(true);
+    console.log(true);
   };
 
   const handleCloseModal = () => {
@@ -23,6 +24,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
       modal.close();
     }
     setVisible(false);
+    console.log(false);
   };
 
   return (
@@ -30,7 +32,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
       <button className="btn lk-button" onClick={handleShowModal}>
         {buttonText}
       </button>
-      <dialog id="my_modal_3" className="modal">
+      <dialog id="my_modal_3" className="modal" onClose={handleCloseModal}>
         <div className="modal-box">
           <form method="dialog"></form>
           <h3 className="text-lg font-bold ">{title}</h3>
