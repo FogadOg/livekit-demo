@@ -14,7 +14,11 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
   name String
-  rooms RoomOnUser[]
+
+  transcription String @default("")
+
+  room   Room @relation(fields: [roomId], references: [id])
+  roomId Int // Relation scalar fielt (used above)
 }
 
 model Room{
@@ -23,14 +27,6 @@ model Room{
   password String
   public Boolean
   egressId String @default("")
-  users    RoomOnUser[]
-}
 
-model RoomOnUser {
-  userId Int
-  roomId Int
-  user   User @relation(fields: [userId], references: [id])
-  room   Room @relation(fields: [roomId], references: [id])
-
-  @@id([userId, roomId])
+  users User[]
 }
