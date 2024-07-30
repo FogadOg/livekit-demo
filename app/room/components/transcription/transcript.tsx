@@ -17,7 +17,7 @@ export const Transcript = ({ roomId }: { roomId: number }) => {
       <div className="flex flex-col gap-16 h-full ">
         <div className="flex-1">
           <div>
-            <h3>Transcription not available, no agent</h3>
+            <h3>No transcription found</h3>
           </div>
         </div>
       </div>
