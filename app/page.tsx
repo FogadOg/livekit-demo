@@ -43,7 +43,7 @@ export default async function Home() {
             })}
           </section>
         </div>
-        <div className="flex-1 grid justify-center items-center">
+        <div className="flex-1 grid justify-center items-center gap-10">
 
           <div className="mt-5 flex gap-4">
             <CreateRoom />
