@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Transcript } from "../room/components/transcription/transcript";
 
 interface ModalProps {
   title: string;
