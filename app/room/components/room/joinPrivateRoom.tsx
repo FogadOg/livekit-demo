@@ -22,11 +22,9 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
 
   return (
     <div>
-        <div>
-          <button onClick={handleSubmit} className="btn btn-primary">
-            Join private room
-          </button>
-        </div>
+      <button onClick={handleSubmit} className="btn btn-primary">
+        Join private room
+      </button>
     </div>
   );
 };
