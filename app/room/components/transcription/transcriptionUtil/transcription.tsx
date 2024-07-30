@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+
 import {
   useTrackTranscription,
   TrackReferenceOrPlaceholder,
@@ -23,7 +24,15 @@ export const Transcription = ({
 
   if (audioTrack.participant.isLocal) {
     console.log("Saving locale");
-    appendTranscription(audioTrack.participant.identity, Number(roomInfo.name));
+
+    if (segments && segments.length > 0 && segments.at(-1)?.final) {
+      appendTranscription(
+        audioTrack.participant.identity,
+        Number(roomInfo.name),
+        segments.at(-1)?.text!
+      );
+      console.log("Saving", segments.at(-1)?.text!);
+    }
   }
 
   if (segments.length > 0 && !onlyLastSegment) {
