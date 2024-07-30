@@ -43,16 +43,19 @@ export default async function Home() {
             })}
           </section>
         </div>
+        <div>
+          <JoinPrivateRoom
+            privateRoomIds={privateRooms.map((room) => room.id.toString())}
+          />
 
+          <div className="mt-5 flex gap-4">
+            <CreateRoom />
+            <CreateIngress />
+          </div>
 
-        <JoinPrivateRoom
-          privateRoomIds={privateRooms.map((room) => room.id.toString())}
-        />
-
-        <div className="mt-5 flex gap-4">
-          <CreateRoom />
-          <CreateIngress />
         </div>
+
+
       </main>
     </>
   );
