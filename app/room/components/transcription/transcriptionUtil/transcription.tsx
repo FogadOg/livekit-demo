@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import {
   useTrackTranscription,
   TrackReferenceOrPlaceholder,
-  useLocalParticipant,
   useRoomInfo,
 } from "@livekit/components-react";
 
 // Import necessary LiveKit types and styles
 import "@livekit/components-styles";
+
+import { appendTranscription } from "@/app/actions/saveTranscription";
 
 export const Transcription = ({
   audioTrack,
@@ -22,8 +23,7 @@ export const Transcription = ({
 
   if (audioTrack.participant.isLocal) {
     console.log("Saving locale");
-    console.log(audioTrack.participant.identity);
-    console.log(roomInfo.name);
+    appendTranscription(audioTrack.participant.identity, Number(roomInfo.name));
   }
 
   if (segments.length > 0 && !onlyLastSegment) {
