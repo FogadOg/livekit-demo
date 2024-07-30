@@ -26,7 +26,7 @@ export default async function Home() {
     <>
       <Navbar />
       <main className="px-16 py-5 flex">
-        <div>
+        <div className="flex-1">
           <h1 className="text-2xl font-bold">Public rooms</h1>
           <section className="flex flex-wrap gap-4">
             {publicRooms.map((room) => {
@@ -43,15 +43,15 @@ export default async function Home() {
             })}
           </section>
         </div>
-        <div>
-          <JoinPrivateRoom
-            privateRoomIds={privateRooms.map((room) => room.id.toString())}
-          />
+        <div className="flex-1 grid justify-center items-center">
 
           <div className="mt-5 flex gap-4">
             <CreateRoom />
             <CreateIngress />
           </div>
+          <JoinPrivateRoom
+            privateRoomIds={privateRooms.map((room) => room.id.toString())}
+          />
 
         </div>
 
