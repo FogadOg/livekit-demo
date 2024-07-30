@@ -5,7 +5,6 @@ import "@livekit/components-styles";
 import "@livekit/components-styles/prefabs";
 import EgressHelper from "@livekit/egress-sdk";
 import RoomPage from "./egressRoom";
-import { LayoutContextProvider } from "@livekit/components-react";
 
 export default function Page() {
   useEffect(() => {
@@ -19,15 +18,13 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="container">
-      <LayoutContextProvider>
+    <div className="container w-full">
         <RoomPage
           // EgressHelper retrieves parameters passed to the page
           url={EgressHelper.getLiveKitURL()}
           token={EgressHelper.getAccessToken()}
           layout={EgressHelper.getLayout()}
         />
-      </LayoutContextProvider>
     </div>
   );
 }

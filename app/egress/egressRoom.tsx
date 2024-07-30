@@ -15,7 +15,6 @@
  */
 
 import {
-  Chat,
   GridLayout,
   LiveKitRoom,
   ParticipantTile,
@@ -146,10 +145,7 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
 
   return (
     <div className={containerClass}>
-      <div className="flex">
-        {main}
-        <Chat />
-      </div>
+      {main}
       <RoomAudioRenderer />
     </div>
   );
