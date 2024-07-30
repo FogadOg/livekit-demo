@@ -26,7 +26,6 @@ export const Transcription = ({
   const roomInfo = useRoomInfo();
 
   if (audioTrack.participant.isLocal) {
-    console.log(segments);
     if (
       segments &&
       segments.length > 0 &&
@@ -39,7 +38,6 @@ export const Transcription = ({
         segments.at(-1)?.text! + " "
       );
       setSavedIndex(segments.length);
-    } else {
     }
   }
 
