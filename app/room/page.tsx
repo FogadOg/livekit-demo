@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import RoomView from "./components/room/roomView";
-import RoomAccesForm from "./components/room/roomAccesForm";
+import RoomAccessForm from "./components/room/roomAccessForm";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -18,7 +18,7 @@ export default function Page() {
   }
 
   return (
-    <RoomAccesForm
+    <RoomAccessForm
       roomId={roomId!}
       setAccessRoom={setAccessRoom}
       userId={userId}

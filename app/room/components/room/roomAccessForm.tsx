@@ -2,7 +2,7 @@
 
 import "@livekit/components-styles";
 import { useEffect, useState, FormEvent } from "react";
-
+import React from "react";
 // ! WARNING
 // ! This is not safe, should be rebuilt if not demo
 // ! User can use somebody else's name and kick them
@@ -30,9 +30,7 @@ const RoomAccessForm = ({
   const [isValidUserId, setIsValidUserId] = useState<boolean>(false);
 
   const [participants, setParticipants] = useState<string[]>([]);
-  const [roomExists, setRoomExists] = useState<boolean>(
-    Boolean(roomId)
-  );
+  const [roomExists, setRoomExists] = useState<boolean>(Boolean(roomId));
 
   const [loading, setLoading] = useState<boolean>(true);
 
