@@ -28,7 +28,7 @@ export default async function Home() {
       <main className="px-16 py-5 flex">
         <div className="flex-1">
           <h1 className="text-2xl font-bold">Public rooms</h1>
-          <section className="flex flex-wrap gap-4">
+          <section className="flex flex-wrap gap-4 overflow-y-scroll h-96 items-center justify-center">
             {publicRooms.map((room) => {
               return (
                 <JoinPublicRoom
