@@ -25,33 +25,37 @@ export default async function Home() {
   return (
     <>
       <Navbar />
-      <main className="px-16 py-5">
-        <h1 className="text-2xl font-bold">Public rooms</h1>
-        <section className="flex flex-wrap gap-4">
-          {publicRooms.map((room) => {
-            return (
-              <JoinPublicRoom
-                room={room}
-                participantsCount={
-                  liveRooms.find(
-                    (liveRoom) => liveRoom.name == room.id.toString()
-                  )?.numParticipants || 0
-                }
-              />
-            );
-          })}
-        </section>
-
-        <div className="mt-5"></div>
-
-        <JoinPrivateRoom
-          privateRoomIds={privateRooms.map((room) => room.id.toString())}
-        />
-
-        <div className="mt-5 flex gap-4">
-          <CreateRoom />
-          <CreateIngress />
+      <main className="px-16 py-5 flex">
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold">Public rooms</h1>
+          <section className="flex flex-wrap gap-4 overflow-y-scroll h-96 items-center justify-center">
+            {publicRooms.map((room) => {
+              return (
+                <JoinPublicRoom
+                  room={room}
+                  participantsCount={
+                    liveRooms.find(
+                      (liveRoom) => liveRoom.name == room.id.toString()
+                    )?.numParticipants || 0
+                  }
+                />
+              );
+            })}
+          </section>
         </div>
+        <div className="flex-1 grid justify-center items-center gap-10">
+
+          <div className="mt-5 flex gap-4">
+            <CreateRoom />
+            <CreateIngress />
+          </div>
+          <JoinPrivateRoom
+            privateRoomIds={privateRooms.map((room) => room.id.toString())}
+          />
+
+        </div>
+
+
       </main>
     </>
   );
