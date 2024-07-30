@@ -1,0 +1,7 @@
+log_level: debug
+api_key: devkey
+api_secret: secret
+ws_url: ws://172.17.0.1:7880
+insecure: true
+redis:
+  address: 172.17.0.1:6379
