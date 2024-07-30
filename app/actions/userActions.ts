@@ -81,7 +81,9 @@ export async function startRecording(roomId: string) {
     process.env.LIVEKIT_API_KEY,
     process.env.LIVEKIT_API_SECRET
   );
-  const roomName = prisma.room.findFirst({ where: { id: Number(roomId) } });
+  const roomName = await prisma.room.findFirst({
+    where: { id: Number(roomId) },
+  });
 
   const fileOutput = new EncodedFileOutput({
     filepath: `/out/videos/${roomName}-{room_name}.mp4`,
