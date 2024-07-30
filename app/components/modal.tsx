@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Transcript } from "../room/components/transcription/transcript";
 
 interface ModalProps {
@@ -8,11 +8,13 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
+  const [visible, setVisible] = useState(false);
   const handleShowModal = () => {
     const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
     if (modal) {
       modal.showModal();
     }
+    setVisible(true);
   };
 
   const handleCloseModal = () => {
@@ -20,6 +22,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
     if (modal) {
       modal.close();
     }
+    setVisible(false);
   };
 
   return (
@@ -32,7 +35,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
           <form method="dialog"></form>
           <h3 className="text-lg font-bold ">{title}</h3>
           <div>
-            <div className="py-4 ">{content}</div>
+            <div className="py-4 ">{visible && content}</div>
           </div>
 
           <button className="btn ml-[85%]" onClick={handleCloseModal}>
