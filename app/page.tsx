@@ -25,7 +25,7 @@ export default async function Home() {
   return (
     <>
       <Navbar />
-      <main className="px-16 py-5">
+      <main className="px-16 py-5 flex">
         <div>
           <h1 className="text-2xl font-bold">Public rooms</h1>
           <section className="flex flex-wrap gap-4">
