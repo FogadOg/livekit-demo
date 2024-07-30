@@ -27,7 +27,7 @@ export function CustomControlBar({
 
   return (
     <div className="lk-control-bar">
-      {customControl && (
+      {customControl && false && (
         <Modal
           title="Transcription"
           content={<Transcript />}

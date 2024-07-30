@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   useTrackTranscription,
@@ -20,18 +20,28 @@ export const Transcription = ({
   onlyLastSegment?: boolean;
 }) => {
   const { segments } = useTrackTranscription(audioTrack);
+  //Saving only if new entry
+  const [savedIndex, setSavedIndex] = useState(0);
+
   const roomInfo = useRoomInfo();
 
   if (audioTrack.participant.isLocal) {
-    console.log("Saving locale");
-
-    if (segments && segments.length > 0 && segments.at(-1)?.final) {
+    console.log(segments);
+    if (
+      segments &&
+      segments.length > 0 &&
+      segments.at(-1)?.final &&
+      segments.length > savedIndex
+    ) {
       appendTranscription(
         audioTrack.participant.identity,
         Number(roomInfo.name),
-        segments.at(-1)?.text!
+        segments.at(-1)?.text! + " "
       );
+      setSavedIndex(segments.length);
       console.log("Saving", segments.at(-1)?.text!);
+    } else {
+      console.log("Didn't save");
     }
   }
 
