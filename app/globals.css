@@ -22,7 +22,7 @@
   }
 }
 button.lk-close-button.lk-button.lk-chat-toggle {
-  display: hidden;
+  display: none;
 }
 .egress-body {
   padding: 0;
