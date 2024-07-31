@@ -142,9 +142,9 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
       );
     }
   }
-
+  // !w-[100vw] is ugly workaround, can't custom size
   return (
-    <div className={containerClass}>
+    <div className={containerClass + " !w-[100vw]"}>
       {main}
       <RoomAudioRenderer />
     </div>
