@@ -55,6 +55,7 @@
   height: 100%;
 }
 
+/*We want to show name*/
 .egress-body .lk-participant-metadata {
-  display: none;
+  /*display: none;*/
 }
