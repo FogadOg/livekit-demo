@@ -20,8 +20,10 @@ export const VideoConference = () => {
     { onlySubscribed: false }
   );
 
-  let filteredTracks = tracks.filter((track) => !track.participant.isAgent);
-  filteredTracks = filteredTracks.filter((track) => track.participant.permissions?.canPublish);
+  const filteredTracks = tracks.filter(
+    (track) =>
+      !track.participant.isAgent && !track.participant.permissions?.hidden
+  );
   const agentPresent = filteredTracks.length !== tracks.length;
 
   return (
