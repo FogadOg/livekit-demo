@@ -60,27 +60,30 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
   }
 
   return (
-    <LayoutContextProvider>
-      <LiveKitRoom
-        video={true}
-        audio={true}
-        token={token}
-        serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-        data-lk-theme="default"
-        style={{ height: "100dvh" }}
-        onDisconnected={() => {
-          deleteRoomIfEmpty(roomId);
-          router.replace("/");
-        }}
-      >
-        <div className="flex">
-          <VideoConference />
-          <Chat />
-        </div>
-        <RoomAudioRenderer />
-        <CustomControlBar />
-      </LiveKitRoom>
-    </LayoutContextProvider>
+    <div className="overflow-hidden">
+      <LayoutContextProvider>
+        <LiveKitRoom
+          video={true}
+          audio={true}
+          token={token}
+          serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+          data-lk-theme="default"
+          style={{ height: "100dvh" }}
+          onDisconnected={() => {
+            deleteRoomIfEmpty(roomId);
+            router.replace("/");
+          }}
+        >
+          <div className="flex">
+            <VideoConference />
+            <Chat />
+          </div>
+          <RoomAudioRenderer />
+          <CustomControlBar />
+        </LiveKitRoom>
+      </LayoutContextProvider>
+
+    </div>
   );
 };
 
