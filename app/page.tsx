@@ -7,6 +7,11 @@ import JoinPrivateRoom from "./room/components/room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
 
+export const metadata = {
+  title: "Livekit demo",
+  description: "Page description",
+};
+
 export default async function Home() {
   let rooms = await prisma.room.findMany();
 
@@ -25,6 +30,7 @@ export default async function Home() {
   return (
     <>
       <Navbar />
+
       <main className="px-16 py-5 flex">
         <div className="flex-1">
           <h1 className="text-2xl font-bold">Public rooms</h1>
@@ -44,7 +50,6 @@ export default async function Home() {
           </section>
         </div>
         <div className="flex-1 grid justify-center items-center gap-10">
-
           <div className="mt-5 flex gap-4">
             <CreateRoom />
             <CreateIngress />
@@ -52,10 +57,7 @@ export default async function Home() {
           <JoinPrivateRoom
             privateRoomIds={privateRooms.map((room) => room.id.toString())}
           />
-
         </div>
-
-
       </main>
     </>
   );
