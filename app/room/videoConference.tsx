@@ -11,8 +11,6 @@ import "@livekit/components-styles";
 
 import Caption from "./components/transcription/caption";
 
-
-
 export const VideoConference = () => {
   const tracks = useTracks(
     [
@@ -22,7 +20,8 @@ export const VideoConference = () => {
     { onlySubscribed: false }
   );
 
-  const filteredTracks = tracks.filter((track) => !track.participant.isAgent);
+  let filteredTracks = tracks.filter((track) => !track.participant.isAgent);
+  filteredTracks = filteredTracks.filter((track) => track.participant.permissions?.canPublish);
   const agentPresent = filteredTracks.length !== tracks.length;
 
   return (
