@@ -1,15 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import RoomView from "./components/room/roomView";
 import RoomAccessForm from "./components/room/roomAccessForm";
-
-export const metadata = {
-  title: "Livekit Room",
-  description: "Page description",
-};
+import Head from "next/head";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -17,10 +13,10 @@ export default function Page() {
 
   const [userId, setUserId] = useState("");
   const [accessRoom, setAccessRoom] = useState(false);
-
   if (accessRoom) {
     return (
       <>
+        <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
         <RoomView roomId={roomId!} userId={userId} />
       </>
     );
@@ -28,6 +24,7 @@ export default function Page() {
 
   return (
     <>
+      <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
       <RoomAccessForm
         roomId={roomId!}
         setAccessRoom={setAccessRoom}
