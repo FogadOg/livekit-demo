@@ -74,7 +74,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         }}
       >
         <div className="flex">
-          <VideoConference/>
+          <VideoConference />
           <Chat />
         </div>
         <RoomAudioRenderer />
@@ -83,6 +83,5 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
     </LayoutContextProvider>
   );
 };
-
 
 export default RoomView;

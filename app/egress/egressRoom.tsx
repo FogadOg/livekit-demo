@@ -25,9 +25,9 @@ import {
 import EgressHelper from "@livekit/egress-sdk";
 import { ConnectionState, RoomEvent, Track } from "livekit-client";
 import { ReactElement, useEffect, useState } from "react";
-import SingleSpeakerLayout from "./SingleSpeakerLayout.tsx";
+import SingleSpeakerLayout from "./SingleSpeakerLayout";
 
-import SpeakerLayout from "./SpeakerLayout.tsx";
+import SpeakerLayout from "./SpeakerLayout";
 import React from "react";
 interface RoomPageProps {
   url: string;
@@ -60,7 +60,7 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
   const room = useRoomContext();
   const [layout, setLayout] = useState(initialLayout);
   const [hasScreenShare, setHasScreenShare] = useState(false);
-  const screenshareTracks = useTracks([Track.Source.ScreenShare], {
+  const screenShareTracks = useTracks([Track.Source.ScreenShare], {
     onlySubscribed: true,
   });
 
@@ -94,12 +94,12 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
   }, [room]);
 
   useEffect(() => {
-    if (screenshareTracks.length > 0 && screenshareTracks[0].publication) {
+    if (screenShareTracks.length > 0 && screenShareTracks[0].publication) {
       setHasScreenShare(true);
     } else {
       setHasScreenShare(false);
     }
-  }, [screenshareTracks]);
+  }, [screenShareTracks]);
 
   const allTracks = useTracks(
     [Track.Source.Camera, Track.Source.ScreenShare, Track.Source.Unknown],

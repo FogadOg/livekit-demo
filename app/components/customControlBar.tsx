@@ -31,7 +31,7 @@ export function CustomControlBar({
         <>
           <Modal
             title="Transcription"
-            content={<Transcript />}
+            content={<Transcript roomId={Number(room.name)} />}
             buttonText="View transcript"
           />
 
