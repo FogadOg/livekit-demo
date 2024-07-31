@@ -8,5 +8,5 @@ redis:
   address: localhost:6379
 
 ingress:
-  rtmp_base_url: rtmp://localhost:1936/live
+  rtmp_base_url: rtmp://localhost:1935/live
   whip_base_url: http://localhost:8080/whip
