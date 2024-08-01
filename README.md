@@ -1,37 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Livekit demo
 
-## Getting Started
+This is a livekit demo. This demo is to showcase the capabilities of livekit.
 
-First, run the development server:
+## Features
+
+- **Create and Join Rooms**: Users can create public or private rooms and join existing ones.
+
+- **Security**: Rooms can be secured with a password to ensure privacy.
+
+- **Live Streaming**: Stream your audio and video to the room using the ingress feature.
+
+- **Recording**: Record your meetings and sessions using the egress feature.
+
+- **Captions and Transcripts**: View English captions in real-time and access a full transcript of the meeting.
+
+## How to run
+
+### Prerequisites
+
+- Install livekit
+- Livekit ingress + build and add to path
+- Python packages from requirements.txt
+
+### Next js
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Livekit server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+livekit-server --config livekit-config.yaml --dev --bind 0.0.0.0
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Transcription agent
 
-## Learn More
+```bash
+python3 agent.py dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Egress
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+sudo docker run --rm --cap-add SYS_ADMIN -e EGRESS_CONFIG_FILE=/out/config.yaml -v ~/livekit-egress:/out/   livekit/egress
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Ingress
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# livekit-demo
+```bash
+ingress --config ingress-config.yaml
+```
