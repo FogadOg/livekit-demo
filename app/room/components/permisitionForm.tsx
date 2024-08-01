@@ -1,3 +1,4 @@
+import { useRoomInfo } from "@livekit/components-react";
 import { useState, useEffect } from "react";
 
 export const PermissionForm = () => {
@@ -6,17 +7,18 @@ export const PermissionForm = () => {
   const [hidden, setHidden] = useState(false); // default false
   const [url, setUrl] = useState("");
 
+  const roomInfo = useRoomInfo();
   useEffect(() => {
-    const roomId = "53"; // example room ID
+    const roomId = roomInfo.name; // example room ID
     const baseUrl = "http://localhost:3000/room";
     const queryParams = new URLSearchParams({
       roomId,
       canPublish: canPublish.toString(),
-      canPublishData: canPublish.toString(),
+      canPublishData: canPublishData.toString(),
       hidden: hidden.toString(),
     });
     setUrl(`${baseUrl}?${queryParams.toString()}`);
-  }, [canPublish, canPublishData, hidden]);
+  }, [canPublish, canPublishData, hidden, roomInfo]);
 
   return (
     <>
