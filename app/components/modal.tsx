@@ -4,12 +4,13 @@ interface ModalProps {
   title: string;
   content: any;
   buttonText: string;
+  modelName: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
+export const Modal: React.FC<ModalProps> = ({ title, content, buttonText, modelName }) => {
   const [visible, setVisible] = useState(false);
   const handleShowModal = () => {
-    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+    const modal = document.getElementById(modelName) as HTMLDialogElement;
     if (modal) {
       modal.showModal();
     }
@@ -17,7 +18,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
   };
 
   const handleCloseModal = () => {
-    const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+    const modal = document.getElementById(modelName) as HTMLDialogElement;
     if (modal) {
       modal.close();
     }
@@ -29,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText }) => {
       <button className="btn lk-button" onClick={handleShowModal}>
         {buttonText}
       </button>
-      <dialog id="my_modal_3" className="modal" onClose={handleCloseModal}>
+      <dialog id={modelName} className="modal" onClose={handleCloseModal}>
         <div className="modal-box">
           <form method="dialog"></form>
           <h3 className="text-lg font-bold ">{title}</h3>

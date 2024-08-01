@@ -51,6 +51,7 @@ export const VideoConference = ({userName}:{userName: string}) => {
             title="Transcription"
             content={<TranscriptTile roomId={Number(room.name)} userName={userName}/>}
             buttonText={`View transcript`}
+            modelName={`${userName}s transcription`}
           />
 
         </div>
