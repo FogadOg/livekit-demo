@@ -20,7 +20,7 @@ export const TranscriptTile = ({ roomId, userName }: { roomId: number; userName:
       <div className="flex flex-col gap-16 h-full ">
         <div className="flex-1">
           <div>
-            <h3>No transcription found for user: {userName}</h3>
+            <h3>{userName} has no transcription</h3>
           </div>
         </div>
       </div>
