@@ -46,13 +46,16 @@ export const VideoConference = ({userName}:{userName: string}) => {
     >
       <div className="relative">
         <ParticipantTile className="h-full" />
-        <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-          <Caption agentPresent={agentPresent} />
+        <div className="absolute top-10 left-20">
           <Modal
             title="Transcription"
             content={<TranscriptTile roomId={Number(room.name)} userName={userName}/>}
-            buttonText="View transcript"
+            buttonText={`View transcript`}
           />
+
+        </div>
+        <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
+          <Caption agentPresent={agentPresent} />
         </div>
       </div>
     </GridLayout>
