@@ -82,7 +82,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
         >
           <div className="flex">
             <VideoConference userName={userId} />
-            <Chat />
+            {canPublishData && <Chat />}
           </div>
           <RoomAudioRenderer />
           <CustomControlBar />
