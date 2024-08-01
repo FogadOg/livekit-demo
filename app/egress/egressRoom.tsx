@@ -102,15 +102,17 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
   }, [screenShareTracks]);
 
   const allTracks = useTracks(
-    [Track.Source.Camera, Track.Source.ScreenShare, Track.Source.Unknown],
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.ScreenShare, withPlaceholder: false },
+    ],
     {
       onlySubscribed: true,
     }
   );
   const filteredTracks = allTracks.filter(
-    (tr) =>
-      tr.publication.kind === Track.Kind.Video &&
-      tr.participant.identity !== room.localParticipant.identity
+    (track) =>
+      !track.participant.isAgent && !track.participant.permissions?.hidden
   );
 
   let interfaceStyle = "dark";
