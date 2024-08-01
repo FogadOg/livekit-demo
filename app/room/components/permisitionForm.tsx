@@ -1,12 +1,58 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-export const PremisitionForm = () => {
+export const PermissionForm = () => {
+  const [canPublish, setCanPublish] = useState(true); // default true
+  const [canPublishData, setCanPublishData] = useState(true); // default true
+  const [hidden, setHidden] = useState(false); // default false
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    const roomId = "53"; // example room ID
+    const baseUrl = "http://localhost:3000/room";
+    const queryParams = new URLSearchParams({
+      roomId,
+      canPublish: canPublish.toString(),
+      canPublishData: canPublish.toString(),
+      hidden: hidden.toString(),
+    });
+    setUrl(`${baseUrl}?${queryParams.toString()}`);
+  }, [canPublish, canPublishData, hidden]);
 
   return (
     <>
-        <input type="checkbox" name="checkbox1" id="checkbox1" />
-        <input type="checkbox" name="checkbox2" id="checkbox3" />
-        <input type="checkbox" name="checkbox3" id="checkbox3" />
+      <form>
+        <div>
+          <label htmlFor="canPublish">Can publish</label>
+          <input
+            type="checkbox"
+            name="canPublish"
+            id="canPublish"
+            checked={canPublish}
+            onChange={(e) => setCanPublish(e.target.checked)}
+          />
+        </div>
+        <div>
+          <label htmlFor="canPublishData">Can message: </label>
+          <input
+            type="checkbox"
+            name="canPublishData"
+            id="canPublishData"
+            checked={canPublishData}
+            onChange={(e) => setCanPublishData(e.target.checked)}
+          />
+        </div>
+        <div>
+          <label htmlFor="hidden">Hidden: </label>
+          <input
+            type="checkbox"
+            name="hidden"
+            id="hidden"
+            checked={hidden}
+            onChange={(e) => setHidden(e.target.checked)}
+          />
+        </div>
+      </form>
+      <p>Generated URL: {url}</p>
     </>
   );
 };

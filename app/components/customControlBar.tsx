@@ -8,7 +8,7 @@ import {
 import { toggleRecording } from "../actions/userActions";
 import { RoomEvent } from "livekit-client";
 import { Modal } from "./modal";
-import { PremisitionForm } from "../room/components/permisitionForm";
+import { PermissionForm } from "../room/components/permisitionForm";
 
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
@@ -32,14 +32,12 @@ export function CustomControlBar({
     <div className="lk-control-bar">
       <Modal
         title="Premisition form"
-        content={<PremisitionForm/>}
-        buttonText="Premisitions"
+        content={<PermissionForm />}
+        buttonText="Invite users"
         modelName="premsistionForm"
-
       />
       {customControl && (
         <>
-
           {participant.localParticipant.permissions?.canPublish && (
             <button
               className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
