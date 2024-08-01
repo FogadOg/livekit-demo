@@ -1,4 +1,4 @@
-import { GetParticipantTrack } from "./getTranscription";
+import { GetParticipantTrack } from "./transcriptionUtils/getTranscription";
 import { Transcription } from "./transcription";
 import {
   TrackReferenceOrPlaceholder,
