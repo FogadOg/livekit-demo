@@ -31,7 +31,6 @@ export const TranscriptTile = ({ roomId, userName }: { roomId: number; userName:
     <div className="flex flex-col gap-16 h-full ">
       <div className="flex-1">
         <div key={filteredUser.name}>
-          <p>{filteredUser.id}</p>
           <h3 className="font-bold">{filteredUser.name}:</h3>
           <p>{filteredUser.transcription}</p>
         </div>
