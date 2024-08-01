@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { TrackReference } from "@livekit/components-core";
+import { TrackReferenceOrPlaceholder } from "@livekit/components-core";
 
 export interface LayoutProps {
-  tracks: TrackReference[];
+  tracks: TrackReferenceOrPlaceholder[];
 }
