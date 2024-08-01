@@ -21,7 +21,7 @@ const JoinPrivateRoom = ({ privateRoomIds }: JoinPrivateRoomProps) => {
 
   return (
     <div className="flex justify-center items-center">
-      <button onClick={handleClick} className="btn btn-primary w-full">
+      <button onClick={handleClick} className="btn btn-primary w-full rounded-xl">
         Join private room
       </button>
     </div>

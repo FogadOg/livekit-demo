@@ -56,7 +56,7 @@ const CreateRoom = () => {
         )}
 
         <div>
-          <input type="submit" value="Submit" className="btn btn-primary" />
+          <input type="submit" value="Submit" className="btn btn-primary rounded-xl" />
         </div>
       </form>
     </div>
