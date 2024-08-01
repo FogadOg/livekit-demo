@@ -32,10 +32,11 @@ export async function GET(req: NextRequest) {
   at.addGrant({
     room,
     roomJoin: true,
-    canPublish: true,
     hidden: false,
     canPublishData: true, // Messages
-    canSubscribe: true, // Can see 
+    canSubscribe: true, // Can see
+
+    //canPublish: true, //Overridden by canPublishSources
     canPublishSources: [
       TrackSource.CAMERA,
       TrackSource.MICROPHONE,
