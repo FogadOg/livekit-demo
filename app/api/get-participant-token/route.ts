@@ -27,22 +27,31 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  const canPublish = req.nextUrl.searchParams.get("canPublish") !== "false"; // Defaults to true
+  const canPublishData =
+    req.nextUrl.searchParams.get("canPublishData") !== "false"; // Defaults to true
+  const hidden = req.nextUrl.searchParams.get("hidden") === "true"; // Defaults to false
+
+  console.log(canPublish, "canPublish");
+  console.log(canPublishData, "canPublishData");
+  console.log(hidden, "hidden");
+
   const at = new AccessToken(apiKey, apiSecret, { identity: username });
 
   at.addGrant({
     room,
     roomJoin: true,
-    hidden: false,
-    canPublishData: true, // Messages
     canSubscribe: true, // Can see
 
-    //canPublish: true, //Overridden by canPublishSources
-    canPublishSources: [
-      TrackSource.CAMERA,
-      TrackSource.MICROPHONE,
-      TrackSource.SCREEN_SHARE,
-      TrackSource.SCREEN_SHARE_AUDIO,
-    ],
+    hidden: hidden,
+    canPublishData: canPublishData, // Messages
+    canPublish: canPublish, //Overridden by canPublishSources
+    // canPublishSources: [
+    //   TrackSource.CAMERA,
+    //   TrackSource.MICROPHONE,
+    //   TrackSource.SCREEN_SHARE,
+    //   TrackSource.SCREEN_SHARE_AUDIO,
+    // ],
   });
 
   return NextResponse.json({ token: await at.toJwt() });

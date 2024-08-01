@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   LayoutContextProvider,
   Chat,
@@ -14,8 +14,6 @@ import { CustomControlBar } from "../../../components/customControlBar";
 import { deleteRoomIfEmpty } from "../../../actions/roomActions";
 import { VideoConference } from "../../videoConference";
 
-
-
 interface RoomProps {
   roomId: string;
   userId: string;
@@ -24,13 +22,18 @@ interface RoomProps {
 const RoomView = ({ roomId, userId }: RoomProps) => {
   const router = useRouter();
   const [token, setToken] = useState<string>("");
-  console.log("userId: ",userId);
-  
+
+  const searchParams = useSearchParams();
+
+  const canPublish = searchParams.get("canPublish") !== "false"; // Defaults to true
+  const canPublishData = searchParams.get("canPublishData") !== "false"; // Defaults to true
+  const hidden = searchParams.get("hidden") === "true"; // Defaults to false
+
   useEffect(() => {
     const fetchToken = async () => {
       try {
         const response = await fetch(
-          `/api/get-participant-token?room=${roomId}&username=${userId}`
+          `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canPublish=${canPublish}`
         );
 
         if (!response.ok) {
@@ -78,14 +81,13 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           }}
         >
           <div className="flex">
-            <VideoConference userName={userId}/>
+            <VideoConference userName={userId} />
             <Chat />
           </div>
           <RoomAudioRenderer />
           <CustomControlBar />
         </LiveKitRoom>
       </LayoutContextProvider>
-
     </div>
   );
 };
