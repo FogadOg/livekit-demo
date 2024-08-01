@@ -10,8 +10,19 @@ import { Track } from "livekit-client";
 import "@livekit/components-styles";
 
 import Caption from "./components/transcription/caption";
+import { Modal } from "../components/modal";
+import {
+  ControlBar,
+  ControlBarProps,
+  useLocalParticipant,
+  useRoomContext,
+} from "@livekit/components-react";
+import { RoomEvent } from "livekit-client";
+import { Transcript } from "./components/transcription/transcript";
+import { TranscriptTile } from "./components/transcription/transcriptionTile";
 
-export const VideoConference = () => {
+
+export const VideoConference = ({userName}:{userName: string}) => {
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -26,6 +37,9 @@ export const VideoConference = () => {
   );
   const agentPresent = filteredTracks.length !== tracks.length;
 
+  const room = useRoomContext();
+  const participant = useLocalParticipant();
+
   return (
     <GridLayout
       tracks={filteredTracks}
@@ -35,6 +49,11 @@ export const VideoConference = () => {
         <ParticipantTile className="h-full" />
         <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
           <Caption agentPresent={agentPresent} />
+          <Modal
+            title="Transcription"
+            content={<TranscriptTile roomId={Number(room.name)} userName={userName}/>}
+            buttonText="View transcript"
+          />
         </div>
       </div>
     </GridLayout>

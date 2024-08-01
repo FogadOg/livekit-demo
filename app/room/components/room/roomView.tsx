@@ -14,6 +14,8 @@ import { CustomControlBar } from "../../../components/customControlBar";
 import { deleteRoomIfEmpty } from "../../../actions/roomActions";
 import { VideoConference } from "../../videoConference";
 
+
+
 interface RoomProps {
   roomId: string;
   userId: string;
@@ -22,7 +24,8 @@ interface RoomProps {
 const RoomView = ({ roomId, userId }: RoomProps) => {
   const router = useRouter();
   const [token, setToken] = useState<string>("");
-
+  console.log("userId: ",userId);
+  
   useEffect(() => {
     const fetchToken = async () => {
       try {
@@ -75,7 +78,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           }}
         >
           <div className="flex">
-            <VideoConference />
+            <VideoConference userName={userId}/>
             <Chat />
           </div>
           <RoomAudioRenderer />
