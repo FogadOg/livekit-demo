@@ -15,7 +15,9 @@
  */
 
 import {
+  Chat,
   GridLayout,
+  LayoutContextProvider,
   LiveKitRoom,
   ParticipantTile,
   RoomAudioRenderer,
@@ -147,8 +149,15 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
   // !w-[100vw] is ugly workaround, can't custom size
   return (
     <div className={containerClass + " !w-[100vw]"}>
-      {main}
-      <RoomAudioRenderer />
+      <LayoutContextProvider>
+        <div className="flex h-screen">
+          {main}
+          {
+            //<Chat />
+          }
+        </div>
+        <RoomAudioRenderer />
+      </LayoutContextProvider>
     </div>
   );
 }
