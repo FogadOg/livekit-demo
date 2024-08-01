@@ -5,8 +5,6 @@ import {
   useLocalParticipant,
   useRoomContext,
 } from "@livekit/components-react";
-import { Modal } from "./modal";
-import { Transcript } from "../room/components/transcription/transcript";
 import { toggleRecording } from "../actions/userActions";
 import { RoomEvent } from "livekit-client";
 
@@ -32,11 +30,6 @@ export function CustomControlBar({
     <div className="lk-control-bar">
       {customControl && (
         <>
-          <Modal
-            title="Transcription"
-            content={<Transcript roomId={Number(room.name)} />}
-            buttonText="View transcript"
-          />
 
           {participant.localParticipant.permissions?.canPublish && (
             <button

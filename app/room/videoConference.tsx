@@ -18,7 +18,6 @@ import {
   useRoomContext,
 } from "@livekit/components-react";
 import { RoomEvent } from "livekit-client";
-import { Transcript } from "./components/transcription/transcript";
 import { TranscriptTile } from "./components/transcription/transcriptionTile";
 
 
