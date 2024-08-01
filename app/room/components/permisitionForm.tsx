@@ -54,7 +54,14 @@ export const PermissionForm = () => {
           />
         </div>
       </form>
-      <p>Generated URL: {url}</p>
+      <button
+        className="btn btn-primary"
+        onClick={() => {
+          navigator.clipboard.writeText(url);
+        }}
+      >
+        Copy link
+      </button>
     </>
   );
 };
