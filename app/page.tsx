@@ -6,6 +6,7 @@ import JoinPublicRoom from "./room/components/room/joinPublicRoom";
 import JoinPrivateRoom from "./room/components/room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
+import { deleteRoomIfEmpty } from "./actions/roomActions";
 
 export const metadata = {
   title: "Livekit demo",
@@ -21,7 +22,7 @@ export default async function Home() {
   for (let room of rooms) {
     if (!liveRoomIds.includes(room.id.toString())) {
       rooms = rooms.filter((r) => r.id !== room.id);
-      prisma.room.delete({ where: { id: room.id } });
+      deleteRoomIfEmpty(room.id.toString());
     }
   }
   const publicRooms = rooms.filter((room) => room.public);
