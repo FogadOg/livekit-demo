@@ -7,6 +7,8 @@ import {
 } from "@livekit/components-react";
 import { toggleRecording } from "../actions/userActions";
 import { RoomEvent } from "livekit-client";
+import { Modal } from "./modal";
+import { PremisitionForm } from "../room/components/permisitionForm";
 
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
@@ -28,6 +30,13 @@ export function CustomControlBar({
 
   return (
     <div className="lk-control-bar">
+      <Modal
+        title="Premisition form"
+        content={<PremisitionForm/>}
+        buttonText="Premisitions"
+        modelName="premsistionForm"
+
+      />
       {customControl && (
         <>
 
