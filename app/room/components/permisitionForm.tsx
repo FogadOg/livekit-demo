@@ -22,56 +22,61 @@ export const PermissionForm = () => {
 
   return (
     <>
-    <form className="mb-10 menu">
-      <li>
-        <div className="flex justify-between items-center">
-          <label htmlFor="canPublish">Can publish</label>
-          <input
-            type="checkbox"
-            name="canPublish"
-            className="toggle toggle-success"
-            id="canPublish"
-            checked={canPublish}
-            onChange={(e) => setCanPublish(e.target.checked)}
-          />
-        </div>
-      </li>
-      <li>
-        <div className="flex justify-between items-center">
-          <label htmlFor="canPublishData">Can message</label>
-          <input
-            type="checkbox"
-            name="canPublishData"
-            className="toggle toggle-success"
-            id="canPublishData"
-            checked={canPublishData}
-            onChange={(e) => setCanPublishData(e.target.checked)}
-          />
-        </div>
-      </li>
-      <li>
-        <div className="flex justify-between items-center">
-          <label htmlFor="hidden">Hidden</label>
-          <input
-            type="checkbox"
-            name="hidden"
-            className="toggle toggle-success"
-            id="hidden"
-            checked={hidden}
-            onChange={(e) => setHidden(e.target.checked)}
-          />
-        </div>
-      </li>
-    </form>
-    <button
-      className="btn btn-primary"
-      onClick={() => {
-        navigator.clipboard.writeText(url);
-      }}
-    >
-      Copy link
-    </button>
-
+      <form className="mb-10 menu">
+        <li>
+          <label
+            className="flex justify-between items-center"
+            htmlFor="canPublish"
+          >
+            Can publish
+            <input
+              type="checkbox"
+              name="canPublish"
+              className="toggle toggle-success"
+              id="canPublish"
+              checked={canPublish}
+              onChange={(e) => setCanPublish(e.target.checked)}
+            />
+          </label>
+        </li>
+        <li>
+          <label
+            className="flex justify-between items-center"
+            htmlFor="canPublishData"
+          >
+            Can message
+            <input
+              type="checkbox"
+              name="canPublishData"
+              className="toggle toggle-success"
+              id="canPublishData"
+              checked={canPublishData}
+              onChange={(e) => setCanPublishData(e.target.checked)}
+            />
+          </label>
+        </li>
+        <li>
+          <label className="flex justify-between items-center" htmlFor="hidden">
+            Hidden
+            <input
+              type="checkbox"
+              name="hidden"
+              className="toggle toggle-success"
+              id="hidden"
+              checked={hidden}
+              onChange={(e) => setHidden(e.target.checked)}
+            />
+          </label>
+        </li>
+      </form>
+      <button
+        className="btn btn-primary"
+        onClick={() => {
+          navigator.clipboard.writeText(url);
+        }}
+      >
+        Copy link
+      </button>
     </>
   );
 };
