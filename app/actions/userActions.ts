@@ -3,11 +3,14 @@
 import roomService from "../../lib/roomService";
 import prisma from "../../lib/prisma";
 import {
+  AccessToken,
   EgressClient,
   EncodedFileOutput,
   IngressClient,
   IngressInput,
 } from "livekit-server-sdk";
+
+import { TokenVerifier } from "livekit-server-sdk";
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
@@ -114,4 +117,13 @@ export async function toggleRecording(roomId: string) {
       data: { egressId: "" },
     });
   }
+}
+
+export async function getToken(input: string) {
+  const tokenVerifier = new TokenVerifier(
+    process.env.LIVEKIT_API_KEY!,
+    process.env.LIVEKIT_API_SECRET!
+  );
+  const token = await tokenVerifier.verify(input);
+  return token;
 }

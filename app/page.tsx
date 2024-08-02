@@ -7,6 +7,7 @@ import JoinPrivateRoom from "./room/components/room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
 import { deleteRoomIfEmpty } from "./actions/roomActions";
+import TokenVerifyForm from "./room/tokenVerifyForm";
 
 export const metadata = {
   title: "Livekit demo",
@@ -60,6 +61,7 @@ export default async function Home() {
           />
         </div>
       </main>
+      {/* <TokenVerifyForm /> */}
     </>
   );
 }
