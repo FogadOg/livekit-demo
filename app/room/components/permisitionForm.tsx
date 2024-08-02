@@ -22,12 +22,13 @@ export const PermissionForm = () => {
 
   return (
     <>
-      <form>
+      <form className="mb-10">
         <div>
-          <label htmlFor="canPublish">Can publish</label>
+          <label htmlFor="canPublish">Can publish: </label>
           <input
             type="checkbox"
             name="canPublish"
+            className="toggle toggle-success"
             id="canPublish"
             checked={canPublish}
             onChange={(e) => setCanPublish(e.target.checked)}
@@ -38,6 +39,7 @@ export const PermissionForm = () => {
           <input
             type="checkbox"
             name="canPublishData"
+            className="toggle toggle-success"
             id="canPublishData"
             checked={canPublishData}
             onChange={(e) => setCanPublishData(e.target.checked)}
@@ -48,6 +50,7 @@ export const PermissionForm = () => {
           <input
             type="checkbox"
             name="hidden"
+            className="toggle toggle-success"
             id="hidden"
             checked={hidden}
             onChange={(e) => setHidden(e.target.checked)}
