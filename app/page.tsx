@@ -19,12 +19,12 @@ export default async function Home() {
   const liveRooms = await roomService.listRooms();
   const liveRoomIds = liveRooms.map((room) => room.name);
 
-  for (let room of rooms) {
+  /*for (let room of rooms) {
     if (!liveRoomIds.includes(room.id.toString())) {
       rooms = rooms.filter((r) => r.id !== room.id);
       deleteRoomIfEmpty(room.id.toString());
     }
-  }
+  }*/
   const publicRooms = rooms.filter((room) => room.public);
   const privateRooms = rooms.filter((room) => !room.public);
 

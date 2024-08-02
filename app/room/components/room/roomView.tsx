@@ -76,7 +76,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           data-lk-theme="default"
           style={{ height: "100dvh" }}
           onDisconnected={() => {
-            deleteRoomIfEmpty(roomId);
+            // deleteRoomIfEmpty(roomId);
             router.replace("/");
           }}
         >
