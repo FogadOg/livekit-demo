@@ -1,4 +1,8 @@
-import { AccessToken, TrackSource } from "livekit-server-sdk";
+import {
+  AccessToken,
+  TrackSource,
+  trackSourceToString,
+} from "livekit-server-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -27,16 +31,43 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const canPublish = req.nextUrl.searchParams.get("canPublish") !== "false"; // Defaults to true
+  const canUseCamera = req.nextUrl.searchParams.get("canUseCamera") !== "false"; // Defaults to true
+  const canUseMicrophone =
+    req.nextUrl.searchParams.get("canUseMicrophone") !== "false"; // Defaults to true
+  const canScreenShare =
+    req.nextUrl.searchParams.get("canScreenShare") !== "false"; // Defaults to true
+
   const canPublishData =
     req.nextUrl.searchParams.get("canPublishData") !== "false"; // Defaults to true
   const hidden = req.nextUrl.searchParams.get("hidden") === "true"; // Defaults to false
 
-  console.log(canPublish, "canPublish");
-  console.log(canPublishData, "canPublishData");
-  console.log(hidden, "hidden");
-
   const at = new AccessToken(apiKey, apiSecret, { identity: username });
+
+  let publishSources = [
+    TrackSource.CAMERA,
+    TrackSource.MICROPHONE,
+    TrackSource.SCREEN_SHARE,
+    TrackSource.SCREEN_SHARE_AUDIO,
+  ];
+
+  if (!canUseCamera) {
+    publishSources = publishSources.filter(
+      (type) => type !== TrackSource.CAMERA
+    );
+  }
+  if (!canUseMicrophone) {
+    publishSources = publishSources.filter(
+      (type) => type !== TrackSource.MICROPHONE
+    );
+  }
+  if (!canScreenShare) {
+    publishSources = publishSources.filter(
+      (type) => type !== TrackSource.SCREEN_SHARE
+    );
+    publishSources = publishSources.filter(
+      (type) => type !== TrackSource.SCREEN_SHARE_AUDIO
+    );
+  }
 
   at.addGrant({
     room,
@@ -45,13 +76,8 @@ export async function GET(req: NextRequest) {
 
     hidden: hidden,
     canPublishData: canPublishData, // Messages
-    canPublish: canPublish, //Overridden by canPublishSources
-    // canPublishSources: [
-    //   TrackSource.CAMERA,
-    //   TrackSource.MICROPHONE,
-    //   TrackSource.SCREEN_SHARE,
-    //   TrackSource.SCREEN_SHARE_AUDIO,
-    // ],
+    // canPublish: canPublish, //Overridden by canPublishSources
+    canPublishSources: publishSources,
   });
 
   return NextResponse.json({ token: await at.toJwt() });
