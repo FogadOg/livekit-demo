@@ -54,13 +54,11 @@ export async function GET(req: NextRequest) {
     publishSources = publishSources.filter(
       (type) => type !== TrackSource.CAMERA
     );
-    console.log("REMOVED Camera");
   }
   if (!canUseMicrophone) {
     publishSources = publishSources.filter(
       (type) => type !== TrackSource.MICROPHONE
     );
-    console.log("REMOVED microphone");
   }
   if (!canScreenShare) {
     publishSources = publishSources.filter(
@@ -69,7 +67,6 @@ export async function GET(req: NextRequest) {
     publishSources = publishSources.filter(
       (type) => type !== TrackSource.SCREEN_SHARE_AUDIO
     );
-    console.log("REMOVED screen share");
   }
 
   at.addGrant({

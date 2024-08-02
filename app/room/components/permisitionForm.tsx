@@ -2,7 +2,10 @@ import { useRoomInfo } from "@livekit/components-react";
 import { useState, useEffect } from "react";
 
 export const PermissionForm = () => {
-  const [canPublish, setCanPublish] = useState(true); // default true
+  const [canUseCamera, setCanUseCamera] = useState(true); // default true
+  const [canUseMicrophone, setCanUseMicrophone] = useState(true); // default true
+  const [canScreenShare, setCanScreenShare] = useState(true); // default true
+
   const [canPublishData, setCanPublishData] = useState(true); // default true
   const [hidden, setHidden] = useState(false); // default false
   const [url, setUrl] = useState("");
@@ -13,12 +16,22 @@ export const PermissionForm = () => {
     const baseUrl = "http://localhost:3000/room";
     const queryParams = new URLSearchParams({
       roomId,
-      canPublish: canPublish.toString(),
+      canUseCamera: canUseCamera.toString(),
+      canUseMicrophone: canUseMicrophone.toString(),
+      canScreenShare: canScreenShare.toString(),
+
       canPublishData: canPublishData.toString(),
       hidden: hidden.toString(),
     });
     setUrl(`${baseUrl}?${queryParams.toString()}`);
-  }, [canPublish, canPublishData, hidden, roomInfo]);
+  }, [
+    canUseCamera,
+    canUseMicrophone,
+    canScreenShare,
+    canPublishData,
+    hidden,
+    roomInfo,
+  ]);
 
   return (
     <>
@@ -26,19 +39,53 @@ export const PermissionForm = () => {
         <li>
           <label
             className="flex justify-between items-center"
-            htmlFor="canPublish"
+            htmlFor="canUseCamera"
           >
-            Can publish
+            Use camera
             <input
               type="checkbox"
-              name="canPublish"
+              name="canUseCamera"
               className="toggle toggle-success"
-              id="canPublish"
-              checked={canPublish}
-              onChange={(e) => setCanPublish(e.target.checked)}
+              id="canUseCamera"
+              checked={canUseCamera}
+              onChange={(e) => setCanUseCamera(e.target.checked)}
             />
           </label>
         </li>
+
+        <li>
+          <label
+            className="flex justify-between items-center"
+            htmlFor="canUseMicrophone"
+          >
+            Use microphone
+            <input
+              type="checkbox"
+              name="canUseMicrophone"
+              className="toggle toggle-success"
+              id="canUseMicrophone"
+              checked={canUseMicrophone}
+              onChange={(e) => setCanUseMicrophone(e.target.checked)}
+            />
+          </label>
+        </li>
+        <li>
+          <label
+            className="flex justify-between items-center"
+            htmlFor="canScreenShare"
+          >
+            Use screen share:
+            <input
+              type="checkbox"
+              name="canScreenShare"
+              className="toggle toggle-success"
+              id="canScreenShare"
+              checked={canScreenShare}
+              onChange={(e) => setCanScreenShare(e.target.checked)}
+            />
+          </label>
+        </li>
+
         <li>
           <label
             className="flex justify-between items-center"
@@ -77,6 +124,7 @@ export const PermissionForm = () => {
       >
         Copy link
       </button>
+      <p>{url}</p>
     </>
   );
 };
