@@ -31,7 +31,7 @@ export function CustomControlBar({
   return (
     <div className="lk-control-bar">
       <Modal
-        title="Permission form"
+        title="Permissions"
         content={<PermissionForm />}
         buttonText="Invite users"
         modelName="premsistionForm"
