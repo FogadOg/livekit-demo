@@ -25,7 +25,10 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
 
   const searchParams = useSearchParams();
 
-  const canPublish = searchParams.get("canPublish") !== "false"; // Defaults to true
+  const canUseCamera = searchParams.get("canUseCamera") !== "false"; // Defaults to true
+  const canUseMicrophone = searchParams.get("canUseMicrophone") !== "false"; // Defaults to true
+  const canScreenShare = searchParams.get("canScreenShare") !== "false"; // Defaults to true
+
   const canPublishData = searchParams.get("canPublishData") !== "false"; // Defaults to true
   const hidden = searchParams.get("hidden") === "true"; // Defaults to false
 
@@ -33,7 +36,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
     const fetchToken = async () => {
       try {
         const response = await fetch(
-          `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canPublish=${canPublish}`
+          `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canUseCamera=${canUseCamera}&canUseMicrophone=${canUseMicrophone}&canScreenShare=${canScreenShare}`
         );
 
         if (!response.ok) {
