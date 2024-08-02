@@ -22,9 +22,10 @@ export const PermissionForm = () => {
 
   return (
     <>
-      <form className="mb-10">
-        <div>
-          <label htmlFor="canPublish">Can publish: </label>
+    <form className="mb-10 menu">
+      <li>
+        <div className="flex justify-between items-center">
+          <label htmlFor="canPublish">Can publish</label>
           <input
             type="checkbox"
             name="canPublish"
@@ -34,8 +35,10 @@ export const PermissionForm = () => {
             onChange={(e) => setCanPublish(e.target.checked)}
           />
         </div>
-        <div>
-          <label htmlFor="canPublishData">Can message: </label>
+      </li>
+      <li>
+        <div className="flex justify-between items-center">
+          <label htmlFor="canPublishData">Can message</label>
           <input
             type="checkbox"
             name="canPublishData"
@@ -45,8 +48,10 @@ export const PermissionForm = () => {
             onChange={(e) => setCanPublishData(e.target.checked)}
           />
         </div>
-        <div>
-          <label htmlFor="hidden">Hidden: </label>
+      </li>
+      <li>
+        <div className="flex justify-between items-center">
+          <label htmlFor="hidden">Hidden</label>
           <input
             type="checkbox"
             name="hidden"
@@ -56,15 +61,17 @@ export const PermissionForm = () => {
             onChange={(e) => setHidden(e.target.checked)}
           />
         </div>
-      </form>
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          navigator.clipboard.writeText(url);
-        }}
-      >
-        Copy link
-      </button>
+      </li>
+    </form>
+    <button
+      className="btn btn-primary"
+      onClick={() => {
+        navigator.clipboard.writeText(url);
+      }}
+    >
+      Copy link
+    </button>
+
     </>
   );
 };
