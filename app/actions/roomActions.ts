@@ -26,7 +26,27 @@ export async function handleCreateRoomForm(formData: FormData) {
   const newRoom = await prisma.room.create({
     data: validatedFormData,
   });
-  return `/room?roomId=${newRoom.id}`;
+
+  const apiKey = process.env.LIVEKIT_API_KEY;
+  const apiSecret = process.env.LIVEKIT_API_SECRET;
+
+  const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
+  at.addGrant({
+    room: newRoom.id.toString(),
+
+    roomJoin: true,
+    canSubscribe: true,
+    canPublish: true,
+    roomAdmin: true,
+    roomRecord: true,
+    canPublishSources: [
+      TrackSource.CAMERA,
+      TrackSource.MICROPHONE,
+      TrackSource.SCREEN_SHARE,
+      TrackSource.SCREEN_SHARE_AUDIO,
+    ],
+  });
+  return `/room?adminToken=${await at.toJwt()}`;
 }
 
 // Returns room id to be used to check if name taken
@@ -83,8 +103,6 @@ export async function tokenFromPermissionToken(
     canPublishSources: convertedSources,
     ...videoGrant,
   });
-  console.log("------------token------------");
-  console.log(token);
 
   return await at.toJwt();
 }
