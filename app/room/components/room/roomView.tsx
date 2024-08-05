@@ -13,6 +13,19 @@ import "@livekit/components-styles";
 import { CustomControlBar } from "../../../components/customControlBar";
 import { deleteRoomIfEmpty } from "../../../actions/roomActions";
 import { VideoConference } from "../../videoConference";
+import { verifyToken } from "@/app/actions/verifyToken";
+
+async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
+  try {
+    const permissions = await verifyToken(adminRoomToken);
+    console.log("permissions: ",permissions);
+    
+    return permissions.token?.video?.roomAdmin || false;
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return false;
+  }
+}
 
 interface RoomProps {
   roomId: string;
@@ -33,13 +46,12 @@ const RoomView = ({ roomId, userId, isAdmin }: RoomProps) => {
   const canPublishData = searchParams.get("canPublishData") !== "false"; // Defaults to true
   const hidden = searchParams.get("hidden") === "true"; // Defaults to false
 
-  console.log("isAdmin: ",isAdmin);
   
   useEffect(() => {
     const fetchToken = async () => {
       try {
         const response = await fetch(
-          `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canUseCamera=${canUseCamera}&canUseMicrophone=${canUseMicrophone}&canScreenShare=${canScreenShare}`
+          `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canUseCamera=${canUseCamera}&canUseMicrophone=${canUseMicrophone}&canScreenShare=${canScreenShare}&isAdmin=${isAdmin}`
         );
 
         if (!response.ok) {
@@ -49,6 +61,8 @@ const RoomView = ({ roomId, userId, isAdmin }: RoomProps) => {
 
         const data = await response.json();
         setToken(data.token);
+        console.log("isAdmin: ",isRoomAdmin(token));
+        
       } catch (error) {
         console.error("Fetch error:", error);
       }
