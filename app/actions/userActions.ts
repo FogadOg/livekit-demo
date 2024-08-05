@@ -132,7 +132,10 @@ export async function getToken(input: string) {
 //! We need to exclude roomJoin and canSubscribe from permissions and add room their
 // This is used to generate token for invite link
 // The invite link will use it's permissions and add identity
-export async function generateMockToken(room: string, permissions: VideoGrant) {
+export async function generatePermissionToken(
+  room: string,
+  permissions: VideoGrant
+) {
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 

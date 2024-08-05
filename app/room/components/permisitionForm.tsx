@@ -1,4 +1,4 @@
-import { generateMockToken } from "@/app/actions/userActions";
+import { generatePermissionToken } from "@/app/actions/userActions";
 import { useRoomInfo } from "@livekit/components-react";
 import { useState, useEffect } from "react";
 
@@ -31,7 +31,7 @@ export const PermissionForm = () => {
     setUrl(`${baseUrl}?${queryParams.toString()}`);
 
     const tokenUrl = async () => {
-      const token = await generateMockToken(roomInfo.name, permissions);
+      const token = await generatePermissionToken(roomInfo.name, permissions);
       console.log(`${baseUrl}?token=${token}`);
     };
     tokenUrl();
