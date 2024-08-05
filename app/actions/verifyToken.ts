@@ -9,14 +9,13 @@ export async function verifyToken(permissionToken: string) {
       process.env.LIVEKIT_API_SECRET!
     );
     try {
-      const token = await tokenVerifier.verify(permissionToken);
-      if (!token) {
+      const permissions = await tokenVerifier.verify(permissionToken);
+      if (!permissions) {
         console.error("token not valid!");
         return { valid: false };
       }
-      console.log("------- token: ",token);
       
-      return { room: token.video?.room, token: token, valid: true };
+      return permissions
     } catch {
       console.error("token not valid!");
       return { valid: false };
