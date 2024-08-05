@@ -21,13 +21,17 @@ This is a livekit demo. This demo is to showcase the capabilities of livekit.
 - Install livekit
 - Livekit ingress + build and add to path
 - Python packages from requirements.txt
+- Redis installed
 
 ### Next js
 
 ```bash
 yarn dev
 ```
-
+### Make sure redis is running
+```bash
+sudo service redis-server start
+```
 ### Livekit server
 
 ```bash
