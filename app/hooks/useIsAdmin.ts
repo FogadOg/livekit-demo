@@ -9,6 +9,7 @@ function useIsAdmin(token: string) {
     const fetchAdminState = async () => {
       setIsAdmin(await getIsAdmin(token));
     };
+    fetchAdminState();
   });
 
   return isAdmin;
