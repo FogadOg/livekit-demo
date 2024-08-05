@@ -7,7 +7,7 @@ export default async function Page() {
   const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
 
   at.addGrant({
-    room: "testRoom",
+    room: "1",
     roomJoin: true,
     canSubscribe: true,
     canPublish: true,

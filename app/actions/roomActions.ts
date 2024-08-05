@@ -62,6 +62,7 @@ export async function tokenFromPermissionToken(
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
   const at = new AccessToken(apiKey, apiSecret, { identity: userId });
+  // remove roomJoin from token video, make sure they are always true
   const { roomJoin, canSubscribe, ...videoGrant } = token?.video || {};
 
   at.addGrant({
