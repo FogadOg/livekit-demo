@@ -4,14 +4,15 @@ import { useRouter } from "next/navigation";
 
 interface JoinPublicRoomProps {
   room: Room;
+  adminRoomToken: string;
   participantsCount: number;
 }
 
-const JoinPublicRoom = ({ room, participantsCount }: JoinPublicRoomProps) => {
+const JoinPublicRoom = ({ room, adminRoomToken, participantsCount }: JoinPublicRoomProps) => {
   const router = useRouter();
 
   const handleClick = async () => {
-    router.push(`/room?roomId=${room.id}`);
+    router.push(`/room?roomId=${room.id}&token=${adminRoomToken}`);
   };
 
   return (
