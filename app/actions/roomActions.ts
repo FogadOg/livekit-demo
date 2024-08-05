@@ -33,7 +33,7 @@ export async function handleCreateRoomForm(formData: FormData) {
   const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
   at.addGrant({
     room: newRoom.id.toString(),
-
+    roomCreate: true,
     roomJoin: true,
     canSubscribe: true,
     canPublish: true,
