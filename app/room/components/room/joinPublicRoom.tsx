@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 
 interface JoinPublicRoomProps {
   room: Room;
-  adminRoomToken: string;
   participantsCount: number;
 }
 
