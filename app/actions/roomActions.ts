@@ -2,7 +2,7 @@
 
 import roomService from "@/lib/roomService";
 import prisma from "../../lib/prisma";
-import { AccessToken, TokenVerifier } from "livekit-server-sdk";
+import { AccessToken, TokenVerifier, TrackSource } from "livekit-server-sdk";
 
 export async function deleteRoomIfEmpty(roomId: string) {
   const roomParticipants = await roomService.listParticipants(roomId);
@@ -63,11 +63,24 @@ export async function tokenFromPermissionToken(
 
   const at = new AccessToken(apiKey, apiSecret, { identity: userId });
   // remove roomJoin from token video, make sure they are always true
-  const { roomJoin, canSubscribe, ...videoGrant } = token?.video || {};
+  const { roomJoin, canSubscribe, canPublishSources, ...videoGrant } =
+    token?.video || {};
 
+  const stringToTrackSourceMap: { [key: string]: TrackSource } = {
+    camera: TrackSource.CAMERA,
+    microphone: TrackSource.MICROPHONE,
+    screen_share: TrackSource.SCREEN_SHARE,
+    screen_share_audio: TrackSource.SCREEN_SHARE_AUDIO,
+  };
+
+  // Need to convert sources from strings to int, why though?
+  let convertedSources = canPublishSources?.map(
+    (v) => stringToTrackSourceMap[v]
+  );
   at.addGrant({
     roomJoin: true,
     canSubscribe: true,
+    canPublishSources: convertedSources,
     ...videoGrant,
   });
   console.log("------------token------------");

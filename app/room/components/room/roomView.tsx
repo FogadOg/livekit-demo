@@ -8,6 +8,7 @@ import {
   LiveKitRoom,
   RoomAudioRenderer,
   useLocalParticipant,
+  useLocalParticipantPermissions,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
@@ -55,8 +56,7 @@ const RoomView = ({ token }: RoomProps) => {
         >
           <div className="flex">
             <VideoConference />
-            {useLocalParticipant().localParticipant.permissions
-              ?.canPublishData && <Chat />}
+            <CustomChat />
           </div>
           <RoomAudioRenderer />
           <CustomControlBar />
@@ -64,6 +64,19 @@ const RoomView = ({ token }: RoomProps) => {
       </LayoutContextProvider>
     </div>
   );
+};
+
+// Only visible on 
+const CustomChat = () => {
+  const participant =
+    useLocalParticipant().localParticipant.permissions?.canPublishData;
+  const permissions = useLocalParticipantPermissions();
+
+  if (permissions?.canPublishData) {
+    return <Chat />;
+  } else {
+    return <></>;
+  }
 };
 
 export default RoomView;
