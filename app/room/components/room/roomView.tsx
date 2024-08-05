@@ -20,14 +20,22 @@ import { verifyToken } from "@/app/actions/verifyToken";
 async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
   try {
     const permissions = await verifyToken(adminRoomToken);
-    console.log("permissions: ",permissions);
-    
-    return permissions.token?.video?.roomAdmin || false;
+    console.log("permissions: ", permissions);
+    const isAdmin = permissions.token?.video?.roomCreate || false;
+    console.log("permissions.token?.video?.roomCreate || false: ", isAdmin);
+
+    return isAdmin;
   } catch (error) {
     console.error("Error verifying token:", error);
     return false;
   }
 }
+
+async function checkIfAdmin(adminRoomToken: string) {
+  const isAdmin = await isRoomAdmin(adminRoomToken);
+  return isAdmin
+}
+
 
 interface RoomProps {
   token: string;
@@ -35,6 +43,16 @@ interface RoomProps {
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
+  useEffect(() => {
+    const verifyAdminStatus = async () => {
+      const adminStatus = await checkIfAdmin(token);
+      console.log("adminStatus: ",adminStatus);
+    };
+
+    if (token) {
+      verifyAdminStatus();
+    }
+  }, [token]);
 
   
   useEffect(() => {
