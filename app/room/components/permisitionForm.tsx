@@ -64,7 +64,7 @@ export const PermissionForm = () => {
             className="flex justify-between items-center"
             htmlFor="canPublishData"
           >
-            Can Publish Data
+            Send messages
             <input
               type="checkbox"
               name="canPublishData"
@@ -92,10 +92,12 @@ export const PermissionForm = () => {
         {trackSourceValues.map((source, index) => (
           <li key={source}>
             <label
-              className="flex justify-between items-center"
+              className="flex justify-between items-center first-letter:capitalize"
               htmlFor={source.toString()}
             >
-              {source}
+              {/* Capitlizing string */}
+              {source.toString().charAt(0).toUpperCase() +
+                source.toString().toLowerCase().slice(1)}
               <input
                 type="checkbox"
                 name={source.toString()}
@@ -118,8 +120,6 @@ export const PermissionForm = () => {
       >
         Copy link
       </button>
-      <p>{JSON.stringify(permissions)}</p>
-      <p>{trackSourceValues}</p>
     </>
   );
 };
