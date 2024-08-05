@@ -106,3 +106,11 @@ export async function tokenFromPermissionToken(
 
   return await at.toJwt();
 }
+
+export async function getIsAdmin(token: string): Promise<boolean> {
+  let { valid, token: validatedToken } = await validatePermissionToken(token);
+  if (!valid) {
+    return false;
+  }
+  return validatedToken?.video?.roomAdmin || false;
+}
