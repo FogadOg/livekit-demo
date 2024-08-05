@@ -8,6 +8,7 @@ import {
   EncodedFileOutput,
   IngressClient,
   IngressInput,
+  VideoGrant,
 } from "livekit-server-sdk";
 
 import { TokenVerifier } from "livekit-server-sdk";
@@ -126,4 +127,23 @@ export async function getToken(input: string) {
   );
   const token = await tokenVerifier.verify(input);
   return token;
+}
+
+//! We need to exclude roomJoin and canSubscribe from permissions and add room their
+// This is used to generate token for invite link
+// The invite link will use it's permissions and add identity
+export async function generateMockToken(room: string, permissions: VideoGrant) {
+  const apiKey = process.env.LIVEKIT_API_KEY;
+  const apiSecret = process.env.LIVEKIT_API_SECRET;
+
+  const at = new AccessToken(apiKey, apiSecret);
+
+  at.addGrant({
+    room,
+    roomJoin: false,
+    canSubscribe: false,
+    ...permissions,
+  });
+
+  return await at.toJwt();
 }
