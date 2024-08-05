@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   const canPublishData =
     req.nextUrl.searchParams.get("canPublishData") !== "false"; // Defaults to true
   const hidden = req.nextUrl.searchParams.get("hidden") === "true"; // Defaults to false
-  const isAdmin = req.nextUrl.searchParams.get("hidden") === "true"; // Defaults to false
+  const isAdmin = req.nextUrl.searchParams.get("isAdmin") === "true"; // Defaults to false
 
   const at = new AccessToken(apiKey, apiSecret, { identity: username });
 
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
 
   at.addGrant({
     room,
-    roomAdmin: isAdmin,
+    roomAdmin: true,
     roomJoin: true,
     canSubscribe: true, // Can see
 
