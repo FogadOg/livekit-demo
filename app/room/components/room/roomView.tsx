@@ -7,6 +7,7 @@ import {
   Chat,
   LiveKitRoom,
   RoomAudioRenderer,
+  useLocalParticipant,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
@@ -21,39 +22,12 @@ interface RoomProps {
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-
-  const canUseCamera = searchParams.get("canUseCamera") !== "false"; // Defaults to true
-  const canUseMicrophone = searchParams.get("canUseMicrophone") !== "false"; // Defaults to true
-  const canScreenShare = searchParams.get("canScreenShare") !== "false"; // Defaults to true
-
-  const canPublishData = searchParams.get("canPublishData") !== "false"; // Defaults to true
-  const hidden = searchParams.get("hidden") === "true"; // Defaults to false
-
   useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        // const response = await fetch(
-        //   `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canUseCamera=${canUseCamera}&canUseMicrophone=${canUseMicrophone}&canScreenShare=${canScreenShare}`
-        // );
-        // if (!response.ok) {
-        //   console.error(`Error fetching token: ${response.statusText}`);
-        //   return;
-        // }
-        // const data = await response.json();
-        // setToken(data.token);
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
-
     const handleUnload = () => {
       // deleteRoomIfEmpty(roomId);
     };
 
     window.addEventListener("unload", handleUnload);
-
-    // fetchToken();
 
     return () => {
       window.removeEventListener("unload", handleUnload);
@@ -81,7 +55,8 @@ const RoomView = ({ token }: RoomProps) => {
         >
           <div className="flex">
             <VideoConference />
-            {canPublishData && <Chat />}
+            {useLocalParticipant().localParticipant.permissions
+              ?.canPublishData && <Chat />}
           </div>
           <RoomAudioRenderer />
           <CustomControlBar />
