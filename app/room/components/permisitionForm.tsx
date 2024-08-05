@@ -1,7 +1,9 @@
+import { generateMockToken } from "@/app/actions/userActions";
 import { useRoomInfo } from "@livekit/components-react";
 import { useState, useEffect } from "react";
 
 export const PermissionForm = () => {
+  // TODO type should be VideoGrant
   const [permissions, setPermissions] = useState({
     canUseCamera: true,
     canUseMicrophone: true,
@@ -15,7 +17,7 @@ export const PermissionForm = () => {
   const roomInfo = useRoomInfo();
 
   useEffect(() => {
-    const roomId = roomInfo.name; // example room ID
+    const roomId = roomInfo.name;
     const baseUrl = "http://localhost:3000/room";
     const queryParams = new URLSearchParams({
       roomId,
@@ -27,6 +29,12 @@ export const PermissionForm = () => {
       ),
     });
     setUrl(`${baseUrl}?${queryParams.toString()}`);
+
+    const tokenUrl = async () => {
+      const token = await generateMockToken(roomInfo.name, permissions);
+      console.log(`${baseUrl}?token=${token}`);
+    };
+    tokenUrl();
   }, [permissions, roomInfo]);
 
   const handlePermissionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
