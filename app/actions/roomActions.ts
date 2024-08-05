@@ -37,7 +37,7 @@ export async function handleCreateRoomForm(formData: FormData) {
     roomJoin: true,
     canSubscribe: true,
     canPublish: true,
-    roomAdmin: true,
+    roomAdmin: false,
     roomRecord: true,
     canPublishSources: [
       TrackSource.CAMERA,
@@ -98,6 +98,7 @@ export async function tokenFromPermissionToken(
     (v) => stringToTrackSourceMap[v]
   );
   at.addGrant({
+    roomCreate: false,
     roomJoin: true,
     canSubscribe: true,
     canPublishSources: convertedSources,
