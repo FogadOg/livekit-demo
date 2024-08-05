@@ -129,7 +129,6 @@ export async function getToken(input: string) {
   return token;
 }
 
-//! We need to exclude roomJoin and canSubscribe from permissions and add room their
 // This is used to generate token for invite link
 // The invite link will use it's permissions and add identity
 export async function generatePermissionToken(
@@ -140,6 +139,8 @@ export async function generatePermissionToken(
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
   const at = new AccessToken(apiKey, apiSecret);
+  // Removing roomJoin and canSubscribe
+  const { roomJoin, canSubscribe, ...videoGrant } = permissions;
 
   at.addGrant({
     room,
