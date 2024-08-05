@@ -7,6 +7,9 @@ import JoinPrivateRoom from "./room/components/room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
 import { deleteRoomIfEmpty } from "./actions/roomActions";
+import { getToken } from "./actions/getToken";
+import { verifyToken } from "./actions/verifyToken";
+import { log } from "util";
 
 export const metadata = {
   title: "Livekit demo",
@@ -18,6 +21,12 @@ export default async function Home() {
 
   const liveRooms = await roomService.listRooms();
   const liveRoomIds = liveRooms.map((room) => room.name);
+
+  const response = await getToken()
+  const data = await response.json()
+  const adminRoomToken = data.token;  
+  
+  
 
   /*for (let room of rooms) {
     if (!liveRoomIds.includes(room.id.toString())) {
@@ -40,6 +49,7 @@ export default async function Home() {
               return (
                 <JoinPublicRoom
                   room={room}
+                  adminRoomToken={adminRoomToken}
                   participantsCount={
                     liveRooms.find(
                       (liveRoom) => liveRoom.name == room.id.toString()
