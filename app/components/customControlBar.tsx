@@ -32,7 +32,7 @@ export function CustomControlBar({
 
   return (
     <div className="lk-control-bar">
-      {customControl && permissions?.canPublish && (
+      {customControl && (
         <>
           <button
             className={"btn lk-button " + (recording ? "!bg-red-500" : "")}

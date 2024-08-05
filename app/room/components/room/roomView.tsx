@@ -7,6 +7,8 @@ import {
   Chat,
   LiveKitRoom,
   RoomAudioRenderer,
+  useLocalParticipant,
+  useLocalParticipantPermissions,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
@@ -28,58 +30,24 @@ async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
 }
 
 interface RoomProps {
-  roomId: string;
-  userId: string;
-  isAdmin: boolean
+  token: string;
 }
 
-const RoomView = ({ roomId, userId, isAdmin }: RoomProps) => {
+const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-  const [token, setToken] = useState<string>("");
-
-  const searchParams = useSearchParams();
-
-  const canUseCamera = searchParams.get("canUseCamera") !== "false"; // Defaults to true
-  const canUseMicrophone = searchParams.get("canUseMicrophone") !== "false"; // Defaults to true
-  const canScreenShare = searchParams.get("canScreenShare") !== "false"; // Defaults to true
-
-  const canPublishData = searchParams.get("canPublishData") !== "false"; // Defaults to true
-  const hidden = searchParams.get("hidden") === "true"; // Defaults to false
 
   
   useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const response = await fetch(
-          `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canUseCamera=${canUseCamera}&canUseMicrophone=${canUseMicrophone}&canScreenShare=${canScreenShare}&isAdmin=${isAdmin}`
-        );
-
-        if (!response.ok) {
-          console.error(`Error fetching token: ${response.statusText}`);
-          return;
-        }
-
-        const data = await response.json();
-        setToken(data.token);
-        console.log("isAdmin: ",isRoomAdmin(token));
-        
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
-
     const handleUnload = () => {
-      deleteRoomIfEmpty(roomId);
+      // deleteRoomIfEmpty(roomId);
     };
 
     window.addEventListener("unload", handleUnload);
 
-    fetchToken();
-
     return () => {
       window.removeEventListener("unload", handleUnload);
     };
-  }, [roomId, userId]);
+  }, []);
 
   if (!token) {
     return <div>Getting token...</div>;
@@ -101,8 +69,8 @@ const RoomView = ({ roomId, userId, isAdmin }: RoomProps) => {
           }}
         >
           <div className="flex">
-            <VideoConference userName={userId} />
-            {canPublishData && <Chat />}
+            <VideoConference />
+            <CustomChat />
           </div>
           <RoomAudioRenderer />
           <CustomControlBar />
@@ -110,6 +78,17 @@ const RoomView = ({ roomId, userId, isAdmin }: RoomProps) => {
       </LayoutContextProvider>
     </div>
   );
+};
+
+// Only visible on
+const CustomChat = () => {
+  const permissions = useLocalParticipantPermissions();
+
+  if (permissions?.canPublishData) {
+    return <Chat />;
+  } else {
+    return <></>;
+  }
 };
 
 export default RoomView;

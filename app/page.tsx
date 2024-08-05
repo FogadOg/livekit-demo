@@ -10,6 +10,7 @@ import { deleteRoomIfEmpty } from "./actions/roomActions";
 import { getToken } from "./actions/getToken";
 import { verifyToken } from "./actions/verifyToken";
 import { log } from "util";
+import TokenVerifyForm from "./room/tokenVerifyForm";
 
 export const metadata = {
   title: "Livekit demo",
@@ -70,6 +71,7 @@ export default async function Home() {
           />
         </div>
       </main>
+      {/* <TokenVerifyForm /> */}
     </>
   );
 }
