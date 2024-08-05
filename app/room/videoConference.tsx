@@ -20,8 +20,7 @@ import {
 import { RoomEvent } from "livekit-client";
 import { TranscriptTile } from "./components/transcription/transcriptionTile";
 
-
-export const VideoConference = ({userName}:{userName: string}) => {
+export const VideoConference = () => {
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -49,11 +48,15 @@ export const VideoConference = ({userName}:{userName: string}) => {
         <div className="absolute top-10 left-20">
           <Modal
             title="Transcription"
-            content={<TranscriptTile roomId={Number(room.name)} userName={userName}/>}
+            content={
+              <TranscriptTile
+                roomId={Number(room.name)}
+                userName={participant.localParticipant.name!}
+              />
+            }
             buttonText={`View transcript`}
-            modelName={`${userName}s transcription`}
+            modelName={`${participant.localParticipant.name!}s transcription`}
           />
-
         </div>
         <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
           <Caption agentPresent={agentPresent} />

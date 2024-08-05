@@ -15,13 +15,11 @@ import { deleteRoomIfEmpty } from "../../../actions/roomActions";
 import { VideoConference } from "../../videoConference";
 
 interface RoomProps {
-  roomId: string;
-  userId: string;
+  token: string;
 }
 
-const RoomView = ({ roomId, userId }: RoomProps) => {
+const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-  const [token, setToken] = useState<string>("");
 
   const searchParams = useSearchParams();
 
@@ -35,34 +33,32 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const response = await fetch(
-          `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canUseCamera=${canUseCamera}&canUseMicrophone=${canUseMicrophone}&canScreenShare=${canScreenShare}`
-        );
-
-        if (!response.ok) {
-          console.error(`Error fetching token: ${response.statusText}`);
-          return;
-        }
-
-        const data = await response.json();
-        setToken(data.token);
+        // const response = await fetch(
+        //   `/api/get-participant-token?room=${roomId}&username=${userId}&canPublishData=${canPublishData}&hidden=${hidden}&canUseCamera=${canUseCamera}&canUseMicrophone=${canUseMicrophone}&canScreenShare=${canScreenShare}`
+        // );
+        // if (!response.ok) {
+        //   console.error(`Error fetching token: ${response.statusText}`);
+        //   return;
+        // }
+        // const data = await response.json();
+        // setToken(data.token);
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
     const handleUnload = () => {
-      deleteRoomIfEmpty(roomId);
+      // deleteRoomIfEmpty(roomId);
     };
 
     window.addEventListener("unload", handleUnload);
 
-    fetchToken();
+    // fetchToken();
 
     return () => {
       window.removeEventListener("unload", handleUnload);
     };
-  }, [roomId, userId]);
+  }, []);
 
   if (!token) {
     return <div>Getting token...</div>;
@@ -84,7 +80,7 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
           }}
         >
           <div className="flex">
-            <VideoConference userName={userId} />
+            <VideoConference />
             {canPublishData && <Chat />}
           </div>
           <RoomAudioRenderer />

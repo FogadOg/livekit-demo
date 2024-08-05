@@ -52,13 +52,12 @@ export default function Page() {
     }
   }, [accessRoom]);
 
-  console.log(adminToken === "asf");
   // For testing
-  if (adminToken === "asf") {
+  if (adminToken && adminToken !== "") {
     return (
       <>
         <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
-        <RoomView roomId={"4"} userId={"admin"} />
+        <RoomView token={adminToken} />
       </>
     );
   }
@@ -66,7 +65,7 @@ export default function Page() {
     return (
       <>
         <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
-        {/* <RoomView roomId={roomId!} userId={userId} /> */}
+        <RoomView token={token} />
       </>
     );
   }
