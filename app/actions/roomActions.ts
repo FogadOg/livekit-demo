@@ -2,7 +2,7 @@
 
 import roomService from "@/lib/roomService";
 import prisma from "../../lib/prisma";
-import { TokenVerifier } from "livekit-server-sdk";
+import { AccessToken, TokenVerifier } from "livekit-server-sdk";
 
 export async function deleteRoomIfEmpty(roomId: string) {
   const roomParticipants = await roomService.listParticipants(roomId);
@@ -39,11 +39,35 @@ export async function validatePermissionToken(permissionToken: string) {
     const token = await tokenVerifier.verify(permissionToken);
     if (!token) {
       console.error("token not valid!");
-      return false;
+      return { valid: false };
     }
-    return token.video?.room;
+    return { room: token.video?.room, token: token, valid: true };
   } catch {
     console.error("token not valid!");
+    return { valid: false };
+  }
+}
+
+// Generating real token from
+export async function tokenFromPermissionToken(
+  permissionToken: string,
+  userId: string
+) {
+  const { valid, token } = await validatePermissionToken(permissionToken);
+  if (!valid) {
     return false;
   }
+
+  const apiKey = process.env.LIVEKIT_API_KEY;
+  const apiSecret = process.env.LIVEKIT_API_SECRET;
+
+  const at = new AccessToken(apiKey, apiSecret, { identity: userId });
+
+  at.addGrant({
+    roomJoin: true,
+    canSubscribe: true,
+    ...token?.video,
+  });
+
+  return await at.toJwt();
 }
