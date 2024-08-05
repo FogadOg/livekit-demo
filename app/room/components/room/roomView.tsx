@@ -17,9 +17,10 @@ import { VideoConference } from "../../videoConference";
 interface RoomProps {
   roomId: string;
   userId: string;
+  isAdmin: boolean
 }
 
-const RoomView = ({ roomId, userId }: RoomProps) => {
+const RoomView = ({ roomId, userId, isAdmin }: RoomProps) => {
   const router = useRouter();
   const [token, setToken] = useState<string>("");
 
@@ -32,6 +33,8 @@ const RoomView = ({ roomId, userId }: RoomProps) => {
   const canPublishData = searchParams.get("canPublishData") !== "false"; // Defaults to true
   const hidden = searchParams.get("hidden") === "true"; // Defaults to false
 
+  console.log("isAdmin: ",isAdmin);
+  
   useEffect(() => {
     const fetchToken = async () => {
       try {
