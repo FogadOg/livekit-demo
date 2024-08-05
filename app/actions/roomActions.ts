@@ -2,6 +2,7 @@
 
 import roomService from "@/lib/roomService";
 import prisma from "../../lib/prisma";
+import { TokenVerifier } from "livekit-server-sdk";
 
 export async function deleteRoomIfEmpty(roomId: string) {
   const roomParticipants = await roomService.listParticipants(roomId);
@@ -26,4 +27,23 @@ export async function handleCreateRoomForm(formData: FormData) {
     data: validatedFormData,
   });
   return `/room?roomId=${newRoom.id}`;
+}
+
+// Returns room id to be used to check if name taken
+export async function validatePermissionToken(permissionToken: string) {
+  const tokenVerifier = new TokenVerifier(
+    process.env.LIVEKIT_API_KEY!,
+    process.env.LIVEKIT_API_SECRET!
+  );
+  try {
+    const token = await tokenVerifier.verify(permissionToken);
+    if (!token) {
+      console.error("token not valid!");
+      return false;
+    }
+    return token.video?.room;
+  } catch {
+    console.error("token not valid!");
+    return false;
+  }
 }

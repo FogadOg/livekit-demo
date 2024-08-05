@@ -32,7 +32,7 @@ export const PermissionForm = () => {
 
     const tokenUrl = async () => {
       const token = await generatePermissionToken(roomInfo.name, permissions);
-      console.log(`${baseUrl}?token=${token}`);
+      console.log(`${baseUrl}?permissionsToken=${token}`);
     };
     tokenUrl();
   }, [permissions, roomInfo]);
