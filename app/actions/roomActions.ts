@@ -62,12 +62,15 @@ export async function tokenFromPermissionToken(
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
   const at = new AccessToken(apiKey, apiSecret, { identity: userId });
+  const { roomJoin, canSubscribe, ...videoGrant } = token?.video || {};
 
   at.addGrant({
     roomJoin: true,
     canSubscribe: true,
-    ...token?.video,
+    ...videoGrant,
   });
+  console.log("------------token------------");
+  console.log(token);
 
   return await at.toJwt();
 }
