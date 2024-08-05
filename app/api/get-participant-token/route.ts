@@ -1,4 +1,3 @@
-// Deprecated
 import {
   AccessToken,
   TrackSource,
@@ -73,7 +72,7 @@ export async function GET(req: NextRequest) {
 
   at.addGrant({
     room,
-    roomAdmin: true,
+    roomAdmin: isAdmin,
     roomJoin: true,
     canSubscribe: true, // Can see
 
