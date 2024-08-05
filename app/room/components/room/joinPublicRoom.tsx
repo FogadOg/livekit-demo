@@ -8,11 +8,11 @@ interface JoinPublicRoomProps {
   participantsCount: number;
 }
 
-const JoinPublicRoom = ({ room, adminRoomToken, participantsCount }: JoinPublicRoomProps) => {
+const JoinPublicRoom = ({ room, participantsCount }: JoinPublicRoomProps) => {
   const router = useRouter();
 
   const handleClick = async () => {
-    router.push(`/room?roomId=${room.id}&token=${adminRoomToken}`);
+    router.push(`/room?roomId=${room.id}`);
   };
 
   return (

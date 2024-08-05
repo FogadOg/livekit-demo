@@ -21,11 +21,7 @@ export default async function Home() {
   let rooms = await prisma.room.findMany();
 
   const liveRooms = await roomService.listRooms();
-  const liveRoomIds = liveRooms.map((room) => room.name);
-
-  const response = await getToken()
-  const data = await response.json()
-  const adminRoomToken = data.token;  
+  const liveRoomIds = liveRooms.map((room) => room.name); 
   
   
 
@@ -50,7 +46,6 @@ export default async function Home() {
               return (
                 <JoinPublicRoom
                   room={room}
-                  adminRoomToken={adminRoomToken}
                   participantsCount={
                     liveRooms.find(
                       (liveRoom) => liveRoom.name == room.id.toString()
