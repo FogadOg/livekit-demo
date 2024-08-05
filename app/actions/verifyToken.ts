@@ -15,7 +15,7 @@ export async function verifyToken(permissionToken: string) {
         return { valid: false };
       }
       
-      return permissions
+      return { roomCreate: permissions.roomCreate, room: permissions.video?.room, token: permissions, valid: true };
     } catch {
       console.error("token not valid!");
       return { valid: false };
