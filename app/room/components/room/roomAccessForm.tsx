@@ -30,7 +30,6 @@ const RoomAccessForm = ({
   const [isValidUserId, setIsValidUserId] = useState<boolean>(false);
 
   const [participants, setParticipants] = useState<string[]>([]);
-  const [roomExists, setRoomExists] = useState<boolean>(Boolean(roomId));
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -44,15 +43,12 @@ const RoomAccessForm = ({
           setRoomPassword(data.password || "");
           setIsRoomPublic(data.isRoomPublic || false);
           setParticipants(data.participants || []);
-          setRoomExists(true);
         } else if (response.status === 404) {
-          setRoomExists(false);
         } else {
           console.error(`Error fetching room: ${response.statusText}`);
         }
       } catch (error) {
         console.error("Fetch error:", error);
-        setRoomExists(false);
       } finally {
         setLoading(false);
       }
@@ -83,22 +79,13 @@ const RoomAccessForm = ({
     }
   };
 
-  if (loading) {
+  if (loading || roomId === "") {
     return (
       <div className="flex flex-col gap-2 m-5">
         <div className="skeleton h-[48px] w-[250px]"></div>
         <div className="skeleton h-[48px] w-[250px]"></div>
         <div className="skeleton h-[48px] w-[62px]"></div>
       </div>
-    );
-  }
-
-  if (!roomExists) {
-    return (
-      <>
-        <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
-        <p>Couldn't find the room you are looking for</p>
-      </>
     );
   }
 

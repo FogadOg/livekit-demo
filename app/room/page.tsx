@@ -12,13 +12,15 @@ export default function Page() {
   const [roomId, setRoomId] = useState("");
   const permissionsToken = searchParams.get("permissionsToken");
 
+  const [roomExists, setRoomExists] = useState<boolean>(true);
+
   useEffect(() => {
     const getRoom = async () => {
       let room = await validatePermissionToken(permissionsToken!);
-
-      console.log();
       if (room) {
         setRoomId(room);
+      } else {
+        setRoomExists(false);
       }
     };
     getRoom();
@@ -35,9 +37,15 @@ export default function Page() {
     );
   }
 
-  if (roomId === "") {
-    return <p>"Getting room"</p>;
+  if (!roomExists) {
+    return (
+      <>
+        <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
+        <p>Couldn't find the room you are looking for</p>
+      </>
+    );
   }
+
   return (
     <>
       <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
