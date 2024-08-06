@@ -7,35 +7,13 @@ import {
   Chat,
   LiveKitRoom,
   RoomAudioRenderer,
-  useLocalParticipant,
   useLocalParticipantPermissions,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
 import { CustomControlBar } from "../../../components/customControlBar";
-import { deleteRoomIfEmpty } from "../../../actions/roomActions";
 import { VideoConference } from "../../videoConference";
-import { verifyToken } from "@/app/actions/verifyToken";
-
-async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
-  try {
-    const permissions = await verifyToken(adminRoomToken);
-    console.log("permissions: ", permissions);
-    const isAdmin = permissions.token?.video?.roomCreate || false;
-    console.log("permissions.token?.video?.roomCreate || false: ", isAdmin);
-
-    return isAdmin;
-  } catch (error) {
-    console.error("Error verifying token:", error);
-    return false;
-  }
-}
-
-async function checkIfAdmin(adminRoomToken: string) {
-  const isAdmin = await isRoomAdmin(adminRoomToken);
-  return isAdmin
-}
-
+import useIsAdmin from "@/app/hooks/useIsAdmin";
 
 interface RoomProps {
   token: string;
@@ -43,20 +21,6 @@ interface RoomProps {
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-  const [isAdmin, setIsAdmin] = useState(false)
-
-  useEffect(() => {
-    const verifyAdminStatus = async () => {
-      const adminStatus = await checkIfAdmin(token);
-      setIsAdmin(adminStatus)
-    };
-
-    if (token) {
-      verifyAdminStatus();
-    }
-  }, [token]);
-
-  
   useEffect(() => {
     const handleUnload = () => {
       // deleteRoomIfEmpty(roomId);
@@ -72,6 +36,7 @@ const RoomView = ({ token }: RoomProps) => {
   if (!token) {
     return <div>Getting token...</div>;
   }
+  const isAdmin = useIsAdmin(token);
 
   return (
     <div className="overflow-hidden">
@@ -93,7 +58,7 @@ const RoomView = ({ token }: RoomProps) => {
             <CustomChat />
           </div>
           <RoomAudioRenderer />
-          <CustomControlBar isAdmin={isAdmin}/>
+          <CustomControlBar isAdmin={isAdmin} />
         </LiveKitRoom>
       </LayoutContextProvider>
     </div>
