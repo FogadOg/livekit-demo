@@ -40,15 +40,20 @@ export function AdminControls({ token }: { token: string }) {
                   {/* <MicToggle room={room.name} p={p} /> */}
                   <button
                     onClick={async () => {
-                      const newTrackList: TrackSource[] = {
-                        ...p.permissions?.canPublishSources!,
-                      };
+                      const newSourceList = new Set(
+                        p.permissions?.canPublishSources
+                      );
 
-                      // Remove the MICROPHONE permission if it exists
-                      delete newTrackList[TrackSource.MICROPHONE];
+                      if (newSourceList.has(TrackSource.MICROPHONE)) {
+                        // Remove the MICROPHONE permission if it exists
+                        newSourceList.delete(TrackSource.MICROPHONE);
+                      } else {
+                        // Add MICROPHONE to permissions
+                        newSourceList.add(TrackSource.MICROPHONE);
+                      }
 
                       await updateParticipantPermissions(p.identity, token, {
-                        canPublishSources: newTrackList,
+                        canPublishSources: Array.from(newSourceList),
                       });
                     }}
                   >
