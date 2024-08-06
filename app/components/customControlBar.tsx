@@ -11,6 +11,7 @@ import { Modal } from "./modal";
 import { PermissionForm } from "../room/components/permisitionForm";
 import { TrackSource } from "livekit-server-sdk";
 import useIsAdmin from "@/app/hooks/useIsAdmin";
+import { AdminControls } from "./adminControls";
 
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
@@ -39,6 +40,7 @@ export function CustomControlBar({
         <>
           {isAdmin && (
             <>
+              <AdminControls token={token} />
               {/* Starts egress */}
               <button
                 className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
@@ -53,7 +55,7 @@ export function CustomControlBar({
               {/* Invite users */}
               <Modal
                 title="Permissions"
-                content={<PermissionForm token={token}/>}
+                content={<PermissionForm token={token} />}
                 buttonText="Invite users"
                 modelName="premsistionForm"
               />
