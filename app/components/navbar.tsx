@@ -2,7 +2,7 @@ export const Navbar = () => {
   return (
     <div className="navbar bg-base-100 px-10 py-5">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Livekit Demo</a>
+        <a className="btn btn-ghost text-xl">Admin Page</a>
       </div>
       <div className="flex-none">
         <button className="btn btn-square btn-ghost">
