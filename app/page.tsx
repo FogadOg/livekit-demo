@@ -7,6 +7,9 @@ import JoinPrivateRoom from "./room/components/room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
 import { deleteRoomIfEmpty } from "./actions/roomActions";
+import { getToken } from "./actions/getToken";
+import { verifyToken } from "./actions/verifyToken";
+import { log } from "util";
 import TokenVerifyForm from "./room/tokenVerifyForm";
 
 export const metadata = {
@@ -18,7 +21,9 @@ export default async function Home() {
   let rooms = await prisma.room.findMany();
 
   const liveRooms = await roomService.listRooms();
-  const liveRoomIds = liveRooms.map((room) => room.name);
+  const liveRoomIds = liveRooms.map((room) => room.name); 
+  
+  
 
   /*for (let room of rooms) {
     if (!liveRoomIds.includes(room.id.toString())) {

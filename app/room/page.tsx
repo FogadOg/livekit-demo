@@ -5,6 +5,18 @@ import { useSearchParams } from "next/navigation";
 
 import RoomView from "./components/room/roomView";
 import RoomAccessForm from "./components/room/roomAccessForm";
+import Head from "next/head";
+import { verifyToken } from "../actions/verifyToken";
+
+async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
+  try {
+    const permissions = await verifyToken(adminRoomToken);
+    return permissions.token?.video?.roomCreate || false;
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return false;
+  }
+}
 import {
   tokenFromPermissionToken,
   validatePermissionToken,
@@ -19,6 +31,7 @@ export default function Page() {
   const adminToken = searchParams.get("adminToken");
 
   const [roomExists, setRoomExists] = useState<boolean>(true);
+
 
   const [userId, setUserId] = useState("");
   const [accessRoom, setAccessRoom] = useState(false);
