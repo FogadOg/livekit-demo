@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   LayoutContextProvider,
   Chat,
   LiveKitRoom,
   RoomAudioRenderer,
   useLocalParticipantPermissions,
-  useRoomInfo,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
@@ -20,7 +18,7 @@ interface RoomProps {
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-
+  
   if (!token) {
     return <div>Getting token...</div>;
   }
