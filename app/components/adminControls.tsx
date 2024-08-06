@@ -6,6 +6,8 @@ import {
 import { RoomEvent } from "livekit-client";
 import { useState } from "react";
 import useIsAdmin from "../hooks/useIsAdmin";
+import { updateParticipantPermissions } from "../actions/userActions";
+import { TrackSource, VideoGrant } from "livekit-server-sdk";
 
 export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
@@ -36,7 +38,22 @@ export function AdminControls({ token }: { token: string }) {
                 <p className="pe-3">{p.identity}</p>
                 <p className="">
                   {/* <MicToggle room={room.name} p={p} /> */}
-                  <button>MicToggle</button>
+                  <button
+                    onClick={async () => {
+                      const newTrackList: TrackSource[] = {
+                        ...p.permissions?.canPublishSources!,
+                      };
+
+                      // Remove the MICROPHONE permission if it exists
+                      delete newTrackList[TrackSource.MICROPHONE];
+
+                      await updateParticipantPermissions(p.identity, token, {
+                        canPublishSources: newTrackList,
+                      });
+                    }}
+                  >
+                    MicToggle
+                  </button>
                 </p>
                 <p className="">
                   {/* <CamToggle room={room.name} p={p} /> */}
