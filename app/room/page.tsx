@@ -18,7 +18,7 @@ async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
 }
 import {
   tokenFromPermissionToken,
-  validatePermissionToken,
+  validateToken,
 } from "../actions/roomActions";
 
 export default function Page() {
@@ -31,13 +31,12 @@ export default function Page() {
 
   const [roomExists, setRoomExists] = useState<boolean>(true);
 
-
   const [userId, setUserId] = useState("");
   const [accessRoom, setAccessRoom] = useState(false);
 
   useEffect(() => {
     const getRoom = async () => {
-      let { room, valid } = await validatePermissionToken(permissionsToken!);
+      let { room, valid } = await validateToken(permissionsToken!);
       if (valid) {
         setRoomId(room!);
       } else {
