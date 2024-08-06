@@ -26,7 +26,6 @@ export const PermissionForm = () => {
   useEffect(() => {
     const baseUrl = "http://localhost:3000/room";
     const tokenUrl = async () => {
-      console.log(permissions);
       const token = await generatePermissionToken(roomInfo.name, permissions);
       setUrl(`${baseUrl}?permissionsToken=${token}`);
     };
