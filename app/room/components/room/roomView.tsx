@@ -93,7 +93,7 @@ const RoomView = ({ token }: RoomProps) => {
             <CustomChat />
           </div>
           <RoomAudioRenderer />
-          <CustomControlBar />
+          <CustomControlBar isAdmin={isAdmin}/>
         </LiveKitRoom>
       </LayoutContextProvider>
     </div>

@@ -14,10 +14,12 @@ import { TrackSource } from "livekit-server-sdk";
 
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
+  isAdmin?: boolean;
 }
 
 export function CustomControlBar({
   customControl = true,
+  isAdmin = false,
   ...props
 }: CustomControlBarProps) {
   // ! Can still record and stop recording if not publish
