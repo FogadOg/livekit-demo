@@ -185,3 +185,22 @@ export async function updateParticipantPermissions(
     newPermissions
   );
 }
+
+export async function kickParticipant(
+  participantIdentity: string,
+  token: string
+) {
+  const isAdmin = await getIsAdmin(token);
+  if (!isAdmin) {
+    console.log("You are not admin!");
+    return false;
+  }
+  let { token: validatedToken } = await validateToken(token);
+
+  const roomName = validatedToken?.video?.room;
+
+  await roomService.removeParticipant(
+    validatedToken?.video?.room!,
+    participantIdentity
+  );
+}

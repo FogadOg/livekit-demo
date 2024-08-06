@@ -1,25 +1,17 @@
-import { useParticipants } from "@livekit/components-react";
-import { Participant, RoomEvent } from "livekit-client";
+import { useParticipants, useRoomInfo } from "@livekit/components-react";
+import { Participant } from "livekit-client";
 import { useState } from "react";
 import useIsAdmin from "../hooks/useIsAdmin";
-import { updateParticipantPermissions } from "../actions/userActions";
+import {
+  kickParticipant,
+  updateParticipantPermissions,
+} from "../actions/userActions";
 import { TrackSource } from "livekit-server-sdk";
 import { ToggleTrackSource } from "./toggleTrackSource";
 
 export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
-  const participants = useParticipants({
-    updateOnlyOn: [
-      RoomEvent.Connected,
-      RoomEvent.ParticipantConnected,
-      RoomEvent.ParticipantDisconnected,
-      RoomEvent.TrackPublished,
-      RoomEvent.TrackUnpublished,
-      RoomEvent.TrackMuted,
-      RoomEvent.TrackUnmuted,
-    ],
-  });
-
+  let participants = useParticipants();
   const [open, setOpen] = useState(false);
 
   const updateTrackSources = async (
@@ -64,8 +56,14 @@ export function AdminControls({ token }: { token: string }) {
                 />
 
                 <p className="">
-                  {/* <KickButton room={room.name} p={p} /> */}
-                  <button>KickButton</button>
+                  {/*TODO User not being fully kicked*/}
+                  <button
+                    onClick={async () => {
+                      await kickParticipant(p.identity, token);
+                    }}
+                  >
+                    Kick
+                  </button>
                 </p>
               </li>
             ))}
