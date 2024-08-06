@@ -43,10 +43,12 @@ interface RoomProps {
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false)
+
   useEffect(() => {
     const verifyAdminStatus = async () => {
       const adminStatus = await checkIfAdmin(token);
-      console.log("adminStatus: ",adminStatus);
+      setIsAdmin(adminStatus)
     };
 
     if (token) {
