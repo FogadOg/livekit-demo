@@ -7,9 +7,7 @@ import JoinPrivateRoom from "./room/components/room/joinPrivateRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
 import { deleteRoomIfEmpty } from "./actions/roomActions";
-import { getToken } from "./actions/getToken";
 import { verifyToken } from "./actions/verifyToken";
-import { log } from "util";
 import TokenVerifyForm from "./room/tokenVerifyForm";
 
 export const metadata = {

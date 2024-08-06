@@ -7,7 +7,7 @@ const trackSourceValues = Object.values(TrackSource).filter(
   (value) => typeof value !== "number" && value !== "UNKNOWN"
 );
 
-export const PermissionForm = () => {
+export const PermissionForm = ({ token }: { token: string }) => {
   const [permissions, setPermissions] = useState<VideoGrant>({
     canPublishSources: [
       TrackSource.CAMERA,
@@ -26,8 +26,13 @@ export const PermissionForm = () => {
   useEffect(() => {
     const baseUrl = "http://localhost:3000/room";
     const tokenUrl = async () => {
-      const token = await generatePermissionToken(roomInfo.name, permissions);
-      setUrl(`${baseUrl}?permissionsToken=${token}`);
+      console.log(permissions);
+      const permissionToken = await generatePermissionToken(
+        roomInfo.name,
+        permissions,
+        token
+      );
+      setUrl(`${baseUrl}?permissionsToken=${permissionToken}`);
     };
     tokenUrl();
   }, [permissions, roomInfo]);

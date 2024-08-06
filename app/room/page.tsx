@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 
 import RoomView from "./components/room/roomView";
 import RoomAccessForm from "./components/room/roomAccessForm";
-import Head from "next/head";
 import { verifyToken } from "../actions/verifyToken";
 
 async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
@@ -65,7 +64,6 @@ export default function Page() {
     }
   }, [accessRoom]);
 
-  // For testing
   if (adminToken && adminToken !== "") {
     return (
       <>
