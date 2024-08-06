@@ -57,6 +57,18 @@ export function AdminControls({ token }: { token: string }) {
                   {/*TODO User not being fully kicked*/}
                   <button
                     onClick={async () => {
+                      await updateParticipantPermissions(p.identity, token, {
+                        canPublishData: p.permissions?.canPublishData,
+                      });
+                    }}
+                  >
+                    Toggle messaging
+                  </button>
+                </p>
+                <p className="">
+                  {/*TODO User not being fully kicked*/}
+                  <button
+                    onClick={async () => {
                       await kickParticipant(p.identity, token);
                     }}
                   >
