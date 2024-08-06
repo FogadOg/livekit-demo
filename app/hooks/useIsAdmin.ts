@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getIsAdmin } from "../actions/roomActions";
 
 // Should update on permissions update?
-function useIsAdmin(token: string) {
+export default function useIsAdmin(token: string) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ function useIsAdmin(token: string) {
       setIsAdmin(await getIsAdmin(token));
     };
     fetchAdminState();
-  });
+  }, [token]);
 
   return isAdmin;
 }
