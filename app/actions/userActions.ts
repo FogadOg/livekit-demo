@@ -186,6 +186,8 @@ export async function updateParticipantPermissions(
   );
 }
 
+// Can still join with same token
+// Maybe setting room join false?
 export async function kickParticipant(
   participantIdentity: string,
   token: string
