@@ -12,7 +12,6 @@ import "@livekit/components-styles";
 
 import { CustomControlBar } from "../../../components/customControlBar";
 import { VideoConference } from "../../videoConference";
-import { deleteRoomIfEmpty } from "@/app/actions/roomActions";
 interface RoomProps {
   token: string;
 }

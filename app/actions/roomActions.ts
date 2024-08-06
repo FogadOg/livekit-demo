@@ -50,7 +50,7 @@ export async function handleCreateRoomForm(formData: FormData) {
 }
 
 // Returns room id to be used to check if name taken
-export async function validatePermissionToken(permissionToken: string) {
+export async function validateToken(permissionToken: string) {
   const tokenVerifier = new TokenVerifier(
     process.env.LIVEKIT_API_KEY!,
     process.env.LIVEKIT_API_SECRET!
@@ -73,7 +73,7 @@ export async function tokenFromPermissionToken(
   permissionToken: string,
   userId: string
 ) {
-  const { valid, token } = await validatePermissionToken(permissionToken);
+  const { valid, token } = await validateToken(permissionToken);
   if (!valid) {
     return false;
   }
@@ -109,7 +109,7 @@ export async function tokenFromPermissionToken(
 }
 
 export async function getIsAdmin(token: string): Promise<boolean> {
-  let { valid, token: validatedToken } = await validatePermissionToken(token);
+  let { valid, token: validatedToken } = await validateToken(token);
   if (!valid) {
     return false;
   }
