@@ -11,7 +11,7 @@ import { ToggleTrackSource } from "./toggleTrackSource";
 
 export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
-  let participants = useParticipants();
+  const participants = useParticipants();
   const [open, setOpen] = useState(false);
 
   const updateTrackSources = async (
@@ -43,7 +43,6 @@ export function AdminControls({ token }: { token: string }) {
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE}
                   p={p}
@@ -54,7 +53,6 @@ export function AdminControls({ token }: { token: string }) {
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-
                 <p className="">
                   {/*TODO User not being fully kicked*/}
                   <button
