@@ -5,6 +5,7 @@ import {
 } from "@livekit/components-react";
 import { RoomEvent } from "livekit-client";
 import { useState } from "react";
+import { ControlIcon } from "../assets/conrtolIcon";
 
 export function AdminControls({ token }: { token: string }) {
   const room = useRoomInfo();
@@ -54,6 +55,7 @@ export function AdminControls({ token }: { token: string }) {
         className="btn lk-button"
         onClick={() => setOpen((cur) => !cur)}
       >
+        <ControlIcon/>
         AdminControls
       </button>
     </div>

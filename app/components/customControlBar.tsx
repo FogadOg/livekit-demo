@@ -12,7 +12,8 @@ import { PermissionForm } from "../room/components/permisitionForm";
 import { TrackSource } from "livekit-server-sdk";
 import useIsAdmin from "@/app/hooks/useIsAdmin";
 import { AdminControls } from "./adminControls";
-
+import { RecordIcon } from "../assets/recordIcon";
+import { PeopleIcon } from "../assets/peopleIcon";
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
   token: string;
@@ -49,6 +50,7 @@ export function CustomControlBar({
                   setRecording(!recording);
                 }}
               >
+                <RecordIcon/>
                 Record{recording && "ing"}
               </button>
 
@@ -56,7 +58,7 @@ export function CustomControlBar({
               <Modal
                 title="Permissions"
                 content={<PermissionForm token={token} />}
-                buttonText="Invite users"
+                buttonText={"Invite users"}
                 modelName="premsistionForm"
               />
             </>
