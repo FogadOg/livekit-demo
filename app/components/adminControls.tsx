@@ -1,13 +1,10 @@
-import {
-  useParticipants,
-  useRemoteParticipants,
-  useRoomInfo,
-} from "@livekit/components-react";
-import { RoomEvent } from "livekit-client";
+import { useParticipants } from "@livekit/components-react";
+import { Participant, RoomEvent } from "livekit-client";
 import { useState } from "react";
 import useIsAdmin from "../hooks/useIsAdmin";
 import { updateParticipantPermissions } from "../actions/userActions";
-import { TrackSource, VideoGrant } from "livekit-server-sdk";
+import { TrackSource } from "livekit-server-sdk";
+import { ToggleTrackSource } from "./toggleTrackSource";
 
 export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
@@ -25,6 +22,14 @@ export function AdminControls({ token }: { token: string }) {
 
   const [open, setOpen] = useState(false);
 
+  const updateTrackSources = async (
+    newSourceList: TrackSource[],
+    p: Participant
+  ) => {
+    await updateParticipantPermissions(p.identity, token, {
+      canPublishSources: Array.from(newSourceList),
+    });
+  };
   if (!isAdmin) {
     return <></>;
   }
@@ -36,34 +41,28 @@ export function AdminControls({ token }: { token: string }) {
             {participants.map((p) => (
               <li key={p.sid} className="flex gap-2">
                 <p className="pe-3">{p.identity}</p>
-                <p className="">
-                  {/* <MicToggle room={room.name} p={p} /> */}
-                  <button
-                    onClick={async () => {
-                      const newSourceList = new Set(
-                        p.permissions?.canPublishSources
-                      );
+                <ToggleTrackSource
+                  trackSource={TrackSource.MICROPHONE}
+                  p={p}
+                  updateTrackSources={updateTrackSources}
+                />
+                <ToggleTrackSource
+                  trackSource={TrackSource.CAMERA}
+                  p={p}
+                  updateTrackSources={updateTrackSources}
+                />
 
-                      if (newSourceList.has(TrackSource.MICROPHONE)) {
-                        // Remove the MICROPHONE permission if it exists
-                        newSourceList.delete(TrackSource.MICROPHONE);
-                      } else {
-                        // Add MICROPHONE to permissions
-                        newSourceList.add(TrackSource.MICROPHONE);
-                      }
+                <ToggleTrackSource
+                  trackSource={TrackSource.SCREEN_SHARE}
+                  p={p}
+                  updateTrackSources={updateTrackSources}
+                />
+                <ToggleTrackSource
+                  trackSource={TrackSource.SCREEN_SHARE_AUDIO}
+                  p={p}
+                  updateTrackSources={updateTrackSources}
+                />
 
-                      await updateParticipantPermissions(p.identity, token, {
-                        canPublishSources: Array.from(newSourceList),
-                      });
-                    }}
-                  >
-                    MicToggle
-                  </button>
-                </p>
-                <p className="">
-                  {/* <CamToggle room={room.name} p={p} /> */}
-                  <button>CamToggle</button>
-                </p>
                 <p className="">
                   {/* <KickButton room={room.name} p={p} /> */}
                   <button>KickButton</button>
