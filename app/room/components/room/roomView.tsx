@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   LayoutContextProvider,
   Chat,
   LiveKitRoom,
   RoomAudioRenderer,
   useLocalParticipantPermissions,
-  useRoomInfo,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
@@ -21,19 +19,7 @@ interface RoomProps {
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-  const roomId = useRoomInfo().name;
-  useEffect(() => {
-    const handleUnload = () => {
-      deleteRoomIfEmpty(roomId);
-    };
-
-    window.addEventListener("unload", handleUnload);
-
-    return () => {
-      window.removeEventListener("unload", handleUnload);
-    };
-  }, []);
-
+  
   if (!token) {
     return <div>Getting token...</div>;
   }
@@ -49,7 +35,6 @@ const RoomView = ({ token }: RoomProps) => {
           data-lk-theme="default"
           style={{ height: "100dvh" }}
           onDisconnected={() => {
-            deleteRoomIfEmpty(roomId);
             router.replace("/");
           }}
         >
