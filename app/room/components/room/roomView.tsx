@@ -14,25 +14,12 @@ import "@livekit/components-styles";
 
 import { CustomControlBar } from "../../../components/customControlBar";
 import { VideoConference } from "../../videoConference";
-import { deleteRoomIfEmpty } from "@/app/actions/roomActions";
 interface RoomProps {
   token: string;
 }
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-  const roomId = useRoomInfo().name;
-  useEffect(() => {
-    const handleUnload = () => {
-      deleteRoomIfEmpty(roomId);
-    };
-
-    window.addEventListener("unload", handleUnload);
-
-    return () => {
-      window.removeEventListener("unload", handleUnload);
-    };
-  }, []);
 
   if (!token) {
     return <div>Getting token...</div>;
@@ -49,7 +36,6 @@ const RoomView = ({ token }: RoomProps) => {
           data-lk-theme="default"
           style={{ height: "100dvh" }}
           onDisconnected={() => {
-            deleteRoomIfEmpty(roomId);
             router.replace("/");
           }}
         >
