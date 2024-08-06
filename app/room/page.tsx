@@ -23,7 +23,6 @@ import {
 } from "../actions/roomActions";
 
 export default function Page() {
-  const [isAdmin, setIsAdmin] = useState(false)
   const searchParams = useSearchParams();
   const [roomId, setRoomId] = useState("");
   const [token, setToken] = useState("");
@@ -32,16 +31,6 @@ export default function Page() {
   const adminToken = searchParams.get("adminToken");
 
   const [roomExists, setRoomExists] = useState<boolean>(true);
-
-  const adminRoomToken = searchParams.get("token");
-
-  useEffect(() => {
-    if (adminRoomToken != null) {
-      isRoomAdmin(adminRoomToken).then((isAdmin) => {
-        setIsAdmin(isAdmin);
-      });
-    }
-  }, [adminRoomToken]);
 
 
   const [userId, setUserId] = useState("");
