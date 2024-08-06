@@ -12,6 +12,7 @@ import {
 } from "livekit-server-sdk";
 
 import { TokenVerifier } from "livekit-server-sdk";
+import { getIsAdmin } from "./roomActions";
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
@@ -84,7 +85,12 @@ const egressClient = new EgressClient(
   process.env.LIVEKIT_API_SECRET
 );
 
-export async function toggleRecording(roomId: string) {
+export async function toggleRecording(roomId: string, token: string) {
+  const isAdmin = await getIsAdmin(token);
+  if (!isAdmin) {
+    console.log("You are not admin!");
+    return false;
+  }
   const prismaRoom = await prisma.room.findFirst({
     where: { id: Number(roomId) },
   });
@@ -133,8 +139,14 @@ export async function getToken(input: string) {
 // The invite link will use it's permissions and add identity
 export async function generatePermissionToken(
   room: string,
-  permissions: VideoGrant
+  permissions: VideoGrant,
+  token: string
 ) {
+  const isAdmin = await getIsAdmin(token);
+  if (!isAdmin) {
+    console.log("You are not admin!");
+    return false;
+  }
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 

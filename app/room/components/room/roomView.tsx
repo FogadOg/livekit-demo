@@ -13,8 +13,6 @@ import "@livekit/components-styles";
 
 import { CustomControlBar } from "../../../components/customControlBar";
 import { VideoConference } from "../../videoConference";
-import useIsAdmin from "@/app/hooks/useIsAdmin";
-
 interface RoomProps {
   token: string;
 }
@@ -36,7 +34,6 @@ const RoomView = ({ token }: RoomProps) => {
   if (!token) {
     return <div>Getting token...</div>;
   }
-  const isAdmin = useIsAdmin(token);
 
   return (
     <div className="overflow-hidden">
@@ -58,7 +55,7 @@ const RoomView = ({ token }: RoomProps) => {
             <CustomChat />
           </div>
           <RoomAudioRenderer />
-          <CustomControlBar isAdmin={isAdmin} />
+          <CustomControlBar token={token} />
         </LiveKitRoom>
       </LayoutContextProvider>
     </div>

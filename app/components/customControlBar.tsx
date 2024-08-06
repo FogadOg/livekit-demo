@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   ControlBar,
   ControlBarProps,
-  useLocalParticipant,
   useLocalParticipantPermissions,
   useRoomContext,
 } from "@livekit/components-react";
@@ -11,15 +10,16 @@ import { RoomEvent } from "livekit-client";
 import { Modal } from "./modal";
 import { PermissionForm } from "../room/components/permisitionForm";
 import { TrackSource } from "livekit-server-sdk";
+import useIsAdmin from "@/app/hooks/useIsAdmin";
 
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
-  isAdmin?: boolean;
+  token: string;
 }
 
 export function CustomControlBar({
   customControl = true,
-  isAdmin = false,
+  token,
   ...props
 }: CustomControlBarProps) {
   // ! Can still record and stop recording if not publish
@@ -32,6 +32,7 @@ export function CustomControlBar({
     setRecording(room.isRecording);
   });
 
+  const isAdmin = useIsAdmin(token);
   return (
     <div className="lk-control-bar">
       {customControl && (
@@ -42,7 +43,7 @@ export function CustomControlBar({
               <button
                 className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
                 onClick={() => {
-                  toggleRecording(room.name);
+                  toggleRecording(room.name, token);
                   setRecording(!recording);
                 }}
               >
@@ -52,7 +53,7 @@ export function CustomControlBar({
               {/* Invite users */}
               <Modal
                 title="Permissions"
-                content={<PermissionForm />}
+                content={<PermissionForm token={token}/>}
                 buttonText="Invite users"
                 modelName="premsistionForm"
               />
