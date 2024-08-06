@@ -8,7 +8,6 @@ import { useState } from "react";
 import useIsAdmin from "../hooks/useIsAdmin";
 
 export function AdminControls({ token }: { token: string }) {
-  const room = useRoomInfo();
   const isAdmin = useIsAdmin(token);
   const participants = useParticipants({
     updateOnlyOn: [
@@ -21,7 +20,6 @@ export function AdminControls({ token }: { token: string }) {
       RoomEvent.TrackUnmuted,
     ],
   });
-  console.log(participants);
 
   const [open, setOpen] = useState(false);
 
@@ -35,7 +33,7 @@ export function AdminControls({ token }: { token: string }) {
           <ol className="absolute bottom-5  ">
             {participants.map((p) => (
               <li key={p.sid} className="flex gap-2">
-                <p className="pe-3">{p.identity || <em>unbekannt</em>}</p>
+                <p className="pe-3">{p.identity}</p>
                 <p className="">
                   {/* <MicToggle room={room.name} p={p} /> */}
                   <button>MicToggle</button>
