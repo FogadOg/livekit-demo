@@ -8,20 +8,23 @@ import {
   LiveKitRoom,
   RoomAudioRenderer,
   useLocalParticipantPermissions,
+  useRoomInfo,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 
 import { CustomControlBar } from "../../../components/customControlBar";
 import { VideoConference } from "../../videoConference";
+import { deleteRoomIfEmpty } from "@/app/actions/roomActions";
 interface RoomProps {
   token: string;
 }
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
+  const roomId = useRoomInfo().name;
   useEffect(() => {
     const handleUnload = () => {
-      // deleteRoomIfEmpty(roomId);
+      deleteRoomIfEmpty(roomId);
     };
 
     window.addEventListener("unload", handleUnload);
@@ -46,7 +49,7 @@ const RoomView = ({ token }: RoomProps) => {
           data-lk-theme="default"
           style={{ height: "100dvh" }}
           onDisconnected={() => {
-            // deleteRoomIfEmpty(roomId);
+            deleteRoomIfEmpty(roomId);
             router.replace("/");
           }}
         >
