@@ -36,29 +36,28 @@ export function CustomControlBar({
     <div className="lk-control-bar">
       {customControl && (
         <>
-          {
-            isAdmin && (
-              <>
-                <button
-                  className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
-                  onClick={() => {
-                    toggleRecording(room.name);
-                    setRecording(!recording);
-                  }}
-                >
-                  Record{recording && "ing"}
-                </button>
-                
-                <Modal
-                  title="Permissions"
-                  content={<PermissionForm />}
-                  buttonText="Invite users"
-                  modelName="premsistionForm"
-                />
-              </>
+          {isAdmin && (
+            <>
+              {/* Starts egress */}
+              <button
+                className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
+                onClick={() => {
+                  toggleRecording(room.name);
+                  setRecording(!recording);
+                }}
+              >
+                Record{recording && "ing"}
+              </button>
 
-            )
-          }
+              {/* Invite users */}
+              <Modal
+                title="Permissions"
+                content={<PermissionForm />}
+                buttonText="Invite users"
+                modelName="premsistionForm"
+              />
+            </>
+          )}
         </>
       )}
       <ControlBar
