@@ -5,9 +5,11 @@ import {
 } from "@livekit/components-react";
 import { RoomEvent } from "livekit-client";
 import { useState } from "react";
+import useIsAdmin from "../hooks/useIsAdmin";
 
 export function AdminControls({ token }: { token: string }) {
   const room = useRoomInfo();
+  const isAdmin = useIsAdmin(token);
   const participants = useParticipants({
     updateOnlyOn: [
       RoomEvent.Connected,
@@ -23,6 +25,9 @@ export function AdminControls({ token }: { token: string }) {
 
   const [open, setOpen] = useState(false);
 
+  if (!isAdmin) {
+    return <></>;
+  }
   return (
     <div className="relative">
       {open && (
