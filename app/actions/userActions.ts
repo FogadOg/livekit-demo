@@ -12,7 +12,7 @@ import {
 } from "livekit-server-sdk";
 
 import { TokenVerifier } from "livekit-server-sdk";
-import { getIsAdmin } from "./roomActions";
+import { getIsAdmin, validatePermissionToken } from "./roomActions";
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
@@ -162,4 +162,26 @@ export async function generatePermissionToken(
   });
 
   return await at.toJwt();
+}
+
+export async function updateParticipantPermissions(
+  participantIdentity: string,
+  token: string,
+  newPermissions: VideoGrant
+) {
+  const isAdmin = await getIsAdmin(token);
+  if (!isAdmin) {
+    console.log("You are not admin!");
+    return false;
+  }
+  let { token: validatedToken } = await validatePermissionToken(token);
+
+  const roomName = validatedToken?.video?.room;
+
+  await roomService.updateParticipant(
+    roomName!,
+    participantIdentity,
+    undefined,
+    newPermissions
+  );
 }
