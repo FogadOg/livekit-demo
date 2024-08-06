@@ -29,9 +29,7 @@ export function AdminControls({ token }: { token: string }) {
   }
   return (
     <div className="relative">
-      {open && (
-        <div className="relative">
-          <ol className="absolute bottom-5  ">
+          <ol className="bottom-5  ">
             {participants.map((p) => (
               <li key={p.sid} className="flex gap-2">
                 <p className="pe-3">{p.identity}</p>
@@ -80,17 +78,6 @@ export function AdminControls({ token }: { token: string }) {
               </li>
             ))}
           </ol>
-        </div>
-      )}
-
-      <button
-        id="toggle-user-control"
-        className="btn lk-button"
-        onClick={() => setOpen((cur) => !cur)}
-      >
-        <ControlIcon/>
-        AdminControls
-      </button>
     </div>
   );
 }
