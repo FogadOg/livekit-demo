@@ -37,7 +37,7 @@ export async function handleCreateRoomForm(formData: FormData) {
     roomJoin: true,
     canSubscribe: true,
     canPublish: true,
-    roomAdmin: false,
+    roomAdmin: true,
     roomRecord: true,
     canPublishSources: [
       TrackSource.CAMERA,
