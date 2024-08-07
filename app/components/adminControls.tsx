@@ -37,6 +37,7 @@ export function AdminControls({ token }: { token: string }) {
           <input type="radio" name="my_tabs_1" role="tab" className="tab text-ellipsis" aria-label={p.identity} />
           <div role="tabpanel" className="tab-content p-10">
 
+            <div>
               <div className={p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.MICROPHONE}
@@ -70,25 +71,29 @@ export function AdminControls({ token }: { token: string }) {
                 />
               </div>
 
-                  {/*TODO User not being fully kicked*/}
-                  <button
-                    onClick={async () => {
-                      await updateParticipantPermissions(p.identity, token, {
-                        canPublishData: p.permissions?.canPublishData,
-                      });
-                    }}
-                  >
-                    Hide messaging
-                  </button>
-                  {/*TODO User not being fully kicked*/}
-                  <button
-                    className="btn btn-outline btn-accent mt-10"
-                    onClick={async () => {
-                      await kickParticipant(p.identity, token);
-                    }}
-                  >
-                    Kick user
-                  </button>
+              {/*TODO User not being fully kicked*/}
+              <button
+                onClick={async () => {
+                  await updateParticipantPermissions(p.identity, token, {
+                    canPublishData: p.permissions?.canPublishData,
+                  });
+                }}
+              >
+                Hide messaging
+              </button>
+              {/*TODO User not being fully kicked*/}
+              <button
+                className="btn btn-outline btn-accent mt-10"
+                onClick={async () => {
+                  await kickParticipant(p.identity, token);
+                }}
+              >
+                Kick user
+              </button>
+
+            </div>
+
+
           </div>
 
         </>
