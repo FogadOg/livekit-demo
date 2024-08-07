@@ -75,7 +75,7 @@ export async function tokenFromPermissionToken(
 ) {
   const { valid, token } = await validateToken(permissionToken);
   if (!valid) {
-    return false;
+    return;
   }
 
   const apiKey = process.env.LIVEKIT_API_KEY;

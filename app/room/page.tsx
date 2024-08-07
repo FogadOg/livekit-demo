@@ -1,89 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import RoomView from "./components/room/roomView";
-import RoomAccessForm from "./components/room/roomAccessForm";
-
-import {
-  tokenFromPermissionToken,
-  validateToken,
-} from "../actions/roomActions";
+import RoomAccess from "./components/room/roomAccess";
 
 export default function Page() {
   const searchParams = useSearchParams();
-  const [roomId, setRoomId] = useState("");
-  const [token, setToken] = useState("");
 
   const permissionsToken = searchParams.get("permissionsToken");
   const adminToken = searchParams.get("adminToken");
 
-  const [roomExists, setRoomExists] = useState<boolean>(true);
+  const [token, setToken] = useState(adminToken ? adminToken : "");
 
-  const [userId, setUserId] = useState("");
-  const [accessRoom, setAccessRoom] = useState(false);
-
-  useEffect(() => {
-    const getRoom = async () => {
-      let { room, valid } = await validateToken(permissionsToken!);
-      if (valid) {
-        setRoomId(room!);
-      } else {
-        setRoomExists(false);
-      }
-    };
-    getRoom();
-  }, [permissionsToken]);
-
-  useEffect(() => {
-    const newToken = async () => {
-      let newToken = await tokenFromPermissionToken(permissionsToken!, userId);
-      if (newToken) {
-        setToken(newToken);
-      }
-    };
-
-    if (accessRoom && token === "") {
-      newToken();
-    }
-  }, [accessRoom]);
-
-  if (adminToken && adminToken !== "") {
-    return (
-      <>
-        <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
-        <RoomView token={adminToken} />
-      </>
-    );
-  }
   if (token !== "") {
+    return <RoomView token={token} />;
+  }
+  if (!permissionsToken) {
     return (
       <>
-        <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
-        <RoomView token={token} />
+        <h1 className="font-bold text-xl">No token?</h1>
+        <p>You are missing token from url? Please make sure to copy full url</p>
       </>
     );
   }
-
-  if (!roomExists) {
-    return (
-      <>
-        <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
-        <p>Couldn't find the room you are looking for</p>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
-      <RoomAccessForm
-        roomId={roomId}
-        setAccessRoom={setAccessRoom}
-        userId={userId}
-        setUserId={setUserId}
-      />
-    </>
-  );
+  return <RoomAccess setToken={setToken} permissionToken={permissionsToken} />;
 }
