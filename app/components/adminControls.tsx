@@ -37,7 +37,7 @@ export function AdminControls({ token }: { token: string }) {
           <input type="radio" name="my_tabs_1" role="tab" className="tab text-ellipsis" aria-label={p.identity} />
           <div role="tabpanel" className="tab-content p-10">
 
-            <div className="grid">
+            <div className="grid gap-1">
               <button className={p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.MICROPHONE}
