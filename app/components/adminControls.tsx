@@ -9,7 +9,7 @@ import {
 import { TrackSource } from "livekit-server-sdk";
 import { ToggleTrackSource } from "./toggleTrackSource";
 
-import { ControlIcon } from "../assets/conrtolIcon";
+import { ControlIcon } from "../assets/controlIcon";
 
 export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
@@ -88,7 +88,7 @@ export function AdminControls({ token }: { token: string }) {
         className="btn lk-button"
         onClick={() => setOpen((cur) => !cur)}
       >
-        <ControlIcon/>
+        <ControlIcon />
         AdminControls
       </button>
     </div>
