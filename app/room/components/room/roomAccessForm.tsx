@@ -10,21 +10,15 @@ import React from "react";
 
 interface RoomProps {
   roomId: string;
-  userId: string;
-  setAccessRoom: (access: boolean) => void;
-  setUserId: (id: string) => void;
+  setToken: (token: string) => void;
+  permissionToken: string;
 }
 
-const RoomAccessForm = ({
-  roomId,
-  setAccessRoom,
-  userId,
-  setUserId,
-}: RoomProps) => {
+const RoomAccessForm = ({ roomId, setToken, permissionToken }: RoomProps) => {
+  const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const [isRoomPublic, setIsRoomPublic] = useState<boolean>(true);
-
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -44,12 +38,15 @@ const RoomAccessForm = ({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let { valid, message } = await validatedRoomPasswordAndUsername(
+    let { message, token } = await validatedRoomPasswordAndUsername(
       roomId,
       userId,
-      password
+      password,
+      permissionToken
     );
-    setAccessRoom(valid);
+    if (token) {
+      setToken(token);
+    }
     if (message !== "") {
       alert(message);
     }

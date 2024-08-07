@@ -21,33 +21,21 @@ export default function Page() {
 
   const [roomExists, setRoomExists] = useState<boolean>(true);
 
-  const [userId, setUserId] = useState("");
-  const [accessRoom, setAccessRoom] = useState(false);
-
   useEffect(() => {
-    const getRoom = async () => {
-      let { room, valid } = await validateToken(permissionsToken!);
+    const getRoom = async (token: string) => {
+      let { room, valid } = await validateToken(token);
       if (valid) {
         setRoomId(room!);
       } else {
         setRoomExists(false);
       }
     };
-    getRoom();
-  }, [permissionsToken]);
-
-  useEffect(() => {
-    const newToken = async () => {
-      let newToken = await tokenFromPermissionToken(permissionsToken!, userId);
-      if (newToken) {
-        setToken(newToken);
-      }
-    };
-
-    if (accessRoom && token === "") {
-      newToken();
+    if (permissionsToken !== null) {
+      getRoom(permissionsToken);
+    } else {
+      setRoomExists(false);
     }
-  }, [accessRoom]);
+  }, [permissionsToken]);
 
   if (adminToken && adminToken !== "") {
     return (
@@ -66,7 +54,7 @@ export default function Page() {
     );
   }
 
-  if (!roomExists) {
+  if (!roomExists || !permissionsToken) {
     return (
       <>
         <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
@@ -80,9 +68,8 @@ export default function Page() {
       <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
       <RoomAccessForm
         roomId={roomId}
-        setAccessRoom={setAccessRoom}
-        userId={userId}
-        setUserId={setUserId}
+        setToken={setToken}
+        permissionToken={permissionsToken}
       />
     </>
   );

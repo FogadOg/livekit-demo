@@ -12,7 +12,11 @@ import {
 } from "livekit-server-sdk";
 
 import { TokenVerifier } from "livekit-server-sdk";
-import { getIsAdmin, validateToken } from "./roomActions";
+import {
+  getIsAdmin,
+  tokenFromPermissionToken,
+  validateToken,
+} from "./roomActions";
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
@@ -222,7 +226,8 @@ export async function getRoomState(roomId: string) {
 export async function validatedRoomPasswordAndUsername(
   roomId: string,
   username: string,
-  password: string
+  password: string,
+  permissionToken: string
 ) {
   const room = await prisma.room.findUnique({
     where: { id: Number(roomId) },
@@ -245,5 +250,9 @@ export async function validatedRoomPasswordAndUsername(
   if (room.password !== password) {
     return { valid: false, message: "Password is incorrect" };
   }
-  return { valid: true, message: "" };
+  return {
+    valid: true,
+    message: "",
+    token: await tokenFromPermissionToken(permissionToken, username),
+  };
 }
