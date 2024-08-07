@@ -20,7 +20,7 @@ export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
   let participants = useParticipants();
   participants = participants.filter((p) => {
-    !p.isAgent;
+    return !p.isAgent;
   });
 
   const updateTrackSources = async (
