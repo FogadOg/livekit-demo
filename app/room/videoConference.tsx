@@ -59,7 +59,8 @@ export const VideoConference = () => {
           />
         </div>
         <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-          <Caption agentPresent={agentPresent} />
+          {/* Caption visible if agent present*/}
+          {agentPresent && <Caption />}
         </div>
       </div>
     </GridLayout>

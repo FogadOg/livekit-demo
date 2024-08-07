@@ -5,21 +5,12 @@ import {
   useEnsureTrackRef,
 } from "@livekit/components-react";
 
-const Caption = ({
-  trackRef,
-  agentPresent,
-}: {
-  trackRef?: TrackReferenceOrPlaceholder;
-  agentPresent?: boolean;
-}) => {
+const Caption = ({ trackRef }: { trackRef?: TrackReferenceOrPlaceholder }) => {
   const trackReference = useEnsureTrackRef(trackRef);
   const participantTrack = GetParticipantTrack(
     trackReference.participant.identity
   );
 
-  if (!agentPresent) {
-    return <p></p>;
-  }
   return (
     <div className="flex-1">
       {participantTrack && (
