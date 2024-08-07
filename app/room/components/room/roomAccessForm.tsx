@@ -20,8 +20,6 @@ const RoomAccessForm = ({ setToken, permissionToken }: RoomProps) => {
 
   const [isRoomPublic, setIsRoomPublic] = useState<boolean>(true);
 
-  const [loading, setLoading] = useState<boolean>(true);
-
   const [roomExists, setRoomExists] = useState<boolean>(true);
   const [roomId, setRoomId] = useState("");
 
@@ -30,7 +28,6 @@ const RoomAccessForm = ({ setToken, permissionToken }: RoomProps) => {
       const { valid, room } = await validateToken(permissionToken);
       if (!valid) {
         setRoomExists(false);
-
         return;
       }
 
@@ -41,7 +38,6 @@ const RoomAccessForm = ({ setToken, permissionToken }: RoomProps) => {
       } else {
         setRoomExists(false);
       }
-      setLoading(false);
     };
 
     fetchRoomState();
@@ -72,7 +68,8 @@ const RoomAccessForm = ({ setToken, permissionToken }: RoomProps) => {
     );
   }
 
-  if (loading || roomId === "") {
+  // Loading
+  if (roomId === "") {
     return (
       <div className="flex flex-col gap-2 m-5">
         <div className="skeleton h-[48px] w-[250px]"></div>
