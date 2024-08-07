@@ -94,11 +94,12 @@ export function AdminControls({ token }: { token: string }) {
               </button>
 
               {/*TODO User not being fully kicked*/}
-              <button
+              {/*<button
                 onClick={async () => {toggleChat(p)}}
               >
-                Hide messaging
-              </button>
+                Hide chat
+              </button>*/}
+
               {/*TODO User not being fully kicked*/}
               <button
                 className="btn btn-outline btn-accent mt-10"
