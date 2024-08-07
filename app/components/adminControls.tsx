@@ -90,7 +90,6 @@ export function AdminControls({ token }: { token: string }) {
                 updateTrackSources={updateTrackSources}
               />
 
-              {/*TODO User not being fully kicked*/}
               <button
                 onClick={async () => {
                   toggleChat(p);
