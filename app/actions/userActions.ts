@@ -187,7 +187,6 @@ export async function updateParticipantPermissions(
 }
 
 // Can still join with same token
-// Maybe setting room join false?
 export async function kickParticipant(
   participantIdentity: string,
   token: string
@@ -205,4 +204,17 @@ export async function kickParticipant(
     validatedToken?.video?.room!,
     participantIdentity
   );
+}
+
+export async function getRoomState(roomId: string) {
+  const room = await prisma.room.findUnique({
+    where: { id: Number(roomId) },
+    select: { password: true, name: true, public: true },
+  });
+
+  if (room) {
+    return { roomPublic: room.public, valid: true };
+  } else {
+    return { valid: false };
+  }
 }

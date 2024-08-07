@@ -1,5 +1,6 @@
 "use client";
 
+import { getRoomState } from "@/app/actions/userActions";
 import "@livekit/components-styles";
 import { useEffect, useState, FormEvent } from "react";
 import React from "react";
@@ -35,23 +36,11 @@ const RoomAccessForm = ({
 
   useEffect(() => {
     const fetchRoomState = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`/api/get-room-state?roomId=${roomId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setRoomPassword(data.password || "");
-          setIsRoomPublic(data.isRoomPublic || false);
-          setParticipants(data.participants || []);
-        } else if (response.status === 404) {
-        } else {
-          console.error(`Error fetching room: ${response.statusText}`);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      } finally {
-        setLoading(false);
+      const roomState = await getRoomState(roomId);
+      if (roomState.valid) {
+        setIsRoomPublic(roomState.roomPublic!);
       }
+      setLoading(false);
     };
 
     fetchRoomState();
