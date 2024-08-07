@@ -19,12 +19,14 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
   const [isRoomPublic, setIsRoomPublic] = useState<boolean>(true);
 
   const [roomExists, setRoomExists] = useState<boolean>(true);
+  const [expired, setExpired] = useState<boolean>(false);
   const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
     const fetchRoomState = async () => {
-      const { valid, room } = await validateToken(permissionToken);
+      const { valid, room, expired } = await validateToken(permissionToken);
       if (!valid) {
+        setExpired(true);
         setRoomExists(false);
         return;
       }
@@ -59,6 +61,14 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
     }
   };
 
+  if (expired) {
+    return (
+      <>
+        <h1 className="font-bold text-xl">Looks like the link has expired</h1>
+        <p>Ask the admin of the site to send a new link</p>
+      </>
+    );
+  }
   if (!roomExists) {
     return (
       <>

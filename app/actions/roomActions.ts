@@ -57,9 +57,18 @@ export async function validateToken(permissionToken: string) {
   );
   try {
     const token = await tokenVerifier.verify(permissionToken);
+
+    // Current time (in seconds since epoch)
+    const currentTime = Math.floor(Date.now() / 1000);
+
     if (!token) {
       console.error("token not valid!");
       return { valid: false };
+    }
+
+    if (currentTime > token.exp!) {
+      return { valid: false, expired:true };
+
     }
     return { room: token.video?.room, token: token, valid: true };
   } catch {
@@ -74,6 +83,7 @@ export async function tokenFromPermissionToken(
   userId: string
 ) {
   const { valid, token } = await validateToken(permissionToken);
+
   if (!valid) {
     return;
   }
