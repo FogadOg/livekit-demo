@@ -5,17 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import RoomView from "./components/room/roomView";
 import RoomAccessForm from "./components/room/roomAccessForm";
-import { verifyToken } from "../actions/verifyToken";
 
-async function isRoomAdmin(adminRoomToken: string): Promise<boolean> {
-  try {
-    const permissions = await verifyToken(adminRoomToken);
-    return permissions.token?.video?.roomCreate || false;
-  } catch (error) {
-    console.error("Error verifying token:", error);
-    return false;
-  }
-}
 import {
   tokenFromPermissionToken,
   validateToken,
@@ -48,17 +38,13 @@ export default function Page() {
 
   useEffect(() => {
     const newToken = async () => {
-      if (token === "") {
-        let newToken = await tokenFromPermissionToken(
-          permissionsToken!,
-          userId
-        );
-        if (newToken) {
-          setToken(newToken);
-        }
+      let newToken = await tokenFromPermissionToken(permissionsToken!, userId);
+      if (newToken) {
+        setToken(newToken);
       }
     };
-    if (accessRoom) {
+
+    if (accessRoom && token === "") {
       newToken();
     }
   }, [accessRoom]);
@@ -71,7 +57,7 @@ export default function Page() {
       </>
     );
   }
-  if (accessRoom || token !== "") {
+  if (token !== "") {
     return (
       <>
         <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>

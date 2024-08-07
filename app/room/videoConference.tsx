@@ -35,7 +35,6 @@ export const VideoConference = () => {
   );
   const agentPresent = filteredTracks.length !== tracks.length;
 
-  const room = useRoomContext();
   const participant = useLocalParticipant();
 
   return (
@@ -50,7 +49,6 @@ export const VideoConference = () => {
             title="Transcription"
             content={
               <TranscriptTile
-                roomId={Number(room.name)}
                 userName={participant.localParticipant.name!}
               />
             }
@@ -59,7 +57,8 @@ export const VideoConference = () => {
           />
         </div>
         <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-          <Caption agentPresent={agentPresent} />
+          {/* Caption visible if agent present*/}
+          {agentPresent && <Caption />}
         </div>
       </div>
     </GridLayout>
