@@ -77,7 +77,7 @@ export function AdminControls({ token }: { token: string }) {
                       });
                     }}
                   >
-                    Toggle messaging
+                    Hide messaging
                   </button>
                   {/*TODO User not being fully kicked*/}
                   <button
@@ -86,7 +86,7 @@ export function AdminControls({ token }: { token: string }) {
                       await kickParticipant(p.identity, token);
                     }}
                   >
-                    Kick
+                    Kick user
                   </button>
             </div>
 
