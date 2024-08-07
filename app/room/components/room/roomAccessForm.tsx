@@ -25,7 +25,6 @@ const RoomAccessForm = ({
 
   const [isRoomPublic, setIsRoomPublic] = useState<boolean>(true);
 
-  const [participantNames, setParticipantNames] = useState<string[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -34,7 +33,6 @@ const RoomAccessForm = ({
       const roomState = await getRoomState(roomId);
       if (roomState.valid) {
         setIsRoomPublic(roomState.roomPublic!);
-        setParticipantNames(roomState.participantNames!);
       } else {
         // TODO Set room exist false
       }

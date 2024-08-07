@@ -212,12 +212,8 @@ export async function getRoomState(roomId: string) {
     select: { password: true, name: true, public: true },
   });
 
-  const participants = await roomService.listParticipants(roomId);
-  const participantNames = participants.map((p) => {
-    return p.name;
-  });
   if (room) {
-    return { roomPublic: room.public, valid: true, participantNames };
+    return { roomPublic: room.public, valid: true };
   } else {
     return { valid: false };
   }
