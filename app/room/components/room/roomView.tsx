@@ -12,16 +12,13 @@ import "@livekit/components-styles";
 
 import { CustomControlBar } from "../../../components/customControlBar";
 import { VideoConference } from "../../videoConference";
+
 interface RoomProps {
   token: string;
 }
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-  
-  if (!token) {
-    return <div>Getting token...</div>;
-  }
 
   return (
     <div className="overflow-hidden">
