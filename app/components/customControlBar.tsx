@@ -41,7 +41,13 @@ export function CustomControlBar({
         <>
           {isAdmin && (
             <>
-              <AdminControls token={token} />
+              <Modal
+                title="Admin controls"
+                content={<AdminControls token={token} />}
+                buttonText="Admin controls"
+                modelName="adminControls"
+              />
+              
               {/* Starts egress */}
               <button
                 className={"btn lk-button " + (recording ? "!bg-red-500" : "")}

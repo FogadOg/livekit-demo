@@ -43,4 +43,10 @@ const RoomView = ({ token }: RoomProps) => {
   );
 };
 
+const CustomChat = () => {
+  const permissions = useLocalParticipantPermissions();
+  
+  return(permissions?.canPublishData && <Chat />)
+};
+
 export default RoomView;

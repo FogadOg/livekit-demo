@@ -1,5 +1,5 @@
 import { useParticipants, useRoomInfo } from "@livekit/components-react";
-import { Participant } from "livekit-client";
+import { LocalParticipant, Participant, RemoteParticipant, Track } from "livekit-client";
 import { useState } from "react";
 import useIsAdmin from "../hooks/useIsAdmin";
 import {
@@ -27,70 +27,96 @@ export function AdminControls({ token }: { token: string }) {
   if (!isAdmin) {
     return <></>;
   }
+  
+  async function toggleChat(p: RemoteParticipant | LocalParticipant) {
+    console.log("p.permissions?.canPublishData: ",p.permissions?.canPublishData);
+    
+    if(p.permissions?.canPublishData == true) {
+      console.log("sat to false");
+      
+      await updateParticipantPermissions(p.identity, token, {
+        canPublishData: false,
+      });
+      console.log("finish");
+
+
+    }else {
+      console.log("sat to true");
+
+      await updateParticipantPermissions(p.identity, token, {
+        canPublishData: true,
+      });
+      console.log("finish");
+
+    }
+  }
+  
   return (
-    <div className="relative">
-      {open && (
-        <div className="relative">
-          <ol className="absolute bottom-5  ">
-            {participants.map((p) => (
-              <li key={p.sid} className="flex gap-2">
-                <p className="pe-3">{p.identity}</p>
+    <div role="tablist" className="tabs tabs-bordered">
+
+      {participants.map((p) => (
+        <>
+          <input type="radio" name="my_tabs_1" role="tab" className="tab text-ellipsis" aria-label={p.identity} />
+          <div role="tabpanel" className="tab-content p-10">
+
+            <div className="grid gap-1">
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.MICROPHONE}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
+              </button>
+
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.CAMERA) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.CAMERA}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
+
+              </button>
+
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
+              </button>
+
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE_AUDIO) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE_AUDIO}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-                <p className="">
-                  {/*TODO User not being fully kicked*/}
-                  <button
-                    onClick={async () => {
-                      await updateParticipantPermissions(p.identity, token, {
-                        canPublishData: p.permissions?.canPublishData,
-                      });
-                    }}
-                  >
-                    Toggle messaging
-                  </button>
-                </p>
-                <p className="">
-                  {/*TODO User not being fully kicked*/}
-                  <button
-                    onClick={async () => {
-                      await kickParticipant(p.identity, token);
-                    }}
-                  >
-                    Kick
-                  </button>
-                </p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
+              </button>
 
-      <button
-        id="toggle-user-control"
-        className="btn lk-button"
-        onClick={() => setOpen((cur) => !cur)}
-      >
-        <ControlIcon />
-        AdminControls
-      </button>
+              {/*TODO User not being fully kicked*/}
+              {/*<button
+                onClick={async () => {toggleChat(p)}}
+              >
+                Hide chat
+              </button>*/}
+
+              {/*TODO User not being fully kicked*/}
+              <button
+                className="btn btn-outline btn-accent mt-10"
+                onClick={async () => {
+                  await kickParticipant(p.identity, token);
+                }}
+              >
+                Kick user
+              </button>
+
+            </div>
+
+
+          </div>
+
+        </>
+      ))}
     </div>
   );
 }
