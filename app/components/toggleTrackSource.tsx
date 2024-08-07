@@ -3,7 +3,7 @@ import { TrackSource } from "livekit-server-sdk";
 
 const trackSourceValues = Object.values(TrackSource).filter(
   (value) => typeof value !== "number" && value !== "UNKNOWN"
-);
+).map((name)=>name.toString().toLowerCase().replaceAll("_", " "))
 
 export function ToggleTrackSource({
   trackSource,
