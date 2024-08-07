@@ -1,5 +1,5 @@
 import { useParticipants, useRoomInfo } from "@livekit/components-react";
-import { Participant, Track } from "livekit-client";
+import { LocalParticipant, Participant, RemoteParticipant, Track } from "livekit-client";
 import { useState } from "react";
 import useIsAdmin from "../hooks/useIsAdmin";
 import {
@@ -28,6 +28,11 @@ export function AdminControls({ token }: { token: string }) {
     return <></>;
   }
   
+  async function toggleChat(p: RemoteParticipant | LocalParticipant) {
+    await updateParticipantPermissions(p.identity, token, {
+      canPublishData: p.permissions?.canPublishData,
+    });
+  }
   
   return (
     <div role="tablist" className="tabs tabs-bordered">
@@ -73,11 +78,7 @@ export function AdminControls({ token }: { token: string }) {
 
               {/*TODO User not being fully kicked*/}
               <button
-                onClick={async () => {
-                  await updateParticipantPermissions(p.identity, token, {
-                    canPublishData: p.permissions?.canPublishData,
-                  });
-                }}
+                onClick={async () => {toggleChat(p)}}
               >
                 Hide messaging
               </button>
