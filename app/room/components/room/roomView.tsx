@@ -34,11 +34,7 @@ const RoomView = ({ token }: RoomProps) => {
             router.replace("/");
           }}
         >
-          <div className="flex">
-            <VideoConference />
-            {/* Chat visible if can chat */}
-            <CustomChat/>
-          </div>
+          <VideoConference />
           <RoomAudioRenderer />
           <CustomControlBar token={token} />
         </LiveKitRoom>

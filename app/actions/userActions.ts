@@ -12,7 +12,11 @@ import {
 } from "livekit-server-sdk";
 
 import { TokenVerifier } from "livekit-server-sdk";
-import { getIsAdmin, validateToken } from "./roomActions";
+import {
+  getIsAdmin,
+  tokenFromPermissionToken,
+  validateToken,
+} from "./roomActions";
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
@@ -187,7 +191,6 @@ export async function updateParticipantPermissions(
 }
 
 // Can still join with same token
-// Maybe setting room join false?
 export async function kickParticipant(
   participantIdentity: string,
   token: string
@@ -205,4 +208,51 @@ export async function kickParticipant(
     validatedToken?.video?.room!,
     participantIdentity
   );
+}
+
+export async function getRoomState(roomId: string) {
+  const room = await prisma.room.findUnique({
+    where: { id: Number(roomId) },
+    select: { password: true, name: true, public: true },
+  });
+
+  if (room) {
+    return { roomPublic: room.public, valid: true };
+  } else {
+    return { valid: false };
+  }
+}
+
+export async function validatedRoomPasswordAndUsername(
+  roomId: string,
+  username: string,
+  password: string,
+  permissionToken: string
+) {
+  const room = await prisma.room.findUnique({
+    where: { id: Number(roomId) },
+    select: { password: true, name: true, public: true },
+  });
+
+  if (!room) {
+    return { valid: false, message: "Something went wrong try to refresh" };
+  }
+
+  const participants = await roomService.listParticipants(roomId);
+  const usernameTaken = participants.some((p) => {
+    return p.identity === username;
+  });
+
+  if (usernameTaken) {
+    return { valid: false, message: "Username taken" };
+  }
+
+  if (room.password !== password) {
+    return { valid: false, message: "Password is incorrect" };
+  }
+  return {
+    valid: true,
+    message: "",
+    token: await tokenFromPermissionToken(permissionToken, username),
+  };
 }

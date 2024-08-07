@@ -1,93 +1,33 @@
 "use client";
 
+import { validateToken } from "@/app/actions/roomActions";
+import {
+  getRoomState,
+  validatedRoomPasswordAndUsername,
+} from "@/app/actions/userActions";
 import "@livekit/components-styles";
-import { useEffect, useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import React from "react";
-// ! WARNING
-// ! This is not safe, should be rebuilt if not demo
-// ! User can use somebody else's name and kick them
-// ! User can see room password
 
 interface RoomProps {
-  roomId: string;
-  userId: string;
-  setAccessRoom: (access: boolean) => void;
-  setUserId: (id: string) => void;
+  submitUsernameAndPassword: (
+    userId: string,
+    password: string
+  ) => Promise<void>;
+  isRoomPublic: boolean;
 }
 
 const RoomAccessForm = ({
-  roomId,
-  setAccessRoom,
-  userId,
-  setUserId,
+  submitUsernameAndPassword,
+  isRoomPublic,
 }: RoomProps) => {
-  const [roomPassword, setRoomPassword] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [isRoomPublic, setIsRoomPublic] = useState<boolean>(false);
-
-  const [isValidPassword, setIsValidPassword] = useState<boolean>(false);
-  const [isValidUserId, setIsValidUserId] = useState<boolean>(false);
-
-  const [participants, setParticipants] = useState<string[]>([]);
-
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchRoomState = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`/api/get-room-state?roomId=${roomId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setRoomPassword(data.password || "");
-          setIsRoomPublic(data.isRoomPublic || false);
-          setParticipants(data.participants || []);
-        } else if (response.status === 404) {
-        } else {
-          console.error(`Error fetching room: ${response.statusText}`);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRoomState();
-  }, [roomId]);
-
-  useEffect(() => {
-    if (isValidPassword && isValidUserId) {
-      setAccessRoom(true);
-    }
-  }, [isValidPassword, isValidUserId, setAccessRoom]);
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (password === roomPassword) {
-      setIsValidPassword(true);
-    } else {
-      alert("Incorrect password");
-      setIsValidPassword(false);
-    }
-    if (!participants.includes(userId)) {
-      setIsValidUserId(true);
-    } else {
-      alert("Username taken");
-      setIsValidUserId(false);
-    }
+    submitUsernameAndPassword(userId, password);
   };
-
-  if (loading || roomId === "") {
-    return (
-      <div className="flex flex-col gap-2 m-5">
-        <div className="skeleton h-[48px] w-[250px]"></div>
-        <div className="skeleton h-[48px] w-[250px]"></div>
-        <div className="skeleton h-[48px] w-[62px]"></div>
-      </div>
-    );
-  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 m-5">

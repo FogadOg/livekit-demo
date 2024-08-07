@@ -2,6 +2,7 @@
 
 import React from "react";
 import {
+  Chat,
   GridLayout,
   ParticipantTile,
   useTracks,
@@ -38,29 +39,31 @@ export const VideoConference = () => {
   const participant = useLocalParticipant();
 
   return (
-    <GridLayout
-      tracks={filteredTracks}
-      style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
-    >
-      <div className="relative">
-        <ParticipantTile className="h-full" />
-        <div className="absolute top-10 left-20">
-          <Modal
-            title="Transcription"
-            content={
-              <TranscriptTile
-                userName={participant.localParticipant.name!}
-              />
-            }
-            buttonText={`View transcript`}
-            modelName={`${participant.localParticipant.name!}s transcription`}
-          />
+    <div className="flex">
+      <GridLayout
+        tracks={filteredTracks}
+        style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
+      >
+        <div className="relative">
+          <ParticipantTile className="h-full" />
+          <div className="absolute top-10 left-20">
+            <Modal
+              title="Transcription"
+              content={
+                <TranscriptTile userName={participant.localParticipant.name!} />
+              }
+              buttonText={`View transcript`}
+              modelName={`${participant.localParticipant.name!}s transcription`}
+            />
+          </div>
+          <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
+            {/* Caption visible if agent present*/}
+            {agentPresent && <Caption />}
+          </div>
         </div>
-        <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-          {/* Caption visible if agent present*/}
-          {agentPresent && <Caption />}
-        </div>
-      </div>
-    </GridLayout>
+      </GridLayout>
+      {/* Chat visible if can chat */}
+      {participant.localParticipant.permissions?.canPublishData && <Chat />};
+    </div>
   );
 };
