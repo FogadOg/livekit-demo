@@ -53,8 +53,15 @@ export default function Page() {
       </>
     );
   }
-
-  if (!roomExists || !permissionsToken) {
+  if (!permissionsToken) {
+    return (
+      <>
+        <h1 className="font-bold text-xl">No token?</h1>
+        <p>You are missing token from url? Please make sure to copy full url</p>
+      </>
+    );
+  }
+  if (!roomExists) {
     return (
       <>
         <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
