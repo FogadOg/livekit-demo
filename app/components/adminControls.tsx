@@ -1,4 +1,8 @@
-import { useParticipants, useRoomInfo } from "@livekit/components-react";
+import {
+  useLocalParticipant,
+  useParticipants,
+  useRoomInfo,
+} from "@livekit/components-react";
 import {
   LocalParticipant,
   Participant,
@@ -18,10 +22,11 @@ import { ControlIcon } from "../assets/controlIcon";
 
 export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
+  const identity = useLocalParticipant().localParticipant.identity;
   let participants = useParticipants();
-  participants = participants.filter((p) => {
-    return !p.isAgent;
-  });
+  participants = participants.filter(
+    (p) => !p.isAgent && p.identity !== identity
+  );
 
   const updateTrackSources = async (
     newSourceList: TrackSource[],
@@ -96,7 +101,7 @@ export function AdminControls({ token }: { token: string }) {
                     : "btn btn-error"
                 }
               >
-                Can chat
+                Send chat
               </button>
 
               {/*TODO User not being fully kicked*/}
