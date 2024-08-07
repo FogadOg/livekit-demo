@@ -8,7 +8,7 @@ import {
 import { toggleRecording } from "../actions/userActions";
 import { RoomEvent } from "livekit-client";
 import { Modal } from "./modal";
-import { PermissionForm } from "../room/components/permisitionForm";
+import { PermissionForm } from "../room/components/permissionForm";
 import { TrackSource } from "livekit-server-sdk";
 import useIsAdmin from "@/app/hooks/useIsAdmin";
 import { AdminControls } from "./adminControls";
