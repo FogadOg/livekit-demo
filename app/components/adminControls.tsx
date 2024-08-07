@@ -29,9 +29,17 @@ export function AdminControls({ token }: { token: string }) {
   }
   
   async function toggleChat(p: RemoteParticipant | LocalParticipant) {
-    await updateParticipantPermissions(p.identity, token, {
-      canPublishData: p.permissions?.canPublishData,
-    });
+    if(p.permissions?.canPublishData == true) {
+      await updateParticipantPermissions(p.identity, token, {
+        canPublishData: false,
+      });
+
+    }else {
+
+      await updateParticipantPermissions(p.identity, token, {
+        canPublishData: true,
+      });
+    }
   }
   
   return (
