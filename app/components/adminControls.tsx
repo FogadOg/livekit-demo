@@ -27,7 +27,7 @@ export function AdminControls({ token }: { token: string }) {
   if (!isAdmin) {
     return <></>;
   }
-  // console.log(p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE));
+  
   
   return (
     <div role="tablist" className="tabs tabs-bordered">
