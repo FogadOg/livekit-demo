@@ -33,9 +33,10 @@ export function AdminControls({ token }: { token: string }) {
     <div role="tablist" className="tabs tabs-bordered">
 
       {participants.map((p) => (
-          <>
-            <input type="radio" name="my_tabs_1" role="tab" className="tab text-ellipsis" aria-label={p.identity} />
-            <div role="tabpanel" className="tab-content p-10">
+        <>
+          <input type="radio" name="my_tabs_1" role="tab" className="tab text-ellipsis" aria-label={p.identity} />
+          <div role="tabpanel" className="tab-content p-10">
+
               <div className={p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.MICROPHONE}
@@ -88,9 +89,9 @@ export function AdminControls({ token }: { token: string }) {
                   >
                     Kick user
                   </button>
-            </div>
+          </div>
 
-          </>
+        </>
       ))}
     </div>
   );
