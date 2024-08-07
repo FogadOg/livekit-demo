@@ -1,5 +1,10 @@
 import { useParticipants, useRoomInfo } from "@livekit/components-react";
-import { LocalParticipant, Participant, RemoteParticipant, Track } from "livekit-client";
+import {
+  LocalParticipant,
+  Participant,
+  RemoteParticipant,
+  Track,
+} from "livekit-client";
 import { useState } from "react";
 import useIsAdmin from "../hooks/useIsAdmin";
 import {
@@ -13,8 +18,10 @@ import { ControlIcon } from "../assets/controlIcon";
 
 export function AdminControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
-  const participants = useParticipants();
-  const [open, setOpen] = useState(false);
+  let participants = useParticipants();
+  participants = participants.filter((p) => {
+    !p.isAgent;
+  });
 
   const updateTrackSources = async (
     newSourceList: TrackSource[],
@@ -27,30 +34,41 @@ export function AdminControls({ token }: { token: string }) {
   if (!isAdmin) {
     return <></>;
   }
-  
+
   async function toggleChat(p: RemoteParticipant | LocalParticipant) {
-    
-    if(p.permissions?.canPublishData == true) {
+    if (p.permissions?.canPublishData == true) {
       await updateParticipantPermissions(p.identity, token, {
         canPublishData: false,
       });
-    }else {
+    } else {
       await updateParticipantPermissions(p.identity, token, {
         canPublishData: true,
       });
     }
   }
-  
+
   return (
     <div role="tablist" className="tabs tabs-bordered">
-
       {participants.map((p) => (
         <>
-          <input type="radio" name="my_tabs_1" role="tab" className="tab text-ellipsis" aria-label={p.identity} />
+          <input
+            type="radio"
+            name="my_tabs_1"
+            role="tab"
+            className="tab text-ellipsis"
+            aria-label={p.identity}
+          />
           <div role="tabpanel" className="tab-content p-10">
-
             <div className="grid gap-1">
-              <button className={p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE) ? "btn btn-success" : "btn btn-error"}>
+              <button
+                className={
+                  p.permissions?.canPublishSources.includes(
+                    TrackSource.MICROPHONE
+                  )
+                    ? "btn btn-success"
+                    : "btn btn-error"
+                }
+              >
                 <ToggleTrackSource
                   trackSource={TrackSource.MICROPHONE}
                   p={p}
@@ -58,16 +76,29 @@ export function AdminControls({ token }: { token: string }) {
                 />
               </button>
 
-              <button className={p.permissions?.canPublishSources.includes(TrackSource.CAMERA) ? "btn btn-success" : "btn btn-error"}>
+              <button
+                className={
+                  p.permissions?.canPublishSources.includes(TrackSource.CAMERA)
+                    ? "btn btn-success"
+                    : "btn btn-error"
+                }
+              >
                 <ToggleTrackSource
                   trackSource={TrackSource.CAMERA}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-
               </button>
 
-              <button className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE) ? "btn btn-success" : "btn btn-error"}>
+              <button
+                className={
+                  p.permissions?.canPublishSources.includes(
+                    TrackSource.SCREEN_SHARE
+                  )
+                    ? "btn btn-success"
+                    : "btn btn-error"
+                }
+              >
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE}
                   p={p}
@@ -75,7 +106,15 @@ export function AdminControls({ token }: { token: string }) {
                 />
               </button>
 
-              <button className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE_AUDIO) ? "btn btn-success" : "btn btn-error"}>
+              <button
+                className={
+                  p.permissions?.canPublishSources.includes(
+                    TrackSource.SCREEN_SHARE_AUDIO
+                  )
+                    ? "btn btn-success"
+                    : "btn btn-error"
+                }
+              >
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE_AUDIO}
                   p={p}
@@ -99,12 +138,8 @@ export function AdminControls({ token }: { token: string }) {
               >
                 Kick user
               </button>
-
             </div>
-
-
           </div>
-
         </>
       ))}
     </div>
