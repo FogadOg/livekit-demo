@@ -1,13 +1,12 @@
 "use client";
 
-import { getRoomState } from "@/app/actions/userActions";
+import {
+  getRoomState,
+  validatedRoomPasswordAndUsername,
+} from "@/app/actions/userActions";
 import "@livekit/components-styles";
 import { useEffect, useState, FormEvent } from "react";
 import React from "react";
-// ! WARNING
-// ! This is not safe, should be rebuilt if not demo
-// ! User can use somebody else's name and kick them
-// ! User can see room password
 
 interface RoomProps {
   roomId: string;
@@ -22,13 +21,9 @@ const RoomAccessForm = ({
   userId,
   setUserId,
 }: RoomProps) => {
-  const [roomPassword, setRoomPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [isRoomPublic, setIsRoomPublic] = useState<boolean>(false);
-
-  const [isValidPassword, setIsValidPassword] = useState<boolean>(false);
-  const [isValidUserId, setIsValidUserId] = useState<boolean>(false);
+  const [isRoomPublic, setIsRoomPublic] = useState<boolean>(true);
 
   const [participantNames, setParticipantNames] = useState<string[]>([]);
 
@@ -49,25 +44,16 @@ const RoomAccessForm = ({
     fetchRoomState();
   }, [roomId]);
 
-  useEffect(() => {
-    if (isValidPassword && isValidUserId) {
-      setAccessRoom(true);
-    }
-  }, [isValidPassword, isValidUserId, setAccessRoom]);
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (password === roomPassword) {
-      setIsValidPassword(true);
-    } else {
-      alert("Incorrect password");
-      setIsValidPassword(false);
-    }
-    if (!participantNames.includes(userId)) {
-      setIsValidUserId(true);
-    } else {
-      alert("Username taken");
-      setIsValidUserId(false);
+    let { valid, message } = await validatedRoomPasswordAndUsername(
+      roomId,
+      userId,
+      password
+    );
+    setAccessRoom(valid);
+    if (message !== "") {
+      alert(message);
     }
   };
 

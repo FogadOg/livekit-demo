@@ -222,3 +222,32 @@ export async function getRoomState(roomId: string) {
     return { valid: false };
   }
 }
+
+export async function validatedRoomPasswordAndUsername(
+  roomId: string,
+  username: string,
+  password: string
+) {
+  const room = await prisma.room.findUnique({
+    where: { id: Number(roomId) },
+    select: { password: true, name: true, public: true },
+  });
+
+  if (!room) {
+    return { valid: false, message: "Something went wrong try to refresh" };
+  }
+
+  const participants = await roomService.listParticipants(roomId);
+  const usernameTaken = participants.some((p) => {
+    return p.identity === username;
+  });
+
+  if (usernameTaken) {
+    return { valid: false, message: "Username taken" };
+  }
+
+  if (room.password !== password) {
+    return { valid: false, message: "Password is incorrect" };
+  }
+  return { valid: true, message: "" };
+}
