@@ -18,8 +18,15 @@ export function ToggleTrackSource({
   ) => Promise<void>;
 }) {
   return (
-    <p className="">
-      <button
+    <button
+
+      className={
+        p.permissions?.canPublishSources.includes(
+          trackSource
+        )
+          ? "btn btn-success"
+          : "btn btn-error"
+      }
         onClick={async () => {
           const newSourceList = new Set(p.permissions?.canPublishSources);
 
@@ -32,9 +39,8 @@ export function ToggleTrackSource({
           }
           updateTrackSources(Array.from(newSourceList), p);
         }}
-      >
+    >
         {trackSourceValues[trackSource - 1]}
-      </button>
-    </p>
+    </button>
   );
 }
