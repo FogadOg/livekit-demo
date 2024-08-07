@@ -256,3 +256,19 @@ export async function validatedRoomPasswordAndUsername(
     token: await tokenFromPermissionToken(permissionToken, username),
   };
 }
+
+// ! Not secured with password
+export async function getCreateToken() {
+  const apiKey = process.env.LIVEKIT_API_KEY;
+  const apiSecret = process.env.LIVEKIT_API_SECRET;
+
+  // No ttl? Require login on empty?
+  const at = new AccessToken(apiKey, apiSecret);
+
+  at.addGrant({
+    roomJoin: false,
+    canSubscribe: false,
+    roomCreate: true,
+  });
+  return (await at.toJwt());
+}
