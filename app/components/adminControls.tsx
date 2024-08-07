@@ -38,38 +38,38 @@ export function AdminControls({ token }: { token: string }) {
           <div role="tabpanel" className="tab-content p-10">
 
             <div>
-              <div className={p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE) ? "btn btn-success" : "btn btn-error"}>
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.MICROPHONE) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.MICROPHONE}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-              </div>
+              </button>
 
-              <div className={p.permissions?.canPublishSources.includes(TrackSource.CAMERA) ? "btn btn-success" : "btn btn-error"}>
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.CAMERA) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.CAMERA}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
 
-              </div>
+              </button>
 
-              <div className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE) ? "btn btn-success" : "btn btn-error"}>
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-              </div>
+              </button>
 
-              <div className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE_AUDIO) ? "btn btn-success" : "btn btn-error"}>
+              <button className={p.permissions?.canPublishSources.includes(TrackSource.SCREEN_SHARE_AUDIO) ? "btn btn-success" : "btn btn-error"}>
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE_AUDIO}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-              </div>
+              </button>
 
               {/*TODO User not being fully kicked*/}
               <button
