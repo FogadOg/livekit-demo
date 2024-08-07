@@ -60,67 +60,28 @@ export function AdminControls({ token }: { token: string }) {
           />
           <div role="tabpanel" className="tab-content p-10">
             <div className="grid gap-1">
-              <button
-                className={
-                  p.permissions?.canPublishSources.includes(
-                    TrackSource.MICROPHONE
-                  )
-                    ? "btn btn-success"
-                    : "btn btn-error"
-                }
-              >
                 <ToggleTrackSource
                   trackSource={TrackSource.MICROPHONE}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-              </button>
 
-              <button
-                className={
-                  p.permissions?.canPublishSources.includes(TrackSource.CAMERA)
-                    ? "btn btn-success"
-                    : "btn btn-error"
-                }
-              >
                 <ToggleTrackSource
                   trackSource={TrackSource.CAMERA}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-              </button>
 
-              <button
-                className={
-                  p.permissions?.canPublishSources.includes(
-                    TrackSource.SCREEN_SHARE
-                  )
-                    ? "btn btn-success"
-                    : "btn btn-error"
-                }
-              >
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-              </button>
-
-              <button
-                className={
-                  p.permissions?.canPublishSources.includes(
-                    TrackSource.SCREEN_SHARE_AUDIO
-                  )
-                    ? "btn btn-success"
-                    : "btn btn-error"
-                }
-              >
                 <ToggleTrackSource
                   trackSource={TrackSource.SCREEN_SHARE_AUDIO}
                   p={p}
                   updateTrackSources={updateTrackSources}
                 />
-              </button>
 
               {/*TODO User not being fully kicked*/}
               {/*<button
