@@ -35,7 +35,6 @@ export const VideoConference = () => {
   );
   const agentPresent = filteredTracks.length !== tracks.length;
 
-  const room = useRoomContext();
   const participant = useLocalParticipant();
 
   return (
@@ -50,7 +49,6 @@ export const VideoConference = () => {
             title="Transcription"
             content={
               <TranscriptTile
-                roomId={Number(room.name)}
                 userName={participant.localParticipant.name!}
               />
             }

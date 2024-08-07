@@ -1,19 +1,21 @@
 import { GetTranscription } from "@/app/actions/transcription";
+import { useRoomInfo } from "@livekit/components-react";
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-export const TranscriptTile = ({ roomId, userName }: { roomId: number; userName: string }) => {
+export const TranscriptTile = ({ userName }: { userName: string }) => {
   const [users, setUsers] = useState<User[]>([]);
+  const roomInfo = useRoomInfo();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      let promisedUsers = await GetTranscription(roomId);
+      let promisedUsers = await GetTranscription(Number(roomInfo.name!));
       setUsers(promisedUsers);
     };
     fetchUsers();
-  }, [roomId]);
+  }, [roomInfo]);
 
-  const filteredUser = users.find(user => user.name === userName);
+  const filteredUser = users.find((user) => user.name === userName);
 
   if (!filteredUser) {
     return (
