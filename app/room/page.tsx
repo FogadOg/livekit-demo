@@ -6,10 +6,7 @@ import { useSearchParams } from "next/navigation";
 import RoomView from "./components/room/roomView";
 import RoomAccessForm from "./components/room/roomAccessForm";
 
-import {
-  tokenFromPermissionToken,
-  validateToken,
-} from "../actions/roomActions";
+import { validateToken } from "../actions/roomActions";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -18,7 +15,7 @@ export default function Page() {
   const adminToken = searchParams.get("adminToken");
 
   const [roomId, setRoomId] = useState("");
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(adminToken ? adminToken : "");
 
   const [roomExists, setRoomExists] = useState<boolean>(true);
 
@@ -37,12 +34,6 @@ export default function Page() {
       setRoomExists(false);
     }
   }, [permissionsToken]);
-
-  useEffect(() => {
-    if (adminToken && adminToken !== "") {
-      setToken(adminToken);
-    }
-  }, [adminToken]);
 
   if (token !== "") {
     return (
