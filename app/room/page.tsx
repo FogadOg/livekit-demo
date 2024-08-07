@@ -13,11 +13,12 @@ import {
 
 export default function Page() {
   const searchParams = useSearchParams();
-  const [roomId, setRoomId] = useState("");
-  const [token, setToken] = useState("");
 
   const permissionsToken = searchParams.get("permissionsToken");
   const adminToken = searchParams.get("adminToken");
+
+  const [roomId, setRoomId] = useState("");
+  const [token, setToken] = useState("");
 
   const [roomExists, setRoomExists] = useState<boolean>(true);
 
@@ -37,14 +38,12 @@ export default function Page() {
     }
   }, [permissionsToken]);
 
-  if (adminToken && adminToken !== "") {
-    return (
-      <>
-        <title>{roomId ? `Livekit Room - ${roomId}` : "Livekit Room"}</title>
-        <RoomView token={adminToken} />
-      </>
-    );
-  }
+  useEffect(() => {
+    if (adminToken && adminToken !== "") {
+      setToken(adminToken);
+    }
+  }, [adminToken]);
+
   if (token !== "") {
     return (
       <>
