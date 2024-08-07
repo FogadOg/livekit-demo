@@ -20,7 +20,6 @@ interface RoomProps {
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
 
-  const permissions = useLocalParticipantPermissions();
   return (
     <div className="overflow-hidden">
       <LayoutContextProvider>
@@ -38,7 +37,7 @@ const RoomView = ({ token }: RoomProps) => {
           <div className="flex">
             <VideoConference />
             {/* Chat visible if can chat */}
-            {permissions?.canPublishData && <Chat />}
+            <CustomChat/>
           </div>
           <RoomAudioRenderer />
           <CustomControlBar token={token} />
@@ -46,6 +45,12 @@ const RoomView = ({ token }: RoomProps) => {
       </LayoutContextProvider>
     </div>
   );
+};
+
+const CustomChat = () => {
+  const permissions = useLocalParticipantPermissions();
+  
+  return(permissions?.canPublishData && <Chat />)
 };
 
 export default RoomView;
