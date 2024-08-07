@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import RoomView from "./components/room/roomView";
-import RoomAccessForm from "./components/room/roomAccessForm";
+import RoomAccess from "./components/room/roomAccess";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -25,7 +25,5 @@ export default function Page() {
       </>
     );
   }
-  return (
-    <RoomAccessForm setToken={setToken} permissionToken={permissionsToken} />
-  );
+  return <RoomAccess setToken={setToken} permissionToken={permissionsToken} />;
 }
