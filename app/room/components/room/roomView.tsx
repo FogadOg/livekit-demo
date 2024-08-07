@@ -52,12 +52,8 @@ const RoomView = ({ token }: RoomProps) => {
 // Only visible on
 const CustomChat = () => {
   const permissions = useLocalParticipantPermissions();
-
-  if (permissions?.canPublishData) {
-    return <Chat />;
-  } else {
-    return <></>;
-  }
+  
+  return(permissions?.canPublishData && <Chat />)
 };
 
 export default RoomView;
