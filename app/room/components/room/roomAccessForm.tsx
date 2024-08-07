@@ -1,5 +1,6 @@
 "use client";
 
+import { validateToken } from "@/app/actions/roomActions";
 import {
   getRoomState,
   validatedRoomPasswordAndUsername,
@@ -9,12 +10,11 @@ import { useEffect, useState, FormEvent } from "react";
 import React from "react";
 
 interface RoomProps {
-  roomId: string;
   setToken: (token: string) => void;
   permissionToken: string;
 }
 
-const RoomAccessForm = ({ roomId, setToken, permissionToken }: RoomProps) => {
+const RoomAccessForm = ({ setToken, permissionToken }: RoomProps) => {
   const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -22,19 +22,30 @@ const RoomAccessForm = ({ roomId, setToken, permissionToken }: RoomProps) => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
+  const [roomExists, setRoomExists] = useState<boolean>(true);
+  const [roomId, setRoomId] = useState("");
+
   useEffect(() => {
     const fetchRoomState = async () => {
-      const roomState = await getRoomState(roomId);
+      const { valid, room } = await validateToken(permissionToken);
+      if (!valid) {
+        setRoomExists(false);
+
+        return;
+      }
+
+      setRoomId(room!);
+      const roomState = await getRoomState(room!);
       if (roomState.valid) {
         setIsRoomPublic(roomState.roomPublic!);
       } else {
-        // TODO Set room exist false
+        setRoomExists(false);
       }
       setLoading(false);
     };
 
     fetchRoomState();
-  }, [roomId]);
+  }, [permissionToken, roomId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,6 +62,15 @@ const RoomAccessForm = ({ roomId, setToken, permissionToken }: RoomProps) => {
       alert(message);
     }
   };
+
+  if (!roomExists) {
+    return (
+      <>
+        <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
+        <p>Couldn't find the room you are looking for</p>
+      </>
+    );
+  }
 
   if (loading || roomId === "") {
     return (
