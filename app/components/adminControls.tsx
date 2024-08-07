@@ -29,16 +29,25 @@ export function AdminControls({ token }: { token: string }) {
   }
   
   async function toggleChat(p: RemoteParticipant | LocalParticipant) {
+    console.log("p.permissions?.canPublishData: ",p.permissions?.canPublishData);
+    
     if(p.permissions?.canPublishData == true) {
+      console.log("sat to false");
+      
       await updateParticipantPermissions(p.identity, token, {
         canPublishData: false,
       });
+      console.log("finish");
+
 
     }else {
+      console.log("sat to true");
 
       await updateParticipantPermissions(p.identity, token, {
         canPublishData: true,
       });
+      console.log("finish");
+
     }
   }
   
