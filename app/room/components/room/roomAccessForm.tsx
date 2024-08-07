@@ -30,7 +30,7 @@ const RoomAccessForm = ({
   const [isValidPassword, setIsValidPassword] = useState<boolean>(false);
   const [isValidUserId, setIsValidUserId] = useState<boolean>(false);
 
-  const [participants, setParticipants] = useState<string[]>([]);
+  const [participantNames, setParticipantNames] = useState<string[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -39,6 +39,9 @@ const RoomAccessForm = ({
       const roomState = await getRoomState(roomId);
       if (roomState.valid) {
         setIsRoomPublic(roomState.roomPublic!);
+        setParticipantNames(roomState.participantNames!);
+      } else {
+        // TODO Set room exist false
       }
       setLoading(false);
     };
@@ -60,7 +63,7 @@ const RoomAccessForm = ({
       alert("Incorrect password");
       setIsValidPassword(false);
     }
-    if (!participants.includes(userId)) {
+    if (!participantNames.includes(userId)) {
       setIsValidUserId(true);
     } else {
       alert("Username taken");
