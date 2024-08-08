@@ -6,14 +6,32 @@ import { handleCreateRoomForm } from "@/app/actions/roomActions";
 
 const CreateRoom = () => {
   const [roomPublic, setRoomPublic] = useState(false);
+  const [message, setMessage] = useState("");
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // don't refresh
 
+    setMessage("Creating room...");
     const formData = new FormData(event.currentTarget);
 
-    let path = await handleCreateRoomForm(formData);
-    router.push(path);
+    let { valid, path, expired } = await handleCreateRoomForm(
+      formData,
+      localStorage.getItem("createToken")!
+    );
+    console.log(localStorage.getItem("createToken"));
+
+    if (!valid) {
+      if (expired) {
+        setMessage("Looks like you create token is expired");
+      } else {
+        setMessage("Looks like you don't have access");
+      }
+    }
+
+    if (valid) {
+      setMessage("Success");
+      router.push(path!);
+    }
   };
 
   return (
@@ -56,8 +74,13 @@ const CreateRoom = () => {
         )}
 
         <div>
-          <input type="submit" value="Submit" className="btn btn-primary rounded-xl" />
+          <input
+            type="submit"
+            value="Submit"
+            className="btn btn-primary rounded-xl"
+          />
         </div>
+        <p>{message}</p>
       </form>
     </div>
   );
