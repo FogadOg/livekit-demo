@@ -50,7 +50,7 @@ export default function AdminsRooms() {
                     setRooms((prevRooms) => {
                       const newRooms = new Set(prevRooms);
                       newRooms.delete(room);
-                      return prevRooms;
+                      return newRooms;
                     });
                   }
                 }}
