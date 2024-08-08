@@ -1,28 +1,31 @@
 "use server";
+
 import prisma from "../../lib/prisma";
+import roomService from "@/lib/roomService";
 
 export async function appendTranscription(
   username: string,
-  roomId: number,
+  roomName: string,
   transcription: string
-) {
-  // roomId and name should be unique to one user
-  let user = await prisma.user.findFirst({
-    where: { name: username, room: { id: roomId } },
-  });
+) {  
+  const room = (await roomService.listRooms([roomName]))[0]
+  let metadata
 
-  // Creating user if not exist
-  if (!user) {
-    user = await prisma.user.create({
-      data: { name: username, roomId: roomId },
-    });
+  if (room.metadata.length == 0){
+    metadata = {}
+  }else {
+    metadata = JSON.parse(room.metadata)
   }
 
-  // Appending transcription
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { transcription: user.transcription + transcription },
-  });
+  if(metadata[username] === undefined) {
+    metadata[username] = transcription
+  }else{
+    metadata[username] = metadata[username] +transcription
+  }
+  roomService.updateRoomMetadata(roomName, JSON.stringify(metadata))
+  
+  
+
 }
 
 export const GetTranscription = async (roomId: number) => {
