@@ -29,7 +29,7 @@ export const TranscriptTile = ({ userName }: { userName: string }) => {
       setUsers(promisedUsers);
     };
     fetchUsers();
-  }, [roomInfo]);
+  }, []); //roomInfo
 
   const filteredUser = users.find((user) => user.name === userName);
 
