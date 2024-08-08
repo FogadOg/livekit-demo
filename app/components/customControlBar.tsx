@@ -8,10 +8,10 @@ import {
 import { toggleRecording } from "../actions/userActions";
 import { RoomEvent } from "livekit-client";
 import { Modal } from "./modal";
-import { PermissionForm } from "../room/components/permissionForm";
+import { PermissionForm } from "./admin/permissionForm";
 import { TrackSource } from "livekit-server-sdk";
 import useIsAdmin from "@/app/hooks/useIsAdmin";
-import { AdminControls } from "./adminControls";
+import { AdminControls } from "./admin/adminControls/adminControls";
 import { RecordIcon } from "../assets/recordIcon";
 import { PeopleIcon } from "../assets/peopleIcon";
 interface CustomControlBarProps extends ControlBarProps {
@@ -47,7 +47,7 @@ export function CustomControlBar({
                 buttonText="Admin controls"
                 modelName="adminControls"
               />
-              
+
               {/* Starts egress */}
               <button
                 className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
@@ -56,7 +56,7 @@ export function CustomControlBar({
                   setRecording(!recording);
                 }}
               >
-                <RecordIcon/>
+                <RecordIcon />
                 Record{recording && "ing"}
               </button>
 
