@@ -11,7 +11,7 @@ import { Modal } from "./modal";
 import { PermissionForm } from "./admin/permissionForm";
 import { TrackSource } from "livekit-server-sdk";
 import useIsAdmin from "@/app/hooks/useIsAdmin";
-import { AdminControls } from "./admin/adminControls/adminControls";
+import { PermissionControls } from "./admin/adminControls/permissionControls";
 import { RecordIcon } from "../assets/recordIcon";
 import { PeopleIcon } from "../assets/peopleIcon";
 interface CustomControlBarProps extends ControlBarProps {
@@ -43,7 +43,7 @@ export function CustomControlBar({
             <>
               <Modal
                 title="Admin controls"
-                content={<AdminControls token={token} />}
+                content={<PermissionControls token={token} />}
                 buttonText="Admin controls"
                 modelName="adminControls"
               />

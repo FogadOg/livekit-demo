@@ -7,9 +7,7 @@ import {
   LocalParticipant,
   Participant,
   RemoteParticipant,
-  Track,
 } from "livekit-client";
-import { useState } from "react";
 import useIsAdmin from "../../../hooks/useIsAdmin";
 import {
   kickParticipant,
@@ -18,9 +16,8 @@ import {
 import { TrackSource } from "livekit-server-sdk";
 import { ToggleTrackSource } from "./toggleTrackSource";
 
-import { ControlIcon } from "../../../assets/controlIcon";
-
-export function AdminControls({ token }: { token: string }) {
+// TODO no users to contrll
+export function PermissionControls({ token }: { token: string }) {
   const isAdmin = useIsAdmin(token);
   const identity = useLocalParticipant().localParticipant.identity;
   let participants = useParticipants();
