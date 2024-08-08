@@ -16,7 +16,16 @@ export async function deleteRoomIfEmpty(roomId: string) {
   }
 }
 
-export async function handleCreateRoomForm(formData: FormData) {
+export async function handleCreateRoomForm(
+  formData: FormData,
+  roomCreateToken: string
+) {
+  const { valid, token, expired } = await validateToken(roomCreateToken);
+
+  if (!valid || !token?.video?.roomCreate) {
+    return { valid: false, expired: expired };
+  }
+
   const validatedFormData = {
     name: (formData.get("roomName") as string | null) || "default room",
     public: (formData.get("public") || "off") === "on",
@@ -46,7 +55,7 @@ export async function handleCreateRoomForm(formData: FormData) {
       TrackSource.SCREEN_SHARE_AUDIO,
     ],
   });
-  return `/room?adminToken=${await at.toJwt()}`;
+  return { path: `/room?adminToken=${await at.toJwt()}`, valid: true };
 }
 
 // Returns room id to be used to check if name taken
@@ -67,8 +76,7 @@ export async function validateToken(permissionToken: string) {
     }
 
     if (currentTime > token.exp!) {
-      return { valid: false, expired:true };
-
+      return { valid: false, expired: true };
     }
     return { room: token.video?.room, token: token, valid: true };
   } catch {
