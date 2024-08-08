@@ -1,32 +1,29 @@
-import prisma from "@/lib/prisma";
-import roomService from "@/lib/roomService";
+"use client";
 
 import CreateRoom from "./room/components/room/createRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
-import { deleteRoomIfEmpty } from "./actions/roomActions";
+import GetCreateTokenForm from "./getCreateTokenForm";
 
-export const metadata = {
-  title: "Livekit demo",
-  description: "Page description",
-};
+export default function Home() {
+  if (!localStorage.getItem("createToken")) {
+    return (
+      <>
+        <title>Livekit demo</title>
+        <Navbar />
+        <main className="m-2">
+          <h1 className="text-2xl">
+            Looks like you don't have create token &#9940;
+          </h1>
 
-export default async function Home() {
-  let rooms = await prisma.room.findMany();
-
-  const liveRooms = await roomService.listRooms();
-  const liveRoomIds = liveRooms.map((room) => room.name);
-
-  // This is bad, should be handled by livekit webhooks
-  for (let room of rooms) {
-    if (!liveRoomIds.includes(room.id.toString())) {
-      rooms = rooms.filter((r) => r.id !== room.id);
-      deleteRoomIfEmpty(room.id.toString());
-    }
+          <GetCreateTokenForm />
+        </main>
+      </>
+    );
   }
-
   return (
     <>
+      <title>Livekit demo</title>
       <Navbar />
       <main className="px-16 py-5 flex">
         <div className="flex-1 grid justify-center items-center gap-10">
