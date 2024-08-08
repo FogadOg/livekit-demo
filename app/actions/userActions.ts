@@ -9,7 +9,6 @@ import {
   VideoGrant,
 } from "livekit-server-sdk";
 
-import { TokenVerifier } from "livekit-server-sdk";
 import {
   getIsAdmin,
   tokenFromPermissionToken,
