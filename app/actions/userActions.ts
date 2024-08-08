@@ -257,11 +257,13 @@ export async function validatedRoomPasswordAndUsername(
   };
 }
 
-// ! Not secured with password
-export async function getCreateToken() {
+export async function getCreateToken(password: string) {
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
+  if (password !== "Test1234") {
+    return { valid: false };
+  }
   // No ttl? Require login on empty?
   const at = new AccessToken(apiKey, apiSecret);
 
@@ -270,5 +272,6 @@ export async function getCreateToken() {
     canSubscribe: false,
     roomCreate: true,
   });
-  return (await at.toJwt());
+
+  return { valid: true, token: await at.toJwt() };
 }
