@@ -26,10 +26,19 @@ export default function AdminsRooms() {
       {message !== "" && <p>{message}</p>}
       {rooms.length === 0 && message === "" && <p>No active rooms</p>}
       {rooms.map((room) => {
+        const adminToken = localStorage.getItem("room-" + room.name);
+        const roomUrl = "/room?adminToken=" + adminToken;
+
         return (
           <div key={room.name}>
             <h2>Room id {room.name}</h2>
-            <button className="btn btn-error">Delete room</button>
+
+            <div className="flex gap-2">
+              <a href={roomUrl} role="button" className="btn btn-primary">
+                Join
+              </a>
+              <button className="btn btn-error">Delete room</button>
+            </div>
             <p>Room participants: {room.numParticipants}</p>
           </div>
         );
