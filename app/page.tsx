@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import CreateRoom from "./room/components/room/createRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
@@ -7,7 +8,18 @@ import GetCreateTokenForm from "./getCreateTokenForm";
 import AdminsRooms from "./room/components/room/adminsRooms";
 
 export default function Home() {
-  if (!localStorage.getItem("createToken")) {
+  const [hasCreateToken, setHasCreateToken] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const createToken = localStorage.getItem("createToken");
+      setHasCreateToken(!!createToken);
+    }
+  }, []);
+
+  // TODO Need loading state
+
+  if (!hasCreateToken) {
     return (
       <>
         <title>Livekit demo</title>
@@ -23,6 +35,7 @@ export default function Home() {
       </>
     );
   }
+
   return (
     <>
       <title>Livekit demo</title>
@@ -32,8 +45,8 @@ export default function Home() {
           <div className="mt-5 flex gap-4">
             <CreateRoom />
             <CreateIngress />
-            <AdminsRooms />
           </div>
+          <AdminsRooms />
         </div>
       </main>
     </>
