@@ -240,7 +240,7 @@ export async function validatedRoomPasswordAndUsername(
 
   const participants = await roomService.listParticipants(roomId);
   const usernameTaken = participants.some((p) => {
-    return p.identity === username;
+    return username === p.identity || username === "Admin";
   });
 
   if (usernameTaken) {
