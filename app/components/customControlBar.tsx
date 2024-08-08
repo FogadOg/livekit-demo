@@ -8,12 +8,13 @@ import {
 import { toggleRecording } from "../actions/userActions";
 import { RoomEvent } from "livekit-client";
 import { Modal } from "./modal";
-import { PermissionForm } from "./admin/permissionForm";
+import { InviteUsersForm } from "./admin/adminControls/inviteUsersForm";
 import { TrackSource } from "livekit-server-sdk";
 import useIsAdmin from "@/app/hooks/useIsAdmin";
 import { PermissionControls } from "./admin/adminControls/permissionControls";
 import { RecordIcon } from "../assets/recordIcon";
 import { PeopleIcon } from "../assets/peopleIcon";
+import { RecordButton } from "./admin/adminControls/recordButton";
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
   token: string;
@@ -25,14 +26,8 @@ export function CustomControlBar({
   ...props
 }: CustomControlBarProps) {
   // ! Can still record and stop recording if not publish
-  const room = useRoomContext();
-  const [recording, setRecording] = useState(room.isRecording);
-  const permissions = useLocalParticipantPermissions();
 
-  // Really slow? Even on prependListener instead of on
-  room.prependListener(RoomEvent.RecordingStatusChanged, () => {
-    setRecording(room.isRecording);
-  });
+  const permissions = useLocalParticipantPermissions();
 
   const isAdmin = useIsAdmin(token);
   return (
@@ -42,30 +37,19 @@ export function CustomControlBar({
           {isAdmin && (
             <>
               <Modal
-                title="Admin controls"
+                title="Users permissions"
                 content={<PermissionControls token={token} />}
-                buttonText="Admin controls"
-                modelName="adminControls"
+                buttonText="Users permissions"
+                modelName="PermissionControls"
               />
-
-              {/* Starts egress */}
-              <button
-                className={"btn lk-button " + (recording ? "!bg-red-500" : "")}
-                onClick={() => {
-                  toggleRecording(room.name, token);
-                  setRecording(!recording);
-                }}
-              >
-                <RecordIcon />
-                Record{recording && "ing"}
-              </button>
+              <RecordButton token={token} />
 
               {/* Invite users */}
               <Modal
-                title="Permissions"
-                content={<PermissionForm token={token} />}
+                title="Permissions of invite link"
+                content={<InviteUsersForm token={token} />}
                 buttonText={"Invite users"}
-                modelName="premsistionForm"
+                modelName="InviteUsers"
               />
             </>
           )}
