@@ -11,13 +11,13 @@ export default function AdminsRooms() {
   const [rooms, setRooms] = useState<Set<Room>>(new Set());
   const keys = Object.keys(localStorage);
 
-  const roomItems = keys
+  const roomNames = keys
     .filter((key) => key.startsWith("room-"))
     .map((room) => room.replace("room-", ""));
 
   useEffect(() => {
     const getRooms = async () => {
-      const newRooms = await filterActiveRooms(roomItems);
+      const newRooms = await filterActiveRooms(roomNames);
       setRooms(new Set([...newRooms]));
 
       setMessage("");
