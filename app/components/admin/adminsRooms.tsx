@@ -1,6 +1,6 @@
 import {
   deleteRoom,
-  getAdminsRooms,
+  filterActiveRooms,
   createIngress,
 } from "@/app/actions/adminActions";
 import { Room } from "livekit-server-sdk";
@@ -17,7 +17,7 @@ export default function AdminsRooms() {
 
   useEffect(() => {
     const getRooms = async () => {
-      const newRooms = await getAdminsRooms(roomItems);
+      const newRooms = await filterActiveRooms(roomItems);
       setRooms(new Set([...newRooms]));
 
       setMessage("");

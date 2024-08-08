@@ -4,7 +4,8 @@ import roomService from "@/lib/roomService";
 import { getIsAdmin } from "./roomActions";
 import { IngressClient, IngressInput, Room } from "livekit-server-sdk";
 
-export async function getAdminsRooms(rooms: string[]) {
+// Get rooms and returns only active ones
+export async function filterActiveRooms(rooms: string[]) {
   return await roomService.listRooms(rooms);
 }
 
