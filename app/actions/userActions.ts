@@ -71,15 +71,6 @@ export async function toggleRecording(roomId: string, token: string) {
   }
 }
 
-export async function getToken(input: string) {
-  const tokenVerifier = new TokenVerifier(
-    process.env.LIVEKIT_API_KEY!,
-    process.env.LIVEKIT_API_SECRET!
-  );
-  const token = await tokenVerifier.verify(input);
-  return token;
-}
-
 // This is used to generate token for invite link
 // The invite link will use it's permissions and add identity
 export async function generatePermissionToken(
