@@ -15,46 +15,19 @@ import { PermissionControls } from "./admin/adminControls/permissionControls";
 import { RecordIcon } from "../assets/recordIcon";
 import { PeopleIcon } from "../assets/peopleIcon";
 import { RecordButton } from "./admin/adminControls/recordButton";
+import { AdminControls } from "./admin/adminControls";
 interface CustomControlBarProps extends ControlBarProps {
   customControl?: boolean;
   token: string;
 }
 
-export function CustomControlBar({
-  customControl = true,
-  token,
-  ...props
-}: CustomControlBarProps) {
-  // ! Can still record and stop recording if not publish
-
+export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
   const permissions = useLocalParticipantPermissions();
-
   const isAdmin = useIsAdmin(token);
   return (
     <div className="lk-control-bar">
-      {customControl && (
-        <>
-          {isAdmin && (
-            <>
-              <Modal
-                title="Users permissions"
-                content={<PermissionControls token={token} />}
-                buttonText="Users permissions"
-                modelName="PermissionControls"
-              />
-              <RecordButton token={token} />
+      {isAdmin && <AdminControls token={token} />}
 
-              {/* Invite users */}
-              <Modal
-                title="Permissions of invite link"
-                content={<InviteUsersForm token={token} />}
-                buttonText={"Invite users"}
-                modelName="InviteUsers"
-              />
-            </>
-          )}
-        </>
-      )}
       <ControlBar
         controls={{
           camera: permissions?.canPublishSources.includes(TrackSource.CAMERA),
