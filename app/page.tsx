@@ -4,6 +4,7 @@ import CreateRoom from "./room/components/room/createRoom";
 import CreateIngress from "./room/createIngress";
 import { Navbar } from "./components/navbar";
 import GetCreateTokenForm from "./getCreateTokenForm";
+import AdminsRooms from "./room/components/room/adminsRooms";
 
 export default function Home() {
   if (!localStorage.getItem("createToken")) {
@@ -31,6 +32,7 @@ export default function Home() {
           <div className="mt-5 flex gap-4">
             <CreateRoom />
             <CreateIngress />
+            <AdminsRooms />
           </div>
         </div>
       </main>

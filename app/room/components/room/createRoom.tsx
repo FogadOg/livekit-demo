@@ -31,7 +31,7 @@ const CreateRoom = () => {
     if (valid && token && newRoomId) {
       setMessage("Success");
       router.push(`/room?adminToken=${token}`);
-      localStorage.setItem(newRoomId.toString(), token);
+      localStorage.setItem("room-" + newRoomId.toString(), token);
     }
   };
 
