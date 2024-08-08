@@ -11,12 +11,13 @@ export default function Home() {
       <>
         <title>Livekit demo</title>
         <Navbar />
-        <main className="m-2">
-          <h1 className="text-2xl">
-            Looks like you don't have create token &#9940;
-          </h1>
-
-          <GetCreateTokenForm />
+        <main className="m-2 flex-1 grid justify-center items-center gap-10 ">
+          <div className="w-80">
+            <h1 className="text-2xl">
+              Looks like you don't have create token &#9940;
+            </h1>
+            <GetCreateTokenForm />
+          </div>
         </main>
       </>
     );

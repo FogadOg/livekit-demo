@@ -26,6 +26,7 @@ export default function GetCreateTokenForm() {
     <>
       <div className="card bg-base-100 w-80 shadow-2xl rounded-3xl">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 card-body">
+          <h2 className="text-2xl font-bold card-title">Get token</h2>
           <input
             type="password"
             name="password"
