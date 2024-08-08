@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import CreateRoom from "./room/components/room/createRoom";
-import CreateIngress from "./room/createIngress";
+import CreateRoom from "./components/admin/createRoom";
 import { Navbar } from "./components/navbar";
 import GetCreateTokenForm from "./getCreateTokenForm";
-import AdminsRooms from "./room/components/room/adminsRooms";
+import AdminsRooms from "./components/admin/adminsRooms";
 
 export default function Home() {
   const [hasCreateToken, setHasCreateToken] = useState(false);
@@ -44,7 +43,6 @@ export default function Home() {
         <div className="flex-1 grid justify-center items-center gap-10">
           <div className="mt-5 flex gap-4">
             <CreateRoom />
-            <CreateIngress />
           </div>
           <AdminsRooms />
         </div>
