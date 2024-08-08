@@ -14,7 +14,7 @@ const CreateRoom = () => {
     setMessage("Creating room...");
     const formData = new FormData(event.currentTarget);
 
-    let { valid, path, expired } = await handleCreateRoomForm(
+    let { valid, token, expired, newRoomId } = await handleCreateRoomForm(
       formData,
       localStorage.getItem("createToken")!
     );
@@ -28,9 +28,10 @@ const CreateRoom = () => {
       }
     }
 
-    if (valid) {
+    if (valid && token && newRoomId) {
       setMessage("Success");
-      router.push(path!);
+      router.push(`/room?adminToken=${token}`);
+      localStorage.setItem(newRoomId.toString(), token);
     }
   };
 

@@ -55,7 +55,7 @@ export async function handleCreateRoomForm(
       TrackSource.SCREEN_SHARE_AUDIO,
     ],
   });
-  return { path: `/room?adminToken=${await at.toJwt()}`, valid: true };
+  return { token: await at.toJwt(), newRoomId: newRoom.id, valid: true };
 }
 
 // Returns room id to be used to check if name taken
