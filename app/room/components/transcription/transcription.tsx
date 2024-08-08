@@ -34,7 +34,7 @@ export const Transcription = ({
     ) {
       appendTranscription(
         audioTrack.participant.identity,
-        Number(roomInfo.name),
+        roomInfo.name,
         segments.at(-1)?.text! + " "
       );
       setSavedIndex(segments.length);
