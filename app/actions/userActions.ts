@@ -261,7 +261,7 @@ export async function getCreateToken(password: string) {
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
-  if (password !== "Test1234") {
+  if (password !== process.env.ADMIN_PASSWORD) {
     return { valid: false };
   }
   // No ttl? Require login on empty?
