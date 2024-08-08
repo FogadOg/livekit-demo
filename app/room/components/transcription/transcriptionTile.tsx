@@ -1,4 +1,6 @@
+import { setRoomMetadata } from "@/app/actions/livekit";
 import { GetTranscription } from "@/app/actions/transcription";
+import roomService from "@/lib/roomService";
 import { useRoomInfo } from "@livekit/components-react";
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -6,6 +8,20 @@ import { useEffect, useState } from "react";
 export const TranscriptTile = ({ userName }: { userName: string }) => {
   const [users, setUsers] = useState<User[]>([]);
   const roomInfo = useRoomInfo();
+  useEffect(() => {
+    const data = JSON.stringify({
+      some: "values",
+    })
+    setRoomMetadata(roomInfo.name, userName, data)
+    console.log("tgsrtg");
+    
+  }, [])
+  
+  
+  
+  
+
+
 
   useEffect(() => {
     const fetchUsers = async () => {
