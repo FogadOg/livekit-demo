@@ -5,21 +5,15 @@ import {
   Chat,
   GridLayout,
   ParticipantTile,
+  useLocalParticipantPermissions,
   useTracks,
 } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import "@livekit/components-styles";
 
 import Caption from "./components/transcription/caption";
-import { Modal } from "../components/modal";
-import {
-  ControlBar,
-  ControlBarProps,
-  useLocalParticipant,
-  useRoomContext,
-} from "@livekit/components-react";
-import { RoomEvent } from "livekit-client";
-import { TranscriptTile } from "./components/transcription/transcriptionTile";
+import { useLocalParticipant } from "@livekit/components-react";
+import { TranscriptionButton } from "./components/transcription/transcriptionButton";
 
 export const VideoConference = () => {
   const tracks = useTracks(
@@ -36,7 +30,7 @@ export const VideoConference = () => {
   );
   const agentPresent = filteredTracks.length !== tracks.length;
 
-  const participant = useLocalParticipant();
+  const participantPermissions = useLocalParticipantPermissions();
 
   return (
     <div className="flex">
@@ -47,14 +41,7 @@ export const VideoConference = () => {
         <div className="relative">
           <ParticipantTile className="h-full" />
           <div className="absolute top-10 left-20">
-            <Modal
-              title="Transcription"
-              content={
-                <TranscriptTile userName={participant.localParticipant.identity} />
-              }
-              buttonText={`View transcript`}
-              modelName={`${participant.localParticipant.name!}s transcription`}
-            />
+            <TranscriptionButton />
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
             {/* Caption visible if agent present*/}
@@ -63,7 +50,7 @@ export const VideoConference = () => {
         </div>
       </GridLayout>
       {/* Chat visible if can chat */}
-      {participant.localParticipant.permissions?.canPublishData && <Chat />};
+      {participantPermissions?.canPublishData && <Chat />};
     </div>
   );
 };

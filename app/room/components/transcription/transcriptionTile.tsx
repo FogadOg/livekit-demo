@@ -1,45 +1,34 @@
-import { getRoomMetadata } from "@/app/actions/roomMetadata";
 import { GetTranscription } from "@/app/actions/transcription";
-import { useRoomInfo } from "@livekit/components-react";
+import {
+  useLocalParticipant,
+  useParticipants,
+  useRoomInfo,
+} from "@livekit/components-react";
+import { User } from "@prisma/client";
+import { Participant } from "livekit-client";
 import { useEffect, useState } from "react";
 
-export const TranscriptTile = ({ userName }: { userName: string }) => {
-  const [metadata, setMetadata] = useState<Record<string, string> | null>(null);
+export const TranscriptTile = ({
+  participant,
+}: {
+  participant: Participant;
+}) => {
+  // TODO update only on metadata update
   const roomInfo = useRoomInfo();
 
+  const [transcript, setTranscript] = useState("");
   useEffect(() => {
-    const fetchUsers = async () => {
-      if (roomInfo.name) {
-        let promisedUsers = await GetTranscription(roomInfo.name);
-        setMetadata(promisedUsers);
-      }
-    };
-    fetchUsers();
-  }, []); // roomInfo
-
-  if (metadata === null) {
-    return <div>Loading...</div>;
-  }
-
-  if (!(userName in metadata)) {
-    return (
-      <div className="flex flex-col gap-16 h-full ">
-        <div className="flex-1">
-          <div>
-            <h3>{userName} has no transcription</h3>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    const allTranscriptions = JSON.parse(roomInfo.metadata!)["transcript"];
+    const participantTranscription =
+      JSON.parse(allTranscriptions)[participant.identity];
+    setTranscript(participantTranscription);
+  }, [roomInfo]);
+  console.log(roomInfo);
 
   return (
     <div className="flex flex-col gap-16 h-full ">
       <div className="flex-1">
-        <div key={userName}>
-          <h3 className="font-bold">{userName}s transcription:</h3>
-          <p>{metadata[userName].slice(9, -1)}</p> {/*temporary solution to removing "undefined"*/}
-        </div>
+        <p>{transcript.replace("undefined", "")}</p>
       </div>
     </div>
   );
