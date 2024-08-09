@@ -1,3 +1,4 @@
+import { getRoomMetadata } from "@/app/actions/roomMetadata";
 import { GetTranscription } from "@/app/actions/transcription";
 import { useRoomInfo } from "@livekit/components-react";
 import { useEffect, useState } from "react";
@@ -37,7 +38,7 @@ export const TranscriptTile = ({ userName }: { userName: string }) => {
       <div className="flex-1">
         <div key={userName}>
           <h3 className="font-bold">{userName}s transcription:</h3>
-          <p>{metadata[userName]}</p>
+          <p>{metadata[userName].slice(9, -1)}</p> {/*temporary solution to removing "undefined"*/}
         </div>
       </div>
     </div>
