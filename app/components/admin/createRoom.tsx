@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import { handleCreateRoomForm } from "@/app/actions/roomActions";
 
 const CreateRoom = () => {
-  const [roomPublic, setRoomPublic] = useState(false);
+  const [isPasswordProtected, setIsPasswordProtected] = useState(false);
   const [message, setMessage] = useState("");
   const router = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -50,20 +50,25 @@ const CreateRoom = () => {
             required
           />
         </div>
-
-        <label className="label cursor-pointer" htmlFor="public">
+        <input
+          type="checkbox"
+          name="public"
+          className="hidden"
+          checked={!isPasswordProtected}
+        />
+        <label className="label cursor-pointer" htmlFor="passwordProtected">
           <span className="label-text">Password protected</span>
           <input
-            name="public"
-            id="public"
+            name="passwordProtected"
+            id="passwordProtected"
             type="checkbox"
             className="checkbox mr-auto ml-2"
-            onChange={() => setRoomPublic(!roomPublic)}
-            defaultChecked={!roomPublic}
+            onChange={(e) => setIsPasswordProtected(e.target.checked)}
+            checked={isPasswordProtected}
           />
         </label>
 
-        {!roomPublic && (
+        {isPasswordProtected && (
           <div>
             <input
               type="text"
