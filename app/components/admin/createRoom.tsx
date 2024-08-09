@@ -52,13 +52,14 @@ const CreateRoom = () => {
         </div>
 
         <label className="label cursor-pointer" htmlFor="public">
-          <span className="label-text">Public</span>
+          <span className="label-text">Password protected</span>
           <input
             name="public"
             id="public"
             type="checkbox"
             className="checkbox mr-auto ml-2"
             onClick={() => setRoomPublic(!roomPublic)}
+            checked={!roomPublic}
           />
         </label>
 
