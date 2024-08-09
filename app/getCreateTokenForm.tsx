@@ -16,7 +16,7 @@ export default function GetCreateTokenForm() {
     if (valid) {
       localStorage.setItem("createToken", token!);
       setMessage("You can now create rooms");
-      router.refresh();
+      window.location.reload();
     } else {
       setMessage("Seems the password was wrong try again");
     }

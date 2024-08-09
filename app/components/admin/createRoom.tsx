@@ -18,14 +18,15 @@ const CreateRoom = () => {
       formData,
       localStorage.getItem("createToken")!
     );
-    console.log(localStorage.getItem("createToken"));
 
     if (!valid) {
       if (expired) {
-        setMessage("Looks like you create token is expired");
+        setMessage("Looks like youre create token is expired, redirecting...");
       } else {
-        setMessage("Looks like you don't have access");
+        setMessage("Looks like youre create token is invalid, redirecting...");
       }
+      localStorage.removeItem("createToken");
+      window.location.reload();
     }
 
     if (valid && token && newRoomId) {
