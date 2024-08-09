@@ -28,7 +28,7 @@ export default function AdminsRooms() {
       {message !== "" && <p>{message}</p>}
       {rooms.size === 0 && message === "" && <p>No active rooms</p>}
       {Array.from(rooms).map((room) => (
-        <AdminsRoom room={room} setRooms={setRooms} />
+        <AdminsRoom room={room} setRooms={setRooms} key={room.name} />
       ))}
     </>
   );

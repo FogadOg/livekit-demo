@@ -13,7 +13,7 @@ export default function AdminsRoom({
   const adminToken = localStorage.getItem("room-" + room.name);
   const roomUrl = "/room?adminToken=" + adminToken;
   return (
-    <div key={room.name}>
+    <div>
       <h2>Room id {room.name}</h2>
 
       <div className="flex gap-2">
