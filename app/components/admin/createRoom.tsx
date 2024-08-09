@@ -58,8 +58,8 @@ const CreateRoom = () => {
             id="public"
             type="checkbox"
             className="checkbox mr-auto ml-2"
-            onClick={() => setRoomPublic(!roomPublic)}
-            checked={!roomPublic}
+            onChange={() => setRoomPublic(!roomPublic)}
+            defaultChecked={!roomPublic}
           />
         </label>
 
