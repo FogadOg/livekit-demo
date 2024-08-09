@@ -23,12 +23,15 @@ export async function appendTranscription(
     metadata[username] = metadata[username] +transcription
   }
   roomService.updateRoomMetadata(roomName, JSON.stringify(metadata))
+  console.log("metadata 1: ",metadata);
   
   
 
 }
 
-export const GetTranscription = async (roomId: number) => {
-  const users = await prisma.user.findMany({ where: { roomId: roomId } });
-  return users;
+export const GetTranscription = async (roomName: string) => {
+  const room = (await roomService.listRooms([roomName]))[0]
+  const parse = JSON.parse(room.metadata)
+
+  return parse;
 };
