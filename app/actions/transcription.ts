@@ -22,10 +22,7 @@ export async function appendTranscription(
   }else{
     metadata[username] = metadata[username] +transcription
   }
-  roomService.updateRoomMetadata(roomName, JSON.stringify(metadata))
-  console.log("metadata 1: ",metadata);
-  
-  
+  roomService.updateRoomMetadata(roomName, JSON.stringify(metadata)) 
 
 }
 
