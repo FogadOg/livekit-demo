@@ -7,7 +7,7 @@ const trackSourceValues = Object.values(TrackSource).filter(
   (value) => typeof value !== "number" && value !== "UNKNOWN"
 );
 
-export const PermissionForm = ({ token }: { token: string }) => {
+export const InviteUsersForm = ({ token }: { token: string }) => {
   const [permissions, setPermissions] = useState<VideoGrant>({
     canPublishSources: [
       TrackSource.CAMERA,

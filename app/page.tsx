@@ -1,28 +1,48 @@
-import prisma from "@/lib/prisma";
-import roomService from "@/lib/roomService";
+"use client";
 
-import CreateRoom from "./room/components/room/createRoom";
-import CreateIngress from "./room/createIngress";
+import { useState, useEffect } from "react";
+import CreateRoom from "./components/admin/createRoom";
 import { Navbar } from "./components/navbar";
-import { deleteRoomIfEmpty } from "./actions/roomActions";
+import GetCreateTokenForm from "./getCreateTokenForm";
+import AdminsRooms from "./components/admin/adminsRooms";
 
-export const metadata = {
-  title: "Livekit demo",
-  description: "Page description",
-};
+export default function Home() {
+  const [hasCreateToken, setHasCreateToken] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-export default async function Home() {
-  let rooms = await prisma.room.findMany();
-
-  const liveRooms = await roomService.listRooms();
-  const liveRoomIds = liveRooms.map((room) => room.name);
-
-  // This is bad, should be handled by livekit webhooks
-  for (let room of rooms) {
-    if (!liveRoomIds.includes(room.id.toString())) {
-      rooms = rooms.filter((r) => r.id !== room.id);
-      deleteRoomIfEmpty(room.id.toString());
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const createToken = localStorage.getItem("createToken");
+      setHasCreateToken(!!createToken);
+      setLoading(false);
     }
+  }, []);
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="w-full mt-10">
+          <span className="loading loading-spinner loading-lg m-auto block"></span>
+        </div>
+      </>
+    );
+  }
+
+  if (!hasCreateToken) {
+    return (
+      <>
+        <Navbar />
+        <main className="m-2 flex-1 grid justify-center items-center gap-10 ">
+          <div className="w-80">
+            <h1 className="text-2xl">
+              Looks like you don't have create token &#9940;
+            </h1>
+            <GetCreateTokenForm />
+          </div>
+        </main>
+      </>
+    );
   }
 
   return (
@@ -32,8 +52,8 @@ export default async function Home() {
         <div className="flex-1 grid justify-center items-center gap-10">
           <div className="mt-5 flex gap-4">
             <CreateRoom />
-            <CreateIngress />
           </div>
+          <AdminsRooms />
         </div>
       </main>
     </>

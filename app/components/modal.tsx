@@ -2,12 +2,19 @@ import React, { useState } from "react";
 
 interface ModalProps {
   title: string;
-  content: any;
+  content: JSX.Element;
   buttonText: string;
   modelName: string;
+  icon?: JSX.Element;
 }
 
-export const Modal: React.FC<ModalProps> = ({ title, content, buttonText, modelName }) => {
+export const Modal: React.FC<ModalProps> = ({
+  title,
+  content,
+  buttonText,
+  modelName,
+  icon,
+}) => {
   const [visible, setVisible] = useState(false);
   const handleShowModal = () => {
     const modal = document.getElementById(modelName) as HTMLDialogElement;
@@ -28,6 +35,7 @@ export const Modal: React.FC<ModalProps> = ({ title, content, buttonText, modelN
   return (
     <>
       <button className="btn lk-button" onClick={handleShowModal}>
+        {icon ? icon : ""}
         {buttonText}
       </button>
       <dialog id={modelName} className="modal" onClose={handleCloseModal}>

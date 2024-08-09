@@ -16,7 +16,16 @@ export async function deleteRoomIfEmpty(roomId: string) {
   }
 }
 
-export async function handleCreateRoomForm(formData: FormData) {
+export async function handleCreateRoomForm(
+  formData: FormData,
+  roomCreateToken: string
+) {
+  const { valid, token, expired } = await validateToken(roomCreateToken);
+
+  if (!valid || !token?.video?.roomCreate) {
+    return { valid: false, expired: expired };
+  }
+
   const validatedFormData = {
     name: (formData.get("roomName") as string | null) || "default room",
     public: (formData.get("public") || "off") === "on",
@@ -46,7 +55,7 @@ export async function handleCreateRoomForm(formData: FormData) {
       TrackSource.SCREEN_SHARE_AUDIO,
     ],
   });
-  return `/room?adminToken=${await at.toJwt()}`;
+  return { token: await at.toJwt(), newRoomId: newRoom.id, valid: true };
 }
 
 // Returns room id to be used to check if name taken
@@ -57,9 +66,17 @@ export async function validateToken(permissionToken: string) {
   );
   try {
     const token = await tokenVerifier.verify(permissionToken);
+
+    // Current time (in seconds since epoch)
+    const currentTime = Math.floor(Date.now() / 1000);
+
     if (!token) {
       console.error("token not valid!");
       return { valid: false };
+    }
+
+    if (currentTime > token.exp!) {
+      return { valid: false, expired: true };
     }
     return { room: token.video?.room, token: token, valid: true };
   } catch {
@@ -74,6 +91,7 @@ export async function tokenFromPermissionToken(
   userId: string
 ) {
   const { valid, token } = await validateToken(permissionToken);
+
   if (!valid) {
     return;
   }
