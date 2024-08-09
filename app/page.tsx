@@ -8,20 +8,30 @@ import AdminsRooms from "./components/admin/adminsRooms";
 
 export default function Home() {
   const [hasCreateToken, setHasCreateToken] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const createToken = localStorage.getItem("createToken");
       setHasCreateToken(!!createToken);
+      setLoading(false);
     }
   }, []);
 
-  // TODO Need loading state
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="w-full mt-10">
+          <span className="loading loading-spinner loading-lg m-auto block"></span>
+        </div>
+      </>
+    );
+  }
 
   if (!hasCreateToken) {
     return (
       <>
-        <title>Livekit demo</title>
         <Navbar />
         <main className="m-2 flex-1 grid justify-center items-center gap-10 ">
           <div className="w-80">
@@ -37,7 +47,6 @@ export default function Home() {
 
   return (
     <>
-      <title>Livekit demo</title>
       <Navbar />
       <main className="px-16 py-5 flex">
         <div className="flex-1 grid justify-center items-center gap-10">

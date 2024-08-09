@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import AdminsRoom from "./adminsRoom";
 
 export default function AdminsRooms() {
-  const [message, setMessage] = useState("Getting rooms...");
+  const [loading, setLoading] = useState(true);
   const [rooms, setRooms] = useState<Set<Room>>(new Set());
   const keys = Object.keys(localStorage);
 
@@ -17,7 +17,7 @@ export default function AdminsRooms() {
       const newRooms = await filterActiveRooms(roomNames);
       setRooms(new Set([...newRooms]));
 
-      setMessage("");
+      setLoading(false);
     };
     getRooms();
   }, []);
@@ -25,8 +25,11 @@ export default function AdminsRooms() {
   return (
     <>
       <h2>Your active rooms:</h2>
-      {message !== "" && <p>{message}</p>}
-      {rooms.size === 0 && message === "" && <p>No active rooms</p>}
+      {loading && (
+        <span className="loading loading-spinner loading-lg m-auto block"></span>
+      )}
+
+      {rooms.size === 0 && !loading && <p>No active rooms</p>}
       {Array.from(rooms).map((room) => (
         <AdminsRoom room={room} setRooms={setRooms} key={room.name} />
       ))}
