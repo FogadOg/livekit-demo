@@ -67,20 +67,19 @@ export async function validateToken(permissionToken: string) {
   try {
     const token = await tokenVerifier.verify(permissionToken);
 
-    // Current time (in seconds since epoch)
-    const currentTime = Math.floor(Date.now() / 1000);
-
+    // ? Do we need for this? throws error when invalid?
     if (!token) {
-      console.error("token not valid!");
+      console.error("Will this ever happened?");
       return { valid: false };
     }
 
-    if (currentTime > token.exp!) {
-      return { valid: false, expired: true };
-    }
     return { room: token.video?.room, token: token, valid: true };
-  } catch {
-    console.error("token not valid!");
+  } catch (error: any) {
+    let roomId = error.payload?.video?.room as string;
+    if (error.code! === "ERR_JWT_EXPIRED") {
+      return { valid: false, expired: true, room: roomId };
+    }
+
     return { valid: false };
   }
 }

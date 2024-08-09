@@ -6,7 +6,7 @@ import {
   validatedRoomPasswordAndUsername,
 } from "@/app/actions/userActions";
 import "@livekit/components-styles";
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import RoomAccessForm from "./roomAccessForm";
 
@@ -26,8 +26,9 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
     const fetchRoomState = async () => {
       const { valid, room, expired } = await validateToken(permissionToken);
       if (!valid) {
-        setExpired(true);
+        setExpired(expired!);
         setRoomExists(false);
+        setRoomId(room!);
         return;
       }
 
