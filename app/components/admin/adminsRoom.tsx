@@ -30,6 +30,8 @@ export default function AdminsRoom({
                 newRooms.delete(room);
                 return newRooms;
               });
+            } else {
+              window.location.reload();
             }
           }}
         >

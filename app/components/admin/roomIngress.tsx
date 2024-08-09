@@ -23,6 +23,8 @@ export default function RoomIngress({
     if (valid) {
       setIngressUrl(url!);
       setIngressPassword(password!);
+    } else {
+      window.location.reload;
     }
   };
   return (
