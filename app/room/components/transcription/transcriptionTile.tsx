@@ -1,6 +1,4 @@
-import { getParticipantMetadata, setParticipantMetadata } from "@/app/actions/livekit";
 import { GetTranscription } from "@/app/actions/transcription";
-import roomService from "@/lib/roomService";
 import { useRoomInfo } from "@livekit/components-react";
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
