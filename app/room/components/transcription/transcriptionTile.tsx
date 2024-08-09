@@ -14,7 +14,7 @@ export const TranscriptTile = ({ userName }: { userName: string }) => {
       }
     };
     fetchUsers();
-  }, [roomInfo]);
+  }, []); // roomInfo
 
   if (metadata === null) {
     return <div>Loading...</div>;
