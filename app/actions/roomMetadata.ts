@@ -9,20 +9,21 @@ import { json } from "stream/consumers";
 export const getRoomMetadata = async (roomName: string) => {
   const room = (await roomService.listRooms([roomName]))[0]
 
-  return JSON.parse(room.metadata)
+  return room.metadata
 }
 
 export const setRoomMetadata = async (roomName: string, fieldName: string, newData: any) => {
     const metadata = await getRoomMetadata(roomName)
+    
     let metadataObject
     if(metadata == "") {
         metadataObject = {}
     } else {
-        metadataObject = metadata
+        metadataObject = JSON.parse(metadata)
     }
     metadataObject[fieldName] = newData
+    
 
-    roomService.updateRoomMetadata(roomName, JSON.stringify(newData))
-    console.log("getRoomMetadata: ",getRoomMetadata(roomName));
+    roomService.updateRoomMetadata(roomName, JSON.stringify(metadataObject))
     
 }
