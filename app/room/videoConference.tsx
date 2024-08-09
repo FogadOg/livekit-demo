@@ -50,7 +50,7 @@ export const VideoConference = () => {
             <Modal
               title="Transcription"
               content={
-                <TranscriptTile userName={participant.localParticipant.name!} />
+                <TranscriptTile userName={participant.localParticipant.identity} />
               }
               buttonText={`View transcript`}
               modelName={`${participant.localParticipant.name!}s transcription`}

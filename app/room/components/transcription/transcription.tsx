@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   useTrackTranscription,
@@ -24,22 +24,27 @@ export const Transcription = ({
   const [savedIndex, setSavedIndex] = useState(0);
 
   const roomInfo = useRoomInfo();
-
-  if (audioTrack.participant.isLocal) {
-    if (
-      segments &&
-      segments.length > 0 &&
-      segments.at(-1)?.final &&
-      segments.length > savedIndex
-    ) {
-      appendTranscription(
-        audioTrack.participant.identity,
-        Number(roomInfo.name),
-        segments.at(-1)?.text! + " "
-      );
-      setSavedIndex(segments.length);
+  useEffect(() => {
+    if (audioTrack.participant.isLocal) {
+      if (
+        segments &&
+        segments.length > 0 &&
+        segments.at(-1)?.final &&
+        segments.length > savedIndex
+      ) {
+        appendTranscription(
+          audioTrack.participant.identity,
+          roomInfo.name,
+          segments.at(-1)?.text! + " "
+        );
+        
+        setSavedIndex(segments.length);
+      }
     }
-  }
+    
+  }, [audioTrack, segments, savedIndex])
+  
+
 
   if (segments.length > 0 && !onlyLastSegment) {
     return (

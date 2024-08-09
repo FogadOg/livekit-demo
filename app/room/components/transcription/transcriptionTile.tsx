@@ -1,23 +1,27 @@
+import { getRoomMetadata } from "@/app/actions/roomMetadata";
 import { GetTranscription } from "@/app/actions/transcription";
 import { useRoomInfo } from "@livekit/components-react";
-import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 export const TranscriptTile = ({ userName }: { userName: string }) => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [metadata, setMetadata] = useState<Record<string, string> | null>(null);
   const roomInfo = useRoomInfo();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      let promisedUsers = await GetTranscription(Number(roomInfo.name!));
-      setUsers(promisedUsers);
+      if (roomInfo.name) {
+        let promisedUsers = await GetTranscription(roomInfo.name);
+        setMetadata(promisedUsers);
+      }
     };
     fetchUsers();
-  }, [roomInfo]);
+  }, []); // roomInfo
 
-  const filteredUser = users.find((user) => user.name === userName);
+  if (metadata === null) {
+    return <div>Loading...</div>;
+  }
 
-  if (!filteredUser) {
+  if (!(userName in metadata)) {
     return (
       <div className="flex flex-col gap-16 h-full ">
         <div className="flex-1">
@@ -32,9 +36,9 @@ export const TranscriptTile = ({ userName }: { userName: string }) => {
   return (
     <div className="flex flex-col gap-16 h-full ">
       <div className="flex-1">
-        <div key={filteredUser.name}>
-          <h3 className="font-bold">{filteredUser.name}:</h3>
-          <p>{filteredUser.transcription}</p>
+        <div key={userName}>
+          <h3 className="font-bold">{userName}s transcription:</h3>
+          <p>{metadata[userName].slice(9, -1)}</p> {/*temporary solution to removing "undefined"*/}
         </div>
       </div>
     </div>
