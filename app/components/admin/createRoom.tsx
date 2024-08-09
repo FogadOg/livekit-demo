@@ -21,9 +21,9 @@ const CreateRoom = () => {
 
     if (!valid) {
       if (expired) {
-        setMessage("Looks like youre create token is expired, redirecting...");
+        setMessage("Looks like your create token is expired, redirecting...");
       } else {
-        setMessage("Looks like youre create token is invalid, redirecting...");
+        setMessage("Looks like your create token is invalid, redirecting...");
       }
       localStorage.removeItem("createToken");
       window.location.reload();
