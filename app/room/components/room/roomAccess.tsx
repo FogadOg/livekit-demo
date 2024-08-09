@@ -28,7 +28,11 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
       if (!valid) {
         setExpired(expired!);
         setRoomExists(false);
-        setRoomId(room!);
+
+        const saved_token = localStorage.getItem("room-" + room);
+        if (saved_token) {
+          setToken(saved_token);
+        }
         return;
       }
 
