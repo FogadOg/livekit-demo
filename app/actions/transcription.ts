@@ -2,6 +2,7 @@
 
 import prisma from "../../lib/prisma";
 import roomService from "@/lib/roomService";
+import { getRoomMetadata, setRoomMetadata } from "./roomMetadata";
 
 export async function appendTranscription(
   username: string,
@@ -10,25 +11,27 @@ export async function appendTranscription(
 ) {  
   const room = (await roomService.listRooms([roomName]))[0]
   let metadata
-
+  
   if (room.metadata.length == 0){
     metadata = {}
   }else {
-    metadata = JSON.parse(room.metadata)
+    metadata = JSON.parse(JSON.parse(room.metadata)["transcript"])  
+  }
+  
+  try{
+    metadata[username] = metadata[username] +transcription
+  }catch{
+    metadata[username] = transcription
   }
 
-  if(metadata[username] === undefined) {
-    metadata[username] = transcription
-  }else{
-    metadata[username] = metadata[username] +transcription
-  }
-  roomService.updateRoomMetadata(roomName, JSON.stringify(metadata)) 
+  setRoomMetadata(roomName, "transcript", JSON.stringify(metadata))
 
 }
 
 export const GetTranscription = async (roomName: string) => {
-  const room = (await roomService.listRooms([roomName]))[0]
-  const parse = JSON.parse(room.metadata)
+  const metadata = (await roomService.listRooms([roomName]))[0].metadata
+  const transcriptions = JSON.parse(metadata)["transcript"]
+  
 
-  return parse;
+  return JSON.parse(transcriptions);
 };
