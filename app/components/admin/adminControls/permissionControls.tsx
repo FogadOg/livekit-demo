@@ -15,6 +15,8 @@ import {
 } from "../../../actions/userActions";
 import { TrackSource } from "livekit-server-sdk";
 import { ToggleTrackSource } from "./toggleTrackSource";
+import { Modal } from "../../../components/modal"
+import PermissionPanel from "./permissionPanel"
 
 // TODO no users to contrll
 export function PermissionControls({ token }: { token: string }) {
@@ -52,66 +54,14 @@ export function PermissionControls({ token }: { token: string }) {
   }
 
   return (
-    <div role="tablist" className="tabs tabs-bordered">
+    <div className="flex flex-wrap">
       {participants.map((p) => (
-        <>
-          <input
-            type="radio"
-            name="my_tabs_1"
-            role="tab"
-            className="tab text-ellipsis"
-            aria-label={p.identity}
-          />
-          <div role="tabpanel" className="tab-content p-10">
-            <div className="grid gap-1">
-              <ToggleTrackSource
-                trackSource={TrackSource.MICROPHONE}
-                p={p}
-                updateTrackSources={updateTrackSources}
-              />
-
-              <ToggleTrackSource
-                trackSource={TrackSource.CAMERA}
-                p={p}
-                updateTrackSources={updateTrackSources}
-              />
-
-              <ToggleTrackSource
-                trackSource={TrackSource.SCREEN_SHARE}
-                p={p}
-                updateTrackSources={updateTrackSources}
-              />
-              <ToggleTrackSource
-                trackSource={TrackSource.SCREEN_SHARE_AUDIO}
-                p={p}
-                updateTrackSources={updateTrackSources}
-              />
-
-              <button
-                onClick={async () => {
-                  toggleChat(p);
-                }}
-                className={
-                  p.permissions?.canPublishData
-                    ? "btn btn-success"
-                    : "btn btn-error"
-                }
-              >
-                Send chat
-              </button>
-
-              {/*TODO User not being fully kicked*/}
-              <button
-                className="btn btn-outline btn-accent mt-10"
-                onClick={async () => {
-                  await kickParticipant(p.identity, token);
-                }}
-              >
-                Kick user
-              </button>
-            </div>
-          </div>
-        </>
+        <Modal
+          title={`${p.identity} permissions`}
+          content={<PermissionPanel p={p} token={token} />}
+          buttonText={`${p.identity} permissions`}
+          modelName={`user ${p.identity} permissions`}
+        />
       ))}
     </div>
   );
