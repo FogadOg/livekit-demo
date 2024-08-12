@@ -14,6 +14,7 @@ import {
   tokenFromPermissionToken,
   validateToken,
 } from "./roomActions";
+import { addMetadataToRoom } from "./roomMetadata";
 
 export async function checkUsernameTaken(roomId: string, username: string) {
   const participants = await roomService.listParticipants(roomId);
@@ -35,14 +36,17 @@ export async function toggleRecording(roomId: string, token: string) {
     console.log("You are not admin!");
     return false;
   }
-  const prismaRoom = await prisma.room.findFirst({
-    where: { id: Number(roomId) },
-  });
+  const room = (await roomService.listRooms([roomId]))[0];
+  if (!room) {
+    return false;
+  }
 
-  if (prismaRoom?.egressId === "") {
+  const egressId = JSON.parse(room.metadata)["egressId"];
+
+  if (egressId === "") {
     console.log("Creating Egress");
     const fileOutput = new EncodedFileOutput({
-      filepath: `/out/videos/{room_name}-${prismaRoom?.name}.mp4`,
+      filepath: `/out/videos/{room_name}-${room.name}.mp4`,
     });
 
     const info = await egressClient.startRoomCompositeEgress(
@@ -56,17 +60,10 @@ export async function toggleRecording(roomId: string, token: string) {
       }
     );
 
-    await prisma.room.update({
-      where: { id: Number(roomId) },
-      data: { egressId: info.egressId },
-    });
+    await addMetadataToRoom(room.name, "egressId", info.egressId);
   } else {
-    console.log("Stopping Egress");
-    await egressClient.stopEgress(prismaRoom?.egressId!);
-    await prisma.room.update({
-      where: { id: Number(roomId) },
-      data: { egressId: "" },
-    });
+    await egressClient.stopEgress(egressId);
+    await addMetadataToRoom(room.name, "egressId", "");
   }
 }
 
@@ -207,8 +204,10 @@ export async function getCreateToken(password: string) {
   return { valid: true, token: await at.toJwt() };
 }
 
-// Updates token when user get's new permissions
 // !Not secure? can change particpant id to admin and steal permissions
+// ? If passing in previous token instead of id it will be secure
+
+// Updates token when user get's new permissions
 export async function updateTokenToFitPermissions(
   roomId: string,
   participantId: string
