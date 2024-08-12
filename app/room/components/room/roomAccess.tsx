@@ -6,7 +6,7 @@ import {
   validatedRoomPasswordAndUsername,
 } from "@/app/actions/userActions";
 import "@livekit/components-styles";
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import RoomAccessForm from "./roomAccessForm";
 
@@ -25,9 +25,15 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
   useEffect(() => {
     const fetchRoomState = async () => {
       const { valid, room, expired } = await validateToken(permissionToken);
+      const saved_token = localStorage.getItem("roomAdmin-" + room) || localStorage.getItem("room-" + room);
+      if (saved_token) {
+        setToken(saved_token);
+      }
+
       if (!valid) {
-        setExpired(true);
+        setExpired(expired!);
         setRoomExists(false);
+
         return;
       }
 
@@ -55,6 +61,7 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
     );
     if (token) {
       setToken(token);
+      localStorage.setItem("room-" + roomId.toString(), token);
     }
     if (message !== "") {
       alert(message);
