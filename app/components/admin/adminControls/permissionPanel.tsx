@@ -18,6 +18,7 @@ function PermissionPanel({ p, token }: { p: Participant; token: string }) {
   ) => {
     await updateParticipantPermissions(p.identity, token, {
       canPublishSources: Array.from(newSourceList),
+      canPublishData: p.permissions?.canPublishData,
     });
   };
 
