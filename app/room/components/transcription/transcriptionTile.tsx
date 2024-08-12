@@ -38,7 +38,10 @@ export const TranscriptTile = ({
         ) : (
           <>
             {/* Transcript starting with undefined, removing that. */}
-            <p>{transcript.replace("undefined", "")}</p>
+            <p className="max-h-72 overflow-auto">
+              {transcript.replace("undefined", "")}
+              {transcript.replace("undefined", "")}
+            </p>
           </>
         )}
       </div>
