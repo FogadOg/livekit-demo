@@ -38,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
         {icon ? icon : ""}
         {buttonText}
       </button>
-      <dialog id={modelName} className="modal" onClose={handleCloseModal}>
+      <dialog id={modelName} className="modal">
         <div className="modal-box">
           <form method="dialog"></form>
           <h3 className="text-lg font-bold ">{title}</h3>
