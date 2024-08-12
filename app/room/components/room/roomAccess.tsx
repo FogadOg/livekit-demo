@@ -25,15 +25,25 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
   useEffect(() => {
     const fetchRoomState = async () => {
       const { valid, room, expired } = await validateToken(permissionToken);
-      const saved_token = localStorage.getItem("roomAdmin-" + room) || localStorage.getItem("room-" + room);
+      const saved_token =
+        localStorage.getItem("roomAdmin-" + room) ||
+        localStorage.getItem("room-" + room);
+
       if (saved_token) {
-        setToken(saved_token);
+        const { valid, room, expired, canSubscribe } = await validateToken(
+          saved_token
+        );
+        if (valid && canSubscribe) {
+          setToken(saved_token);
+        } else {
+          setRoomExists(false);
+          return;
+        }
       }
 
       if (!valid) {
         setExpired(expired!);
         setRoomExists(false);
-
         return;
       }
 
@@ -76,6 +86,7 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
       </>
     );
   }
+
   if (!roomExists) {
     return (
       <>

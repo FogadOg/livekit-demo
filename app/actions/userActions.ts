@@ -111,7 +111,7 @@ export async function updateParticipantPermissions(
 
   const roomName = validatedToken?.video?.room;
 
-  await roomService.updateParticipant(
+  const partiInfo = await roomService.updateParticipant(
     roomName!,
     participantIdentity,
     undefined,
@@ -132,6 +132,12 @@ export async function kickParticipant(
   let { token: validatedToken } = await validateToken(token);
 
   const roomName = validatedToken?.video?.room;
+
+  await updateParticipantPermissions(participantIdentity, token, {
+    room: roomName,
+    roomJoin: false,
+    canSubscribe: false,
+  });
 
   await roomService.removeParticipant(
     validatedToken?.video?.room!,
@@ -230,7 +236,8 @@ export async function updateTokenToFitPermissions(
     });
 
     return { valid: true, token: await at.toJwt() };
-  } catch {
+  } catch (error) {
+    console.log("-------------------", error);
     return { valid: false };
   }
 }
