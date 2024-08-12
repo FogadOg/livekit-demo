@@ -13,13 +13,16 @@ export default function AdminsRoom({
   const adminToken = localStorage.getItem("room-" + room.name);
   const roomUrl = "/room?adminToken=" + adminToken;
   return (
-    <div>
-      <h2>Room id {room.name}</h2>
+    <div className="shadow-2xl p-7 grid gap-5">
+      <div className="flex flex-row-3 divide-x">
+        <p  className="px-3">Room participants: {room.numParticipants}</p>
+        <h2 className="px-3">Room id {room.name}</h2>
+
+      </div>
+
 
       <div className="flex gap-2">
-        <a href={roomUrl} role="button" className="btn btn-primary">
-          Join
-        </a>
+        
         <button
           className="btn btn-error"
           onClick={async () => {
@@ -37,10 +40,12 @@ export default function AdminsRoom({
         >
           Delete room
         </button>
+        <RoomIngress room={room} adminToken={adminToken!} />
+        
+        <a href={roomUrl} role="button" className="btn btn-primary">
+          Join
+        </a>
       </div>
-
-      <RoomIngress room={room} adminToken={adminToken!} />
-      <p>Room participants: {room.numParticipants}</p>
     </div>
   );
 }

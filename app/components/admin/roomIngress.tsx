@@ -9,35 +9,29 @@ export default function RoomIngress({
   room: Room;
   adminToken: string;
 }) {
-  const [username, setUsername] = useState("");
   const [ingressUrl, setIngressUrl] = useState("");
   const [ingressPassword, setIngressPassword] = useState("");
 
   const startIngress = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { valid, url, password } = await createIngress(
-      adminToken,
-      room,
-      username
-    );
-    if (valid) {
-      setIngressUrl(url!);
-      setIngressPassword(password!);
-    } else {
-      window.location.reload;
+    let username = prompt("username")
+    if(username !== null){
+      const { valid, url, password } = await createIngress(
+        adminToken,
+        room,
+        username
+      );
+      if (valid) {
+        setIngressUrl(url!);
+        setIngressPassword(password!);
+      } else {
+        window.location.reload;
+      }
+
     }
   };
   return (
     <form onSubmit={startIngress}>
-      <input
-        id="username"
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="input input-bordered"
-        required
-      />
       <input
         type="submit"
         className="btn btn-primary"
