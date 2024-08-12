@@ -3,13 +3,10 @@
 import { useRouter } from "next/navigation";
 import {
   LayoutContextProvider,
-  Chat,
   LiveKitRoom,
   RoomAudioRenderer,
-  useLocalParticipantPermissions,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
-
 import { CustomControlBar } from "../../../components/customControlBar";
 import { VideoConference } from "../../videoConference";
 
@@ -41,12 +38,6 @@ const RoomView = ({ token }: RoomProps) => {
       </LayoutContextProvider>
     </div>
   );
-};
-
-const CustomChat = () => {
-  const permissions = useLocalParticipantPermissions();
-  
-  return(permissions?.canPublishData && <Chat />)
 };
 
 export default RoomView;
