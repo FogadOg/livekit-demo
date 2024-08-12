@@ -14,11 +14,10 @@ export const TranscriptionButton = ({
   const trackReference = useEnsureTrackRef(trackRef);
   return (
     <>
-      <p>{trackReference.participant.identity}</p>
       <Modal
         title={`${trackReference.participant.identity}s transcription`}
         content={<TranscriptTile participant={trackReference.participant} />}
-        buttonText={`View transcript`}
+        buttonText={`${trackReference.participant.identity}'s transcript`}
         modelName={`${trackReference.participant.identity}s transcription`}
       />
     </>
