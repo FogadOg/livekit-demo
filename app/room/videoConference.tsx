@@ -38,6 +38,14 @@ export const VideoConference = () => {
   const roomInfo = useRoomInfo();
   const participant = useLocalParticipant();
 
+  const transcriptAvailable = (() => {
+    try {
+      return !!JSON.parse(roomInfo.metadata || "{}").transcript;
+    } catch {
+      return false;
+    }
+  })();
+
   useEffect(() => {
     const updateToken = async () => {
       const { valid, token } = await updateTokenToFitPermissions(
@@ -66,7 +74,7 @@ export const VideoConference = () => {
         <div className="relative">
           <ParticipantTile className="h-full" />
           <div className="absolute top-10 left-20">
-            <TranscriptionButton />
+            {transcriptAvailable && <TranscriptionButton />}
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
             {/* Caption visible if agent present*/}
