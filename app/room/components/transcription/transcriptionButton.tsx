@@ -2,10 +2,8 @@ import { Modal } from "@/app/components/modal";
 import {
   TrackReferenceOrPlaceholder,
   useEnsureTrackRef,
-  useParticipantContext,
 } from "@livekit/components-react";
 import { TranscriptTile } from "./transcriptionTile";
-
 export const TranscriptionButton = ({
   trackRef,
 }: {
