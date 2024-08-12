@@ -1,4 +1,4 @@
-async function sha256(message: string) {
+export async function sha256(message: string) {
     if(message !== null) {
       const msgBuffer = new TextEncoder().encode(message);                    
       const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
