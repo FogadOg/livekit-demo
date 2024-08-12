@@ -41,7 +41,8 @@ export async function toggleRecording(roomId: string, token: string) {
     return false;
   }
 
-  const egressId = JSON.parse(room.metadata)["egressId"];
+  const egressId =
+    (room?.metadata && JSON.parse(room.metadata)?.egressId) || "";
 
   if (egressId === "") {
     console.log("Creating Egress");
