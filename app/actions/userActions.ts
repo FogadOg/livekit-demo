@@ -206,3 +206,31 @@ export async function getCreateToken(password: string) {
 
   return { valid: true, token: await at.toJwt() };
 }
+
+// Updates token when user get's new permissions
+// !Not secure? can change particpant id to admin and steal permissions
+export async function updateTokenToFitPermissions(
+  roomId: string,
+  participantId: string
+) {
+  try {
+    const apiKey = process.env.LIVEKIT_API_KEY;
+    const apiSecret = process.env.LIVEKIT_API_SECRET;
+
+    const participant = await roomService.getParticipant(roomId, participantId);
+
+    const at = new AccessToken(apiKey, apiSecret, { identity: participantId });
+
+    at.addGrant({
+      room: roomId,
+      roomJoin: true,
+      canSubscribe: true,
+      roomCreate: false,
+      ...participant.permission,
+    });
+
+    return { valid: true, token: await at.toJwt() };
+  } catch {
+    return { valid: false };
+  }
+}

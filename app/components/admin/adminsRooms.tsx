@@ -9,8 +9,8 @@ export default function AdminsRooms() {
   const keys = Object.keys(localStorage);
 
   const roomNames = keys
-    .filter((key) => key.startsWith("room-"))
-    .map((room) => room.replace("room-", ""));
+    .filter((key) => key.startsWith("roomAdmin-"))
+    .map((room) => room.replace("roomAdmin-", ""));
 
   useEffect(() => {
     const getRooms = async () => {

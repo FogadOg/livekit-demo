@@ -31,6 +31,7 @@ export function PermissionControls({ token }: { token: string }) {
   ) => {
     await updateParticipantPermissions(p.identity, token, {
       canPublishSources: Array.from(newSourceList),
+      canPublishData: p.permissions?.canPublishData,
     });
   };
   if (!isAdmin) {
