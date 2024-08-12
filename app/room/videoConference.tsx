@@ -1,19 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Chat,
   GridLayout,
   ParticipantTile,
+  useLocalParticipant,
   useLocalParticipantPermissions,
+  useRoomInfo,
   useTracks,
 } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import "@livekit/components-styles";
 
 import Caption from "./components/transcription/caption";
-import { useLocalParticipant } from "@livekit/components-react";
 import { TranscriptionButton } from "./components/transcription/transcriptionButton";
+import { updateTokenToFitPermissions } from "../actions/userActions";
 
 export const VideoConference = () => {
   const tracks = useTracks(
@@ -32,6 +34,29 @@ export const VideoConference = () => {
 
   const participantPermissions = useLocalParticipantPermissions();
 
+  const initialRender = useRef(true);
+  const roomInfo = useRoomInfo();
+  const participant = useLocalParticipant();
+
+  useEffect(() => {
+    const updateToken = async () => {
+      const { valid, token } = await updateTokenToFitPermissions(
+        roomInfo.name,
+        participant.localParticipant.identity
+      );
+      console.log("Updating", valid);
+      if (valid) {
+        localStorage.setItem("room-" + roomInfo.name, token!);
+      }
+    };
+
+    // Only updating token on change of permissions
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      updateToken();
+    }
+  }, [participantPermissions]);
   return (
     <div className="flex">
       <GridLayout
