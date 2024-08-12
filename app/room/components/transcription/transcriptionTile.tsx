@@ -29,8 +29,15 @@ export const TranscriptTile = ({
   return (
     <div className="flex flex-col gap-16 h-full ">
       <div className="flex-1">
-        {/* Transcript starting with undefined, removing that. */}
-        <p>{transcript.replace("undefined", "")}</p>
+        {transcript === "" ? (
+          <div>No transcript</div>
+        ):(
+          <>
+            {/* Transcript starting with undefined, removing that. */}
+            <p>{transcript.replace("undefined", "")}</p>
+          </>
+          
+        )}
       </div>
     </div>
   );
