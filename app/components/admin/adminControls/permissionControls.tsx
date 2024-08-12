@@ -27,32 +27,6 @@ export function PermissionControls({ token }: { token: string }) {
     (p) => !p.isAgent && p.identity !== identity
   );
 
-  const updateTrackSources = async (
-    newSourceList: TrackSource[],
-    p: Participant
-  ) => {
-    await updateParticipantPermissions(p.identity, token, {
-      canPublishSources: Array.from(newSourceList),
-    });
-  };
-  if (!isAdmin) {
-    return <></>;
-  }
-
-  async function toggleChat(p: RemoteParticipant | LocalParticipant) {
-    if (p.permissions?.canPublishData == true) {
-      await updateParticipantPermissions(p.identity, token, {
-        canPublishData: false,
-        canPublishSources: p.permissions?.canPublishSources,
-      });
-    } else {
-      await updateParticipantPermissions(p.identity, token, {
-        canPublishData: true,
-        canPublishSources: p.permissions?.canPublishSources,
-      });
-    }
-  }
-
   return (
     <div className="flex flex-wrap">
       {participants.map((p) => (
