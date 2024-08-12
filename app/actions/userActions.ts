@@ -207,8 +207,10 @@ export async function getCreateToken(password: string) {
   return { valid: true, token: await at.toJwt() };
 }
 
-// Updates token when user get's new permissions
 // !Not secure? can change particpant id to admin and steal permissions
+// ? If passing in previous token instead of id it will be secure
+
+// Updates token when user get's new permissions
 export async function updateTokenToFitPermissions(
   roomId: string,
   participantId: string
