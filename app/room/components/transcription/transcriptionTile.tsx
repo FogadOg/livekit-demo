@@ -28,7 +28,6 @@ export const TranscriptTile = ({
       }
     }
   }, [roomInfo]);
-  console.log(roomInfo);
 
   return (
     <div className="flex flex-col gap-16 h-full ">
@@ -39,7 +38,6 @@ export const TranscriptTile = ({
           <>
             {/* Transcript starting with undefined, removing that. */}
             <p className="max-h-72 overflow-auto">
-              {transcript.replace("undefined", "")}
               {transcript.replace("undefined", "")}
             </p>
           </>

@@ -13,9 +13,7 @@ const Caption = ({ trackRef }: { trackRef?: TrackReferenceOrPlaceholder }) => {
 
   return (
     <div className="flex-1">
-      {participantTrack && (
-        <Transcription audioTrack={participantTrack} onlyLastSegment={true} />
-      )}
+      {participantTrack && <Transcription audioTrack={participantTrack} />}
     </div>
   );
 };

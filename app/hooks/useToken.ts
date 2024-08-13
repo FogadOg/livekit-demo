@@ -10,6 +10,5 @@ export default function useToken() {
 
   const [token, setToken] = useState(adminToken ? adminToken : "");
 
-  console.log(adminToken, );
   return { token, setToken, permissionsToken };
 }
