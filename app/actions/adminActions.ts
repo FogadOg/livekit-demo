@@ -6,6 +6,7 @@ import { IngressClient, IngressInput, Room } from "livekit-server-sdk";
 
 // Get rooms and returns only active ones
 export async function filterActiveRooms(roomNames: string[]) {
+  if (roomNames.length === 0) return [];
   return await roomService.listRooms(roomNames);
 }
 

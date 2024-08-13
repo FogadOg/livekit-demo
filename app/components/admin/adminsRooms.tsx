@@ -19,7 +19,13 @@ export default function AdminsRooms() {
 
       setLoading(false);
     };
-    getRooms();
+
+    if (roomNames.length === 0) {
+      setRooms(new Set([]));
+      setLoading(false);
+    } else {
+      getRooms();
+    }
   }, []);
 
   return (
