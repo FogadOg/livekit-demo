@@ -5,9 +5,11 @@ export default function useToken() {
   const searchParams = useSearchParams();
 
   const permissionsToken = searchParams.get("permissionsToken");
-  const adminToken = searchParams.get("adminToken");
+  const roomId = searchParams.get("roomId");
+  const adminToken = localStorage.getItem("roomAdmin-" + roomId);
 
   const [token, setToken] = useState(adminToken ? adminToken : "");
 
+  console.log(adminToken, );
   return { token, setToken, permissionsToken };
 }
