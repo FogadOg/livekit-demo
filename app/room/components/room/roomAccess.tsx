@@ -16,7 +16,7 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
     setToken,
   });
 
-  const submitUsernameAndPassword = async (
+  const submitUsername = async (
     userId: string,
   ) => {
     let { message, token } = await validatedRoomPasswordAndUsername(
@@ -63,7 +63,7 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
   }
   return (
     <RoomAccessForm
-      submitUsernameAndPassword={submitUsernameAndPassword}
+      submitUsername={submitUsername}
       isRoomPublic={isRoomPublic}
     />
   );

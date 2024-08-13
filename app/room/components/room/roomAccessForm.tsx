@@ -10,21 +10,21 @@ import { useState, FormEvent } from "react";
 import React from "react";
 
 interface RoomProps {
-  submitUsernameAndPassword: (
+  submitUsername: (
     userId: string
   ) => Promise<void>;
   isRoomPublic: boolean;
 }
 
 const RoomAccessForm = ({
-  submitUsernameAndPassword,
+  submitUsername,
   isRoomPublic,
 }: RoomProps) => {
   const [userId, setUserId] = useState<string>("");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    submitUsernameAndPassword(userId);
+    submitUsername(userId);
   };
 
   return (
