@@ -111,7 +111,7 @@ export async function updateParticipantPermissions(
 
   const roomName = validatedToken?.video?.room;
 
-  const partiInfo = await roomService.updateParticipant(
+  await roomService.updateParticipant(
     roomName!,
     participantIdentity,
     undefined,

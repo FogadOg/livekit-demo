@@ -17,21 +17,21 @@ function PermissionPanel({ p, token }: { p: Participant; token: string }) {
     p: Participant
   ) => {
     await updateParticipantPermissions(p.identity, token, {
+      ...p.permissions,
       canPublishSources: Array.from(newSourceList),
-      canPublishData: p.permissions?.canPublishData,
     });
   };
 
   async function toggleChat(p: Participant) {
     if (p.permissions?.canPublishData == true) {
       await updateParticipantPermissions(p.identity, token, {
+        ...p.permissions,
         canPublishData: false,
-        canPublishSources: p.permissions?.canPublishSources,
       });
     } else {
       await updateParticipantPermissions(p.identity, token, {
+        ...p.permissions,
         canPublishData: true,
-        canPublishSources: p.permissions?.canPublishSources,
       });
     }
   }
