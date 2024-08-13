@@ -54,6 +54,7 @@ const CreateRoom = () => {
           type="checkbox"
           name="public"
           className="hidden"
+          onChange={(e) => setIsPasswordProtected(!e.target.checked)}
           checked={!isPasswordProtected}
         />
         <label className="label cursor-pointer" htmlFor="passwordProtected">
