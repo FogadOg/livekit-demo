@@ -161,7 +161,6 @@ export async function getRoomState(roomId: string) {
 export async function validatedRoomPasswordAndUsername(
   roomId: string,
   username: string,
-  password: string,
   permissionToken: string
 ) {
   const room = await prisma.room.findUnique({
@@ -182,9 +181,6 @@ export async function validatedRoomPasswordAndUsername(
     return { valid: false, message: "Username taken" };
   }
 
-  if (room.password !== password) {
-    return { valid: false, message: "Password is incorrect" };
-  }
   return {
     valid: true,
     message: "",

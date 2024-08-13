@@ -18,12 +18,10 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
 
   const submitUsernameAndPassword = async (
     userId: string,
-    password: string
   ) => {
     let { message, token } = await validatedRoomPasswordAndUsername(
       roomId,
       userId,
-      password,
       permissionToken
     );
     if (token) {

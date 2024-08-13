@@ -11,8 +11,7 @@ import React from "react";
 
 interface RoomProps {
   submitUsernameAndPassword: (
-    userId: string,
-    password: string
+    userId: string
   ) => Promise<void>;
   isRoomPublic: boolean;
 }
@@ -22,11 +21,10 @@ const RoomAccessForm = ({
   isRoomPublic,
 }: RoomProps) => {
   const [userId, setUserId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    submitUsernameAndPassword(userId, password);
+    submitUsernameAndPassword(userId);
   };
 
   return (
@@ -42,20 +40,6 @@ const RoomAccessForm = ({
           required
         />
       </div>
-
-      {!isRoomPublic && (
-        <div>
-          <input
-            id="password"
-            type="password"
-            placeholder="Room password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input input-bordered"
-            required
-          />
-        </div>
-      )}
 
       <div>
         <input type="submit" value="Join" className="btn btn-primary" />
