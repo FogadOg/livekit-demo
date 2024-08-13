@@ -1,22 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
-
 import RoomView from "./components/room/roomView";
 import RoomAccess from "./components/room/roomAccess";
+import useToken from "../hooks/useToken";
 
 export default function Page() {
-  const searchParams = useSearchParams();
-
-  const permissionsToken = searchParams.get("permissionsToken");
-  const adminToken = searchParams.get("adminToken");
-
-  const [token, setToken] = useState(adminToken ? adminToken : "");
+  const { token, setToken, permissionsToken } = useToken();
 
   if (token !== "") {
     return <RoomView token={token} />;
   }
+
   if (!permissionsToken) {
     return (
       <>
@@ -25,5 +19,6 @@ export default function Page() {
       </>
     );
   }
+
   return <RoomAccess setToken={setToken} permissionToken={permissionsToken} />;
 }
