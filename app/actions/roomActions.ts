@@ -1,20 +1,6 @@
 "use server";
 
-import roomService from "@/lib/roomService";
-import prisma from "../../lib/prisma";
 import { AccessToken, TokenVerifier, TrackSource } from "livekit-server-sdk";
-
-export async function deleteRoomIfEmpty(roomId: string) {
-  const roomParticipants = await roomService.listParticipants(roomId);
-  const filteredParticipants = roomParticipants.filter(
-    (participant) => !participant.permission?.agent
-  );
-
-  if (filteredParticipants.length === 0) {
-    await prisma.room.delete({ where: { id: Number(roomId) } });
-    await roomService.deleteRoom(roomId);
-  }
-}
 
 export async function handleCreateRoomForm(
   formData: FormData,
@@ -26,22 +12,14 @@ export async function handleCreateRoomForm(
     return { valid: false, expired: expired };
   }
 
-  const validatedFormData = {
-    name: (formData.get("roomName") as string | null) || "default room",
-    public: (formData.get("public") || "off") === "on",
-    password: (formData.get("password") as string | null) || "",
-  };
-
-  const newRoom = await prisma.room.create({
-    data: validatedFormData,
-  });
-
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
   const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
+
+  const roomId = Date.now().toString();
   at.addGrant({
-    room: newRoom.id.toString(),
+    room: roomId,
     roomCreate: true,
     roomJoin: true,
     canSubscribe: true,
@@ -55,7 +33,8 @@ export async function handleCreateRoomForm(
       TrackSource.SCREEN_SHARE_AUDIO,
     ],
   });
-  return { token: await at.toJwt(), newRoomId: newRoom.id, valid: true };
+
+  return { token: await at.toJwt(), newRoomId: roomId, valid: true };
 }
 
 // Returns room id to be used to check if name taken

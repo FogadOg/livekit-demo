@@ -1,4 +1,3 @@
-// Init only one prisma instance
 import { RoomServiceClient, Room } from "livekit-server-sdk";
 
 let roomService: RoomServiceClient;

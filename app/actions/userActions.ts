@@ -1,7 +1,6 @@
 "use server";
 
 import roomService from "../../lib/roomService";
-import prisma from "../../lib/prisma";
 import {
   AccessToken,
   EgressClient,
@@ -146,13 +145,10 @@ export async function kickParticipant(
 }
 
 export async function getRoomState(roomId: string) {
-  const room = await prisma.room.findUnique({
-    where: { id: Number(roomId) },
-    select: { password: true, name: true, public: true },
-  });
+  const room = await roomService.listRooms([roomId]);
 
-  if (room) {
-    return { roomPublic: room.public, valid: true };
+  if (room.length !== 0) {
+    return { valid: true };
   } else {
     return { valid: false };
   }
@@ -163,15 +159,6 @@ export async function validatedRoomPasswordAndUsername(
   username: string,
   permissionToken: string
 ) {
-  const room = await prisma.room.findUnique({
-    where: { id: Number(roomId) },
-    select: { password: true, name: true, public: true },
-  });
-
-  if (!room) {
-    return { valid: false, message: "Something went wrong try to refresh" };
-  }
-
   const participants = await roomService.listParticipants(roomId);
   const usernameTaken = participants.some((p) => {
     return username === p.identity || username === "Admin";

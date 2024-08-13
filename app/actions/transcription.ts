@@ -1,8 +1,7 @@
 "use server";
 
-import prisma from "../../lib/prisma";
 import roomService from "@/lib/roomService";
-import { getRoomMetadata, addMetadataToRoom } from "./roomMetadata";
+import { addMetadataToRoom } from "./roomMetadata";
 
 export async function appendTranscription(
   username: string,
