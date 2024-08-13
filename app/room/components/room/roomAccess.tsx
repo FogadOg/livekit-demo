@@ -64,7 +64,6 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
   return (
     <RoomAccessForm
       submitUsername={submitUsername}
-      isRoomPublic={isRoomPublic}
     />
   );
 };

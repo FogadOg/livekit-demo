@@ -18,7 +18,6 @@ interface RoomProps {
 
 const RoomAccessForm = ({
   submitUsername,
-  isRoomPublic,
 }: RoomProps) => {
   const [userId, setUserId] = useState<string>("");
 
