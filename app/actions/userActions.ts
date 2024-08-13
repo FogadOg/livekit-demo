@@ -1,18 +1,15 @@
 "use server";
 
-import roomService from "../../lib/roomService";
-import {
-  AccessToken,
-  EgressClient,
-  EncodedFileOutput,
-  VideoGrant,
-} from "livekit-server-sdk";
+import roomService from "@/lib/roomService";
+import egressClient from "@/lib/egressClient";
+import { AccessToken, EncodedFileOutput, VideoGrant } from "livekit-server-sdk";
 
 import {
   getIsAdmin,
   tokenFromPermissionToken,
   validateToken,
 } from "./roomActions";
+
 import { addMetadataToRoom } from "./roomMetadata";
 
 export async function checkUsernameTaken(roomId: string, username: string) {
@@ -22,12 +19,6 @@ export async function checkUsernameTaken(roomId: string, username: string) {
   );
   return nameTaken;
 }
-
-const egressClient = new EgressClient(
-  process.env.NEXT_PUBLIC_LIVEKIT_URL!,
-  process.env.LIVEKIT_API_KEY,
-  process.env.LIVEKIT_API_SECRET
-);
 
 export async function toggleRecording(roomId: string, token: string) {
   const isAdmin = await getIsAdmin(token);

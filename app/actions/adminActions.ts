@@ -2,7 +2,8 @@
 
 import roomService from "@/lib/roomService";
 import { getIsAdmin } from "./roomActions";
-import { IngressClient, IngressInput, Room } from "livekit-server-sdk";
+import { IngressInput, Room } from "livekit-server-sdk";
+import ingressClient from "@/lib/ingerssClient";
 
 // Get rooms and returns only active ones
 export async function filterActiveRooms(roomNames: string[]) {
@@ -23,12 +24,6 @@ export async function deleteRoom(token: string, room: string) {
   }
   return true;
 }
-// Creating ingress
-const ingressClient = new IngressClient(
-  process.env.NEXT_PUBLIC_LIVEKIT_URL!,
-  process.env.LIVEKIT_API_KEY,
-  process.env.LIVEKIT_API_SECRET
-);
 
 export async function createIngress(
   token: string,
