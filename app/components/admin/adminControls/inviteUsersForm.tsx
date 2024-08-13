@@ -26,7 +26,6 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
   useEffect(() => {
     const baseUrl = "http://localhost:3000/room";
     const tokenUrl = async () => {
-      console.log(permissions);
       const permissionToken = await generatePermissionToken(
         roomInfo.name,
         permissions,

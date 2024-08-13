@@ -11,7 +11,7 @@ export default function AdminsRoom({
   setRooms: Dispatch<SetStateAction<Set<Room>>>;
 }) {
   const adminToken = localStorage.getItem("roomAdmin-" + room.name);
-  const roomUrl = "/room?adminToken=" + adminToken;
+  const roomUrl = "/room?roomId=" + room.name;
   return (
     <div className="shadow-2xl p-7 grid gap-5">
       <div className="flex flex-row-3 divide-x">

@@ -13,14 +13,18 @@ export const TranscriptTile = ({
   const [transcript, setTranscript] = useState("");
 
   useEffect(() => {
-    if (roomInfo.metadata !== "") {
-      const allTranscriptions = JSON.parse(roomInfo.metadata!)["transcript"];
-      const participantTranscription =
-        JSON.parse(allTranscriptions)[participant.identity];
-      if (participantTranscription) {
-        setTranscript(participantTranscription);
-      } else {
-        setTranscript(`${participant.identity} hasn't spoken yet`);
+    if (roomInfo.metadata) {
+      try {
+        const { transcript: allTranscriptions } = JSON.parse(roomInfo.metadata);
+        const participantTranscription =
+          JSON.parse(allTranscriptions)[participant.identity];
+        setTranscript(
+          participantTranscription ||
+            `${participant.identity} hasn't spoken yet`
+        );
+      } catch (error) {
+        console.error("Error parsing metadata:", error);
+        setTranscript("Error retrieving transcript");
       }
     }
   }, [roomInfo]);
@@ -31,12 +35,14 @@ export const TranscriptTile = ({
       <div className="flex-1">
         {transcript === "" ? (
           <div>No transcript</div>
-        ):(
+        ) : (
           <>
             {/* Transcript starting with undefined, removing that. */}
-            <p>{transcript.replace("undefined", "")}</p>
+            <p className="max-h-72 overflow-auto">
+              {transcript.replace("undefined", "")}
+              {transcript.replace("undefined", "")}
+            </p>
           </>
-          
         )}
       </div>
     </div>

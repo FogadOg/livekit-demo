@@ -4,21 +4,20 @@ import {
   useEnsureTrackRef,
 } from "@livekit/components-react";
 import { TranscriptTile } from "./transcriptionTile";
-export const TranscriptionButton = ({
-  trackRef,
-}: {
+
+interface TranscriptionButtonProps {
   trackRef?: TrackReferenceOrPlaceholder;
-}) => {
+}
+
+export const TranscriptionButton = ({ trackRef }: TranscriptionButtonProps) => {
   const trackReference = useEnsureTrackRef(trackRef);
+  const participant = trackReference.participant;
   return (
-    <>
-      <p>{trackReference.participant.identity}</p>
-      <Modal
-        title={`${trackReference.participant.identity}s transcription`}
-        content={<TranscriptTile participant={trackReference.participant} />}
-        buttonText={`View transcript`}
-        modelName={`${trackReference.participant.identity}s transcription`}
-      />
-    </>
+    <Modal
+      title={`${participant.identity}s transcription`}
+      content={<TranscriptTile participant={participant} />}
+      buttonText={`${participant.identity}'s transcript`}
+      modelName={`${participant.identity}s transcription`}
+    />
   );
 };

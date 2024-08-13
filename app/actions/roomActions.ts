@@ -73,7 +73,12 @@ export async function validateToken(permissionToken: string) {
       return { valid: false };
     }
 
-    return { room: token.video?.room, token: token, valid: true };
+    return {
+      room: token.video?.room,
+      token: token,
+      valid: true,
+      canSubscribe: token.video?.canSubscribe,
+    };
   } catch (error: any) {
     let roomId = error.payload?.video?.room as string;
     if (error.code! === "ERR_JWT_EXPIRED") {

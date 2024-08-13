@@ -1,53 +1,20 @@
 "use client";
 
-import { validateToken } from "@/app/actions/roomActions";
-import {
-  getRoomState,
-  validatedRoomPasswordAndUsername,
-} from "@/app/actions/userActions";
+import { validatedRoomPasswordAndUsername } from "@/app/actions/userActions";
 import "@livekit/components-styles";
-import { useEffect, useState } from "react";
-import React from "react";
 import RoomAccessForm from "./roomAccessForm";
+import useRoomState from "@/app/hooks/useRoomState";
 
-interface RoomProps {
+interface RoomAccessProps {
   setToken: (token: string) => void;
   permissionToken: string;
 }
 
-const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
-  const [isRoomPublic, setIsRoomPublic] = useState<boolean>(true);
-
-  const [roomExists, setRoomExists] = useState<boolean>(true);
-  const [expired, setExpired] = useState<boolean>(false);
-  const [roomId, setRoomId] = useState("");
-
-  useEffect(() => {
-    const fetchRoomState = async () => {
-      const { valid, room, expired } = await validateToken(permissionToken);
-      const saved_token = localStorage.getItem("roomAdmin-" + room) || localStorage.getItem("room-" + room);
-      if (saved_token) {
-        setToken(saved_token);
-      }
-
-      if (!valid) {
-        setExpired(expired!);
-        setRoomExists(false);
-
-        return;
-      }
-
-      setRoomId(room!);
-      const roomState = await getRoomState(room!);
-      if (roomState.valid) {
-        setIsRoomPublic(roomState.roomPublic!);
-      } else {
-        setRoomExists(false);
-      }
-    };
-
-    fetchRoomState();
-  }, [permissionToken, roomId]);
+const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
+  const { expired, isRoomPublic, roomExists, roomId } = useRoomState({
+    permissionToken,
+    setToken,
+  });
 
   const submitUsernameAndPassword = async (
     userId: string,
@@ -76,6 +43,7 @@ const RoomAccess = ({ setToken, permissionToken }: RoomProps) => {
       </>
     );
   }
+
   if (!roomExists) {
     return (
       <>
