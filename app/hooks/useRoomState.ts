@@ -19,9 +19,7 @@ export default function useRoomState({
   useEffect(() => {
     const fetchRoomState = async () => {
       const { valid, room, expired } = await validateToken(permissionToken);
-      const saved_token =
-        localStorage.getItem("roomAdmin-" + room) ||
-        localStorage.getItem("room-" + room);
+      const saved_token = localStorage.getItem("roomAdmin-" + room);
 
       if (saved_token) {
         const { valid, room, expired, canSubscribe } = await validateToken(
