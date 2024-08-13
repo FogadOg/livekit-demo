@@ -13,7 +13,6 @@ interface RoomProps {
   submitUsername: (
     userId: string
   ) => Promise<void>;
-  isRoomPublic: boolean;
 }
 
 const RoomAccessForm = ({
