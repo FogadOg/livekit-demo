@@ -52,7 +52,6 @@ export const VideoConference = () => {
         roomInfo.name,
         participant.localParticipant.identity
       );
-      console.log("VALID UPDATED TOKEN", valid);
       if (valid) {
         localStorage.setItem("room-" + roomInfo.name, token!);
       }
