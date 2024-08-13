@@ -1,24 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import CreateRoom from "./components/admin/createRoom";
 import { Navbar } from "./components/navbar";
 import GetCreateTokenForm from "./getCreateTokenForm";
 import AdminsRooms from "./components/admin/adminsRooms";
+import useCreateToken from "./hooks/useCreateToken";
 
 export default function Home() {
-  const [hasCreateToken, setHasCreateToken] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { gettingCreateToken, hasCreateToken } = useCreateToken();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const createToken = localStorage.getItem("createToken");
-      setHasCreateToken(!!createToken);
-      setLoading(false);
-    }
-  }, []);
-
-  if (loading) {
+  if (gettingCreateToken) {
     return (
       <>
         <Navbar />
