@@ -25,10 +25,15 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
 
   useEffect(() => {
     const baseUrl = "http://localhost:3000/room";
+
+    let permissionsToUse = { ...permissions };
+    if (permissions.hidden) {
+      permissionsToUse = { ...permissionsToUse, canPublishSources: [] };
+    }
     const tokenUrl = async () => {
       const permissionToken = await generatePermissionToken(
         roomInfo.name,
-        permissions,
+        permissionsToUse,
         token
       );
       setUrl(`${baseUrl}?permissionsToken=${permissionToken}`);
@@ -78,16 +83,33 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
             />
           </label>
         </li>
-        <li>
-          <label className="flex justify-between items-center" htmlFor="hidden">
+
+        <li className="flex">
+          <label className="flex justify-between" htmlFor="visible">
+            Visible
+            <input
+              type="radio"
+              name="hidden"
+              className="radio toggle-success"
+              id="visible"
+              checked={!permissions.hidden}
+              onChange={() => {
+                setPermissions((prev) => ({ ...prev, hidden: false }));
+              }}
+            />
+          </label>
+
+          <label className="flex justify-between" htmlFor="hidden">
             Hidden
             <input
-              type="checkbox"
+              type="radio"
               name="hidden"
-              className="toggle toggle-success"
+              className="radio toggle-success"
               id="hidden"
               checked={permissions.hidden}
-              onChange={handlePermissionChange}
+              onChange={() => {
+                setPermissions((prev) => ({ ...prev, hidden: true }));
+              }}
             />
           </label>
         </li>
@@ -106,9 +128,12 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
                 name={source.toString()}
                 className="toggle toggle-success"
                 id={source.toString()}
-                checked={permissions.canPublishSources?.includes(
-                  (index + 1) as TrackSource
-                )}
+                checked={
+                  permissions.canPublishSources?.includes(
+                    (index + 1) as TrackSource
+                  ) && !permissions.hidden
+                }
+                disabled={permissions.hidden}
                 onChange={() => handleSourceChange((index + 1) as TrackSource)}
               />
             </label>

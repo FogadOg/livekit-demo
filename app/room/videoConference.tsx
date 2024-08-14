@@ -15,6 +15,7 @@ import "@livekit/components-styles";
 
 import Caption from "./components/transcription/caption";
 import { TranscriptionButton } from "./components/transcription/transcriptionButton";
+import SpeakerLayout from "../egress/SpeakerLayout";
 
 export const VideoConference = () => {
   const tracks = useTracks(
@@ -33,9 +34,7 @@ export const VideoConference = () => {
 
   const participantPermissions = useLocalParticipantPermissions();
 
-  const initialRender = useRef(true);
   const roomInfo = useRoomInfo();
-  const participant = useLocalParticipant();
 
   const transcriptAvailable = (() => {
     try {
@@ -45,25 +44,7 @@ export const VideoConference = () => {
     }
   })();
 
-  // useEffect(() => {
-  //   const updateToken = async () => {
-  //     const { valid, token } = await updateTokenToFitPermissions(
-  //       roomInfo.name,
-  //       participant.localParticipant.identity
-  //     );
-  //     if (valid) {
-  //       localStorage.setItem("room-" + roomInfo.name, token!);
-  //     }
-  //   };
-
-  //   // Only updating token on change of permissions
-  //   if (initialRender.current) {
-  //     initialRender.current = false;
-  //   } else {
-  //     updateToken();
-  //   }
-  // }, [participantPermissions]);
-
+  return <SpeakerLayout tracks={filteredTracks} />;
   return (
     <div className="flex">
       <GridLayout
