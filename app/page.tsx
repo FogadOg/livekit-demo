@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="px-56">
+      <main className="px-6 md:px-32 lg:px-56">
         <div className="hero h-screen">
           <div className="hero-content text-center">
             <div className="max-w-md">
