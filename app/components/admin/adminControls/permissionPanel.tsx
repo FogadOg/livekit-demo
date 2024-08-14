@@ -1,15 +1,11 @@
 import React from "react";
-import {
-  LocalParticipant,
-  Participant,
-  RemoteParticipant,
-} from "livekit-client";
+import { Participant } from "livekit-client";
+import { TrackSource } from "livekit-server-sdk";
+import { ToggleTrackSource } from "./toggleTrackSource";
 import {
   kickParticipant,
   updateParticipantPermissions,
-} from "../../../actions/userActions";
-import { TrackSource } from "livekit-server-sdk";
-import { ToggleTrackSource } from "./toggleTrackSource";
+} from "@/app/actions/adminActions";
 
 function PermissionPanel({ p, token }: { p: Participant; token: string }) {
   const updateTrackSources = async (

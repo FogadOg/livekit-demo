@@ -1,12 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { getCreateToken } from "./actions/userActions";
 
 export default function GetCreateTokenForm() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

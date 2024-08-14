@@ -1,4 +1,4 @@
-import { toggleRecording } from "@/app/actions/userActions";
+import { toggleRecording } from "@/app/actions/adminActions";
 import { RecordIcon } from "@/app/assets/recordIcon";
 import { useRoomContext } from "@livekit/components-react";
 import { RoomEvent } from "livekit-client";
