@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Navbar />
       <main className="px-56">
-        <div className="hero h-[80vh]">
+        <div className="hero h-screen">
           <div className="hero-content text-center">
             <div className="max-w-md">
               <h1 className="text-5xl font-bold">Livekit demo</h1>
