@@ -9,7 +9,7 @@ import { useRoomInfo } from "@livekit/components-react";
 
 export const AdminControls = ({ token }: { token: string }) => {
   const roomInfo = useRoomInfo()
-  
+
   async function handlePause (){
     const roomMetaData = await getRoomMetadata(roomInfo.name)
     
@@ -46,7 +46,7 @@ export const AdminControls = ({ token }: { token: string }) => {
         modelName="InviteUsers"
         icon={<InviteIcon />}
       />
-      <button onClick={handlePause}>Pause</button>
+      <button className="btn lk-button" onClick={handlePause}>Pause</button>
     </>
   );
 };
