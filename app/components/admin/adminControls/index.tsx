@@ -4,10 +4,19 @@ import { InviteUsersForm } from "./inviteUsersForm";
 import { RecordButton } from "./recordButton";
 import { PeopleIcon } from "@/app/assets/peopleIcon";
 import { InviteIcon } from "@/app/assets/inviteIcon";
+import { CameraManagement } from "./cameraManagement";
+import { IngressIcon } from "@/app/assets/ingressIcon";
 
 export const AdminControls = ({ token }: { token: string }) => {
   return (
     <>
+      <Modal
+        title="Manage ingress"
+        content={<CameraManagement token={token} />}
+        buttonText={"Manage ingress"}
+        modelName="ingressManager"
+        icon={<IngressIcon />}
+      />
       <Modal
         title="Users permissions"
         content={<PermissionControls token={token} />}
