@@ -25,10 +25,15 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
 
   useEffect(() => {
     const baseUrl = "http://localhost:3000/room";
+
+    let permissionsToUse = { ...permissions };
+    if (permissions.hidden) {
+      permissionsToUse = { ...permissionsToUse, canPublishSources: [] };
+    }
     const tokenUrl = async () => {
       const permissionToken = await generatePermissionToken(
         roomInfo.name,
-        permissions,
+        permissionsToUse,
         token
       );
       setUrl(`${baseUrl}?permissionsToken=${permissionToken}`);
