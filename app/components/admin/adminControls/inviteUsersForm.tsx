@@ -78,16 +78,33 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
             />
           </label>
         </li>
-        <li>
-          <label className="flex justify-between items-center" htmlFor="hidden">
+
+        <li className="flex">
+          <label className="flex justify-between" htmlFor="visible">
+            Visible
+            <input
+              type="radio"
+              name="hidden"
+              className="radio toggle-success"
+              id="visible"
+              checked={!permissions.hidden}
+              onChange={() => {
+                setPermissions((prev) => ({ ...prev, hidden: false }));
+              }}
+            />
+          </label>
+
+          <label className="flex justify-between" htmlFor="hidden">
             Hidden
             <input
-              type="checkbox"
+              type="radio"
               name="hidden"
-              className="toggle toggle-success"
+              className="radio toggle-success"
               id="hidden"
               checked={permissions.hidden}
-              onChange={handlePermissionChange}
+              onChange={() => {
+                setPermissions((prev) => ({ ...prev, hidden: true }));
+              }}
             />
           </label>
         </li>
