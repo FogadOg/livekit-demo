@@ -47,7 +47,7 @@ export default function Home() {
                 With livekit agent feature we are able to transcribe meetings in
                 realtime. Agent joins room and listen to the audio tracks and
                 send them to <a className="link inline">Deepgram</a> which
-                transcribes the audio which transcribes the audio.
+                transcribes the audio.
               </p>
             </div>
           </div>
