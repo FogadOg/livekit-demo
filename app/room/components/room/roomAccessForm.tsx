@@ -1,23 +1,14 @@
 "use client";
 
-import { validateToken } from "@/app/actions/roomActions";
-import {
-  getRoomState,
-  validatedRoomPasswordAndUsername,
-} from "@/app/actions/userActions";
 import "@livekit/components-styles";
 import { useState, FormEvent } from "react";
 import React from "react";
 
 interface RoomProps {
-  submitUsername: (
-    userId: string
-  ) => Promise<void>;
+  submitUsername: (userId: string) => Promise<void>;
 }
 
-const RoomAccessForm = ({
-  submitUsername,
-}: RoomProps) => {
+const RoomAccessForm = ({ submitUsername }: RoomProps) => {
   const [userId, setUserId] = useState<string>("");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

@@ -15,7 +15,6 @@ import "@livekit/components-styles";
 
 import Caption from "./components/transcription/caption";
 import { TranscriptionButton } from "./components/transcription/transcriptionButton";
-import { updateTokenToFitPermissions } from "../actions/userActions";
 
 export const VideoConference = () => {
   const tracks = useTracks(

@@ -1,4 +1,4 @@
-import { generatePermissionToken } from "@/app/actions/userActions";
+import { generatePermissionToken } from "@/app/actions/adminActions";
 import { useRoomInfo } from "@livekit/components-react";
 import { TrackSource, VideoGrant } from "livekit-server-sdk";
 import { useState, useEffect } from "react";
