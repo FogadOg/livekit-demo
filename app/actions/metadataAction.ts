@@ -23,5 +23,16 @@ export const addMetadataToRoom = async (
   }
   metadataObject[fieldName] = newData;
 
-  roomService.updateRoomMetadata(roomName, JSON.stringify(metadataObject));
+  await roomService.updateRoomMetadata(
+    roomName,
+    JSON.stringify(metadataObject)
+  );
+};
+
+export const changeMetaDataToParticipant = async (
+  roomName: string,
+  participantId: string,
+  data: string
+) => {
+  await roomService.updateParticipant(roomName, participantId, data);
 };

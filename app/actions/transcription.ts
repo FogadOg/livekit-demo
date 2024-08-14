@@ -1,7 +1,7 @@
 "use server";
 
 import roomService from "@/lib/roomService";
-import { addMetadataToRoom } from "./roomMetadata";
+import { addMetadataToRoom } from "./metadataAction";
 
 export async function appendTranscription(
   username: string,

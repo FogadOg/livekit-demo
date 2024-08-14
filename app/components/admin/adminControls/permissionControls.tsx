@@ -5,13 +5,17 @@ import {
 import { Modal } from "../../../components/modal";
 import PermissionPanel from "./permissionPanel";
 import { PermissionIcon } from "@/app/assets/permissionsIcon";
+import { ParticipantKind } from "livekit-client";
 
 export function PermissionControls({ token }: { token: string }) {
   const identity = useLocalParticipant().localParticipant.identity;
   let participants = useParticipants();
 
   participants = participants.filter(
-    (p) => !p.isAgent && p.identity !== identity
+    (p) =>
+      !p.isAgent &&
+      p.identity !== identity &&
+      p.kind !== ParticipantKind.INGRESS
   );
 
   return (

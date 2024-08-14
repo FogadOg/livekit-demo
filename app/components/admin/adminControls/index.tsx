@@ -6,6 +6,8 @@ import { PeopleIcon } from "@/app/assets/peopleIcon";
 import { InviteIcon } from "@/app/assets/inviteIcon";
 import { addMetadataToRoom, getRoomMetadata } from "@/app/actions/roomMetadata";
 import { useRoomInfo } from "@livekit/components-react";
+import { CameraManagement } from "./cameraManagement";
+import { IngressIcon } from "@/app/assets/ingressIcon";
 
 export const AdminControls = ({ token }: { token: string }) => {
   const roomInfo = useRoomInfo()
@@ -29,6 +31,13 @@ export const AdminControls = ({ token }: { token: string }) => {
   }
   return (
     <>
+      <Modal
+        title="Manage ingress"
+        content={<CameraManagement token={token} />}
+        buttonText={"Manage ingress"}
+        modelName="ingressManager"
+        icon={<IngressIcon />}
+      />
       <Modal
         title="Users permissions"
         content={<PermissionControls token={token} />}

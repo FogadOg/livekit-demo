@@ -4,14 +4,16 @@ import roomService from "@/lib/roomService";
 import { getIsAdmin, validateToken } from "./roomActions";
 import {
   AccessToken,
+  CreateIngressOptions,
   EncodedFileOutput,
   IngressInput,
   Room,
   VideoGrant,
 } from "livekit-server-sdk";
 import ingressClient from "@/lib/ingerssClient";
-import { addMetadataToRoom } from "./roomMetadata";
+import { addMetadataToRoom } from "./metadataAction";
 import egressClient from "@/lib/egressClient";
+import { metadata } from "../layout";
 
 // Get rooms and returns only active ones
 export async function filterActiveRooms(roomNames: string[]) {
@@ -35,8 +37,9 @@ export async function deleteRoom(token: string, room: string) {
 
 export async function createIngress(
   token: string,
-  room: Room,
-  username: string
+  roomName: string,
+  username: string,
+  metadata: string
 ) {
   const isAdmin = await getIsAdmin(token);
   if (!isAdmin) {
@@ -46,12 +49,13 @@ export async function createIngress(
 
   const currentTimeStamp = Date.now();
 
-  const ingressRequest = {
+  const ingressRequest: CreateIngressOptions = {
     name: "my-ingress",
-    roomName: room.name,
+    roomName: roomName,
     participantIdentity: `${username}-${currentTimeStamp}`,
     participantName: username,
     enableTranscoding: true,
+    participantMetadata: metadata,
   };
 
   const ingressData = await ingressClient.createIngress(
@@ -76,7 +80,7 @@ export async function toggleRecording(roomId: string, token: string) {
   const egressId =
     (room?.metadata && JSON.parse(room.metadata)?.egressId) || "";
 
-  if (egressId === "") {
+  if (egressId === "" && !room.activeRecording) {
     console.log("Creating Egress");
     const fileOutput = new EncodedFileOutput({
       filepath: `/out/videos/{room_name}-${room.name}.mp4`,
