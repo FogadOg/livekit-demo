@@ -45,7 +45,7 @@ export const VideoConference = () => {
   })();
     
   if (roomInfo.metadata?.includes("true")){
-    return <div className="h-5/6 w-full flex items-center justify-center"><h2 className="text-4xl">Meeting is paused</h2></div>
+    return <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }} className="w-full flex items-center justify-center"><h2 className="text-4xl">Meeting is paused</h2></div>
   }
 
   //return <SpeakerLayout tracks={filteredTracks} />;
