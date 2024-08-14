@@ -15,6 +15,7 @@ import "@livekit/components-styles";
 
 import Caption from "./components/transcription/caption";
 import { TranscriptionButton } from "./components/transcription/transcriptionButton";
+import SpeakerLayout from "../egress/SpeakerLayout";
 
 export const VideoConference = () => {
   const tracks = useTracks(
@@ -64,6 +65,7 @@ export const VideoConference = () => {
   //   }
   // }, [participantPermissions]);
 
+  return <SpeakerLayout tracks={filteredTracks} />;
   return (
     <div className="flex">
       <GridLayout
