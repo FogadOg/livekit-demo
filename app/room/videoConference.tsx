@@ -34,9 +34,7 @@ export const VideoConference = () => {
 
   const participantPermissions = useLocalParticipantPermissions();
 
-  const initialRender = useRef(true);
   const roomInfo = useRoomInfo();
-  const participant = useLocalParticipant();
 
   const transcriptAvailable = (() => {
     try {
@@ -45,25 +43,6 @@ export const VideoConference = () => {
       return false;
     }
   })();
-
-  // useEffect(() => {
-  //   const updateToken = async () => {
-  //     const { valid, token } = await updateTokenToFitPermissions(
-  //       roomInfo.name,
-  //       participant.localParticipant.identity
-  //     );
-  //     if (valid) {
-  //       localStorage.setItem("room-" + roomInfo.name, token!);
-  //     }
-  //   };
-
-  //   // Only updating token on change of permissions
-  //   if (initialRender.current) {
-  //     initialRender.current = false;
-  //   } else {
-  //     updateToken();
-  //   }
-  // }, [participantPermissions]);
 
   return <SpeakerLayout tracks={filteredTracks} />;
   return (
