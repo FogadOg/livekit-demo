@@ -123,9 +123,12 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
                 name={source.toString()}
                 className="toggle toggle-success"
                 id={source.toString()}
-                checked={permissions.canPublishSources?.includes(
-                  (index + 1) as TrackSource
-                )}
+                checked={
+                  permissions.canPublishSources?.includes(
+                    (index + 1) as TrackSource
+                  ) && !permissions.hidden
+                }
+                disabled={permissions.hidden}
                 onChange={() => handleSourceChange((index + 1) as TrackSource)}
               />
             </label>
