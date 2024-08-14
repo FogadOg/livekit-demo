@@ -5,6 +5,7 @@ import {
   Chat,
   GridLayout,
   ParticipantTile,
+  TrackReferenceOrPlaceholder,
   useLocalParticipant,
   useLocalParticipantPermissions,
   useRoomInfo,
@@ -17,6 +18,7 @@ import Caption from "./components/transcription/caption";
 import { TranscriptionButton } from "./components/transcription/transcriptionButton";
 import SpeakerLayout from "../egress/SpeakerLayout";
 import { CustomAudioRenderer } from "../components/customAudioRenderer";
+import tracksFilter from "../util/tracksFilter";
 
 export const VideoConference = () => {
   const tracks = useTracks(
@@ -26,12 +28,9 @@ export const VideoConference = () => {
     ],
     { onlySubscribed: false }
   );
-  const filteredTracks = tracks.filter(
-    (track) =>
-      !track.participant.isAgent &&
-      !track.participant.permissions?.hidden &&
-      !(track.participant.metadata === "hello")
-  );
+
+  const filteredTracks = tracksFilter(tracks);
+
   const agentPresent = filteredTracks.length !== tracks.length;
 
   const participantPermissions = useLocalParticipantPermissions();
