@@ -13,7 +13,7 @@ export default function AdminsRoom({
   const adminToken = localStorage.getItem("roomAdmin-" + room.name);
   const roomUrl = "/room?roomId=" + room.name;
   return (
-    <div className="shadow-2xl p-7 grid gap-5">
+    <div className="shadow-lg p-7 grid gap-5">
       <div className="flex flex-row-3 divide-x">
         <p className="px-3">Room participants: {room.numParticipants}</p>
         <h2 className="px-3">Room id {room.name}</h2>
