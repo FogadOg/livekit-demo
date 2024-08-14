@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="">
+      <main >
         <div className="hero h-[80vh]">
           <div className="hero-content text-center">
             <div className="max-w-md">
@@ -22,7 +22,9 @@ export default function Home() {
                 This is a demo to showcase the capabilities of livekit. Explore
                 features down below!
               </p>
-              <button className="btn btn-primary">Get Started</button>
+              <a role="button" className="btn btn-primary" href="#roomCreate">
+                Get started
+              </a>
             </div>
           </div>
         </div>
@@ -77,13 +79,16 @@ export default function Home() {
           </div>
         </div>
         {gettingCreateToken && (
-          <div className="w-full mt-10">
+          <div className="w-full mt-10" id="roomCreate">
             <span className="loading loading-spinner loading-lg m-auto block"></span>
           </div>
         )}
 
         {!hasCreateToken && !gettingCreateToken && (
-          <div className="flex-1 grid justify-center items-center gap-10 mb-20">
+          <div
+            className="flex-1 grid justify-center items-center gap-10 mb-20"
+            id="roomCreate"
+          >
             <div className="w-80">
               <h1 className="text-2xl">
                 Looks like you don't have create token &#9940;
@@ -94,7 +99,10 @@ export default function Home() {
         )}
 
         {hasCreateToken && !gettingCreateToken && (
-          <div className="flex-1 grid justify-center items-center gap-10 mb-20">
+          <div
+            className="flex-1 grid justify-center items-center gap-10 mb-20"
+            id="roomCreate"
+          >
             <div className="mt-5 flex gap-4">
               <CreateRoom />
             </div>
