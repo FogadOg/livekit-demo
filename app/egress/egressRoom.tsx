@@ -31,6 +31,7 @@ import SingleSpeakerLayout from "./SingleSpeakerLayout";
 
 import SpeakerLayout from "./SpeakerLayout";
 import React from "react";
+import tracksFilter from "../util/tracksFilter";
 interface RoomPageProps {
   url: string;
   token: string;
@@ -103,7 +104,7 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
     }
   }, [screenShareTracks]);
 
-  const allTracks = useTracks(
+  const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
       { source: Track.Source.ScreenShare, withPlaceholder: false },
@@ -112,11 +113,7 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
       onlySubscribed: true,
     }
   );
-  const filteredTracks = allTracks.filter(
-    (track) =>
-      !track.participant.isAgent && !track.participant.permissions?.hidden
-  );
-
+  const filteredTracks = tracksFilter(tracks);
   let interfaceStyle = "dark";
   if (layout.endsWith("-light")) {
     interfaceStyle = "light";

@@ -80,7 +80,7 @@ export async function toggleRecording(roomId: string, token: string) {
   const egressId =
     (room?.metadata && JSON.parse(room.metadata)?.egressId) || "";
 
-  if (egressId === "") {
+  if (egressId === "" && !room.activeRecording) {
     console.log("Creating Egress");
     const fileOutput = new EncodedFileOutput({
       filepath: `/out/videos/{room_name}-${room.name}.mp4`,

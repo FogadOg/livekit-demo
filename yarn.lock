@@ -150,6 +150,11 @@
   resolved "https://registry.npmjs.org/@livekit/components-styles/-/components-styles-1.0.12.tgz"
   integrity sha512-Hsxkfq240w0tMPtkQTHQotpkYfIY4lhP2pzegvOIIV/nYxj8LeRYypUjxJpFw3s6jQcV/WQS7oCYmFQdy98Jtw==
 
+"@livekit/egress-sdk@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@livekit/egress-sdk/-/egress-sdk-0.2.0.tgz#b9999fca6dec1801891f3dfd3b20381a3c51980f"
+  integrity sha512-UVWAIEf8PSWytBorfOw4nbVl/0HoOuVOPr/XS5kQhcrM4TaeG6Sl0KXIKQGvU4xbaBW0WStyvGOBFSzM94OD7g==
+
 "@livekit/protocol@1.19.0":
   version "1.19.0"
   resolved "https://registry.npmjs.org/@livekit/protocol/-/protocol-1.19.0.tgz"
