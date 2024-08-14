@@ -4,31 +4,61 @@ import { InviteUsersForm } from "./inviteUsersForm";
 import { RecordButton } from "./recordButton";
 import { PeopleIcon } from "@/app/assets/peopleIcon";
 import { InviteIcon } from "@/app/assets/inviteIcon";
-import { addMetadataToRoom, getRoomMetadata } from "@/app/actions/roomMetadata";
+import { addMetadataToRoom, getRoomMetadata } from "@/app/actions/metadataAction";
 import { useRoomInfo } from "@livekit/components-react";
 import { CameraManagement } from "./cameraManagement";
 import { IngressIcon } from "@/app/assets/ingressIcon";
+import { useEffect, useState } from "react";
 
 export const AdminControls = ({ token }: { token: string }) => {
   const roomInfo = useRoomInfo()
+  
+  const [paused, setPaused] = useState(false);
 
   async function handlePause (){
-    const roomMetaData = await getRoomMetadata(roomInfo.name)
-    
     try{
-      const parsedData = JSON.parse(roomMetaData)
+      const parsedData = JSON.parse(roomInfo.metadata!)
       if(parsedData["pause"] === "false") {
         addMetadataToRoom(roomInfo.name, "pause", "true")
+        setPaused(true);
+
       } else {
         addMetadataToRoom(roomInfo.name, "pause", "false")
+        setPaused(false);
       }
     }catch{
       addMetadataToRoom(roomInfo.name, "pause", "false")
+      setPaused(false);
 
     }
 
     
   }
+
+  async function isPaused() {    
+    try{
+      const parsedData = JSON.parse(roomInfo.metadata!)
+      if(parsedData["pause"] === "false") {
+        return false
+      } else {
+        return true
+      }
+    }catch{
+      return false
+
+    }
+  }
+
+
+  useEffect(() => {
+    const checkPausedStatus = async () => {
+      const paused = await isPaused();
+      setPaused(paused);
+    };
+
+    checkPausedStatus();
+  }, []);
+
   return (
     <>
       <Modal
@@ -55,7 +85,7 @@ export const AdminControls = ({ token }: { token: string }) => {
         modelName="InviteUsers"
         icon={<InviteIcon />}
       />
-      <button className="btn lk-button" onClick={handlePause}>Pause</button>
+      <button className="btn lk-button" onClick={handlePause}>{paused ? 'Unpause' : 'Pause'}</button>
     </>
   );
 };
