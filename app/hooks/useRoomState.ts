@@ -10,8 +10,6 @@ export default function useRoomState({
   permissionToken,
   setToken,
 }: useRoomStateProps) {
-  const [isRoomPublic, setIsRoomPublic] = useState<boolean>(true);
-
   const [roomExists, setRoomExists] = useState<boolean>(true);
   const [expired, setExpired] = useState<boolean>(false);
   const [roomId, setRoomId] = useState("");
@@ -42,7 +40,6 @@ export default function useRoomState({
       setRoomId(room!);
       const roomState = await getRoomState(room!);
       if (roomState.valid) {
-        setIsRoomPublic(roomState.roomPublic!);
       } else {
         setRoomExists(false);
       }
@@ -51,5 +48,5 @@ export default function useRoomState({
     fetchRoomState();
   }, [permissionToken, roomId]);
 
-  return { isRoomPublic, roomExists, expired, roomId };
+  return { roomExists, expired, roomId };
 }

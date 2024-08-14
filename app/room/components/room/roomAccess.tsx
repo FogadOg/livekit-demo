@@ -11,14 +11,12 @@ interface RoomAccessProps {
 }
 
 const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
-  const { expired, isRoomPublic, roomExists, roomId } = useRoomState({
+  const { expired, roomExists, roomId } = useRoomState({
     permissionToken,
     setToken,
   });
 
-  const submitUsername = async (
-    userId: string,
-  ) => {
+  const submitUsername = async (userId: string) => {
     let { message, token } = await validatedRoomPasswordAndUsername(
       roomId,
       userId,
@@ -61,11 +59,7 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
       </div>
     );
   }
-  return (
-    <RoomAccessForm
-      submitUsername={submitUsername}
-    />
-  );
+  return <RoomAccessForm submitUsername={submitUsername} />;
 };
 
 export default RoomAccess;
