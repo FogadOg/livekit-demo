@@ -14,12 +14,14 @@ export default function RoomIngress({
 
   const startIngress = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let username = prompt("username")
-    if(username !== null){
+    let username = prompt("Username");
+    let metadata = prompt("Camera group");
+    if (username && metadata) {
       const { valid, url, password } = await createIngress(
         adminToken,
         room,
-        username
+        username,
+        metadata
       );
       if (valid) {
         setIngressUrl(url!);
@@ -27,7 +29,6 @@ export default function RoomIngress({
       } else {
         window.location.reload;
       }
-
     }
   };
   return (
