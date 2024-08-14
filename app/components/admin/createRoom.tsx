@@ -36,8 +36,7 @@ const CreateRoom = () => {
   };
 
   return (
-    <div className="card bg-base-100 w-80 shadow-lg rounded-3xl border-base-200 border-2">
-      <form onSubmit={handleSubmit} className="flex flex-col card-body">
+      <form onSubmit={handleSubmit} className="flex flex-col card-body card bg-base-100 w-80 shadow-lg rounded-3xl border-base-200 border-2">
         <h2 className="text-2xl font-bold card-title">Create room</h2>
         <div>
           <input
@@ -59,7 +58,6 @@ const CreateRoom = () => {
         </div>
         <p>{message}</p>
       </form>
-    </div>
   );
 };
 
