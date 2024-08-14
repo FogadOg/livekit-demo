@@ -11,7 +11,7 @@ import {
   VideoGrant,
 } from "livekit-server-sdk";
 import ingressClient from "@/lib/ingerssClient";
-import { addMetadataToRoom } from "./roomMetadata";
+import { addMetadataToRoom } from "./metadataAction";
 import egressClient from "@/lib/egressClient";
 import { metadata } from "../layout";
 

@@ -1,4 +1,7 @@
-import { generatePermissionToken } from "@/app/actions/adminActions";
+import {
+  generatePermissionToken,
+  updateParticipantPermissions,
+} from "@/app/actions/adminActions";
 import {
   useParticipants,
   useRoomContext,
@@ -8,6 +11,7 @@ import { ParticipantKind } from "livekit-client";
 import { TrackSource, VideoGrant } from "livekit-server-sdk";
 import { useState, useEffect } from "react";
 import RoomIngress from "../roomIngress";
+import { changeMetaDataToParticipant } from "@/app/actions/metadataAction";
 
 const trackSourceValues = Object.values(TrackSource).filter(
   (value) => typeof value !== "number" && value !== "UNKNOWN"
@@ -35,7 +39,13 @@ export const CameraManagement = ({ token }: { token: string }) => {
                 className="toggle toggle-success"
                 id={index.toString()}
                 checked={camera.metadata?.includes("Active")}
-                // onChange={() => }
+                onChange={async () => {
+                  changeMetaDataToParticipant(
+                    room.name,
+                    camera.identity,
+                    camera.metadata?.includes("Active") ? "Inactive" : "Active"
+                  );
+                }}
               />
             </label>
           </li>
