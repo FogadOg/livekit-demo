@@ -34,7 +34,7 @@ export default function Home() {
             <div className="flex flex-col card-body">
               <h2 className="text-2xl font-bold card-title">Admin controls</h2>
               <p className="card-body">
-                Admin controls allows you to kick, mute, hide users. Admins can
+                Admin controls allows you to kick, mute, and hide users. Admins can
                 also start recording room and invite other users.
               </p>
             </div>
@@ -47,7 +47,7 @@ export default function Home() {
                 With livekit agent feature we are able to transcribe meetings in
                 realtime. Agent joins room and listen to the audio tracks and
                 send them to <a className="link inline">Deepgram</a> which
-                transcribes the audio which transcribes the audio.
+                transcribes the audio.
               </p>
             </div>
           </div>
