@@ -37,7 +37,7 @@ export async function deleteRoom(token: string, room: string) {
 
 export async function createIngress(
   token: string,
-  room: Room,
+  roomName: string,
   username: string,
   metadata: string
 ) {
@@ -51,7 +51,7 @@ export async function createIngress(
 
   const ingressRequest: CreateIngressOptions = {
     name: "my-ingress",
-    roomName: room.name,
+    roomName: roomName,
     participantIdentity: `${username}-${currentTimeStamp}`,
     participantName: username,
     enableTranscoding: true,

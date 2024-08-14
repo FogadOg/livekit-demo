@@ -3,10 +3,10 @@ import { Room } from "livekit-server-sdk";
 import { FormEvent, useState } from "react";
 
 export default function RoomIngress({
-  room,
+  roomName,
   adminToken,
 }: {
-  room: Room;
+  roomName: string;
   adminToken: string;
 }) {
   const [ingressUrl, setIngressUrl] = useState("");
@@ -19,7 +19,7 @@ export default function RoomIngress({
     if (username && metadata) {
       const { valid, url, password } = await createIngress(
         adminToken,
-        room,
+        roomName,
         username,
         metadata
       );

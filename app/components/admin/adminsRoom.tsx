@@ -37,7 +37,7 @@ export default function AdminsRoom({
         >
           Delete room
         </button>
-        <RoomIngress room={room} adminToken={adminToken!} />
+        <RoomIngress roomName={room.name} adminToken={adminToken!} />
 
         <a href={roomUrl} role="button" className="btn btn-primary">
           Join

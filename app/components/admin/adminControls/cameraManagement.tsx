@@ -1,8 +1,13 @@
 import { generatePermissionToken } from "@/app/actions/adminActions";
-import { useParticipants, useRoomInfo } from "@livekit/components-react";
+import {
+  useParticipants,
+  useRoomContext,
+  useRoomInfo,
+} from "@livekit/components-react";
 import { ParticipantKind } from "livekit-client";
 import { TrackSource, VideoGrant } from "livekit-server-sdk";
 import { useState, useEffect } from "react";
+import RoomIngress from "../roomIngress";
 
 const trackSourceValues = Object.values(TrackSource).filter(
   (value) => typeof value !== "number" && value !== "UNKNOWN"
@@ -12,6 +17,7 @@ export const CameraManagement = ({ token }: { token: string }) => {
   const cameras = useParticipants().filter(
     (p) => p.kind === ParticipantKind.INGRESS
   );
+  const room = useRoomInfo();
   return (
     <>
       <form className="mb-10 menu">
@@ -35,7 +41,8 @@ export const CameraManagement = ({ token }: { token: string }) => {
           </li>
         ))}
       </form>
-      <button className="btn btn-primary">Add ingress</button>
+
+      <RoomIngress roomName={room.name} adminToken={token} />
     </>
   );
 };
