@@ -22,7 +22,7 @@ export default function Home() {
                 This is a demo to showcase the capabilities of livekit. Explore
                 features down below!
               </p>
-              <a role="button" className="btn btn-primary" href="#roomCreate">
+              <a role="button" className="btn btn-primary rounded-xl" href="#roomCreate">
                 Get started
               </a>
             </div>
