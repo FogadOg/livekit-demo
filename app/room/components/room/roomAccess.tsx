@@ -25,9 +25,10 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
     if (token) {
       setToken(token);
       // localStorage.setItem("room-" + roomId.toString(), token);
-    }
-    if (message !== "") {
+    } else if (message !== "") {
       alert(message);
+    } else {
+      window.location.reload();
     }
   };
 
