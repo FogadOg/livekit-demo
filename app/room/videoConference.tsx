@@ -43,8 +43,12 @@ export const VideoConference = () => {
       return false;
     }
   })();
+    
+  if (roomInfo.metadata?.includes("true")){
+    return <div>hello</div>
+  }
 
-  return <SpeakerLayout tracks={filteredTracks} />;
+  //return <SpeakerLayout tracks={filteredTracks} />;
   return (
     <div className="flex">
       <GridLayout
