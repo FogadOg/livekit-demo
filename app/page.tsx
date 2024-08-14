@@ -34,7 +34,7 @@ export default function Home() {
             <div className="flex flex-col card-body">
               <h2 className="text-2xl font-bold card-title">Admin controls</h2>
               <p className="card-body">
-                Admin controls allows you to kick, mute, hide users. Admins can
+                Admin controls allows you to kick, mute, and hide users. Admins can
                 also start recording room and invite other users.
               </p>
             </div>
