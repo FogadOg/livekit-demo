@@ -5,7 +5,9 @@ import AdminsRoom from "./adminsRoom";
 
 export default function AdminsRooms() {
   const [loading, setLoading] = useState(true);
-  const [rooms, setRooms] = useState<Set<Room>>(new Set());
+  const [rooms, setRooms] = useState<
+    Set<{ name: string; numParticipants: number }>
+  >(new Set());
   const keys = Object.keys(localStorage);
 
   const roomNames = keys

@@ -18,7 +18,9 @@ import { metadata } from "../layout";
 // Get rooms and returns only active ones
 export async function filterActiveRooms(roomNames: string[]) {
   if (roomNames.length === 0) return [];
-  return await roomService.listRooms(roomNames);
+  return (await roomService.listRooms(roomNames)).map((room) => {
+    return { name: room.name, numParticipants: room.numParticipants };
+  });
 }
 
 export async function deleteRoom(token: string, room: string) {
