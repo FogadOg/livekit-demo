@@ -32,7 +32,6 @@ const RoomView = ({ token }: RoomProps) => {
           }}
         >
           <VideoConference />
-          <RoomAudioRenderer />
           <CustomControlBar token={token} />
         </LiveKitRoom>
       </LayoutContextProvider>

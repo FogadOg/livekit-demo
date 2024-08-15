@@ -67,7 +67,7 @@ export const VideoConference = () => {
           </div>
         </div>
       </GridLayout>
-      <CustomAudioRenderer />
+      <CustomAudioRenderer/>
       {/* Chat visible if can chat */}
       {participantPermissions?.canPublishData && <Chat />};
     </div>
