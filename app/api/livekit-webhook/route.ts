@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { WebhookReceiver } from "livekit-server-sdk";
+import {
+  RoomCompositeEgressRequest,
+  WebhookReceiver,
+} from "livekit-server-sdk";
 
 // Replace these with your actual API key and secret
 const receiver = new WebhookReceiver("webhook_key", "webhook_secret");
@@ -18,8 +21,12 @@ export async function POST(req: Request) {
       // console.log("Room started");
       // break;
       case "egress_ended":
-        console.log(event.egressInfo);
-        console.log("Room finished, tell swiftner");
+        if (
+          event.egressInfo &&
+          (event.egressInfo.request.value as RoomCompositeEgressRequest)
+            .audioOnly
+        )
+          console.log("Room finished, tell Swiftner");
         break;
       // Add cases for other events as needed
       default:
