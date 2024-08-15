@@ -1,5 +1,3 @@
-# Example config.yaml for LiveKit Server
-
 # General server settings
 log_level: debug
 
@@ -10,3 +8,13 @@ redis:
 ingress:
   rtmp_base_url: rtmp://localhost:1935/live
   whip_base_url: http://localhost:8080/whip
+
+webhook:
+  api_key: webhook_key
+  urls: 
+    - http://localhost:3000/api/livekit-webhook
+
+keys:
+  webhook_key: webhook_secret
+  devkey: secret
+
