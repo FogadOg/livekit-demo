@@ -20,7 +20,7 @@ keys:
 
 room:
 #   # allow rooms to be automatically created when participants join, defaults to true
-#   # auto_create: false
+  auto_create: false
 #   # number of seconds to keep the room open if no one joins
 #   empty_timeout: 300
 #   # number of seconds to keep the room open after everyone leaves
