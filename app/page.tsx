@@ -22,7 +22,11 @@ export default function Home() {
                 This is a demo to showcase the capabilities of livekit. Explore
                 features down below!
               </p>
-              <a role="button" className="btn btn-primary rounded-xl" href="#roomCreate">
+              <a
+                role="button"
+                className="btn btn-primary rounded-xl"
+                href="#roomCreate"
+              >
                 Get started
               </a>
             </div>
@@ -34,8 +38,8 @@ export default function Home() {
             <div className="flex flex-col card-body">
               <h2 className="text-2xl font-bold card-title">Admin controls</h2>
               <p className="card-body">
-                Admin controls allows you to kick, mute, and hide users. Admins can
-                also start recording room and invite other users.
+                Admin controls allows you to kick, mute, and hide users. Admins
+                can also start recording room and invite other users.
               </p>
             </div>
           </div>
@@ -78,6 +82,95 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        <div className="prose m-auto">
+          <h2 className="text-center">Livekit performance & requirements:</h2>
+
+          <h3 className="">Room performance:</h3>
+          <p>The tests below are done by a 16 core cpu in google cloud.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Use case</th>
+                <th>Publishers</th>
+                <th>Subscribers</th>
+                <th>Bytes/s in/out</th>
+                <th>Packets/s in/out</th>
+                <th>CPU utilization</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Large meeting</td>
+                <td>150</td>
+                <td>150</td>
+                <td>50 MBps / 93 MBps</td>
+                <td>51,068 / 762,749</td>
+                <td>85%</td>
+              </tr>
+              <tr>
+                <td>Livestreaming</td>
+                <td>1</td>
+                <td>3000</td>
+                <td>233 kBps / 531 MBps</td>
+                <td>246 / 560,962</td>
+                <td>92%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            All test are done by:{" "}
+            <a
+              href="https://docs.livekit.io/home/self-hosting/benchmark/#Video-room"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
+              Livekit
+            </a>
+          </p>
+
+          <h3 className="">Ingress (Streaming to room) requirements:</h3>
+          <p>
+            4 CPUs and 4 GB ram according to{" "}
+            <a
+              href="https://docs.livekit.io/home/self-hosting/ingress/#Requirements"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
+              Livekit.
+            </a>
+          </p>
+
+          <h3 className="">Egress (Recording) requirements:</h3>
+          <p>
+            4 CPUs and 4 GB ram according to{" "}
+            <a
+              href="https://docs.livekit.io/home/self-hosting/egress/#Requirements"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
+              Livekit.
+            </a>
+          </p>
+          <h3 className="">Bandwidth:</h3>
+          <p>
+            Running in production should be on 10Gbps ethernet or faster
+            according to{" "}
+            <a
+              href="https://docs.livekit.io/home/self-hosting/deployment/#Resources"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
+              Livekit.
+            </a>
+          </p>
+        </div>
+
         {gettingCreateToken && (
           <div className="w-full mt-10" id="roomCreate">
             <span className="loading loading-spinner loading-lg m-auto block"></span>
