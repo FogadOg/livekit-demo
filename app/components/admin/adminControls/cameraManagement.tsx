@@ -9,6 +9,14 @@ export const CameraManagement = ({ token }: { token: string }) => {
   );
 
   const room = useRoomInfo();
+  if (cameras.length === 0) {
+    return (
+      <div>
+        <p>No streaming cameras to control</p>
+        <RoomIngress roomName={room.name} adminToken={token} />
+      </div>
+    );
+  }
   return (
     <>
       <form className="mb-10 menu">
