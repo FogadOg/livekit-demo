@@ -1,54 +1,47 @@
 import { Modal } from "../../modal";
 import { PermissionControls } from "./permissionControls";
 import { InviteUsersForm } from "./inviteUsersForm";
-import { RecordButton } from "./recordButton";
 import { PeopleIcon } from "@/app/assets/peopleIcon";
 import { InviteIcon } from "@/app/assets/inviteIcon";
-import { addMetadataToRoom, getRoomMetadata } from "@/app/actions/metadataAction";
+import { addMetadataToRoom } from "@/app/actions/metadataAction";
 import { useRoomInfo } from "@livekit/components-react";
 import { CameraManagement } from "./cameraManagement";
 import { IngressIcon } from "@/app/assets/ingressIcon";
 import { useEffect, useState } from "react";
 
 export const AdminControls = ({ token }: { token: string }) => {
-  const roomInfo = useRoomInfo()
-  
+  const roomInfo = useRoomInfo();
+
   const [paused, setPaused] = useState(false);
 
-  async function handlePause (){
-    try{
-      const parsedData = JSON.parse(roomInfo.metadata!)
-      if(parsedData["pause"] === "false") {
-        addMetadataToRoom(roomInfo.name, "pause", "true")
+  async function handlePause() {
+    try {
+      const parsedData = JSON.parse(roomInfo.metadata!);
+      if (parsedData["pause"] === "false") {
+        addMetadataToRoom(roomInfo.name, "pause", "true");
         setPaused(true);
-
       } else {
-        addMetadataToRoom(roomInfo.name, "pause", "false")
+        addMetadataToRoom(roomInfo.name, "pause", "false");
         setPaused(false);
       }
-    }catch{
-      addMetadataToRoom(roomInfo.name, "pause", "false")
+    } catch {
+      addMetadataToRoom(roomInfo.name, "pause", "false");
       setPaused(false);
-
     }
-
-    
   }
 
-  async function isPaused() {    
-    try{
-      const parsedData = JSON.parse(roomInfo.metadata!)
-      if(parsedData["pause"] === "false") {
-        return false
+  async function isPaused() {
+    try {
+      const parsedData = JSON.parse(roomInfo.metadata!);
+      if (parsedData["pause"] === "false") {
+        return false;
       } else {
-        return true
+        return true;
       }
-    }catch{
-      return false
-
+    } catch {
+      return false;
     }
   }
-
 
   useEffect(() => {
     const checkPausedStatus = async () => {
@@ -75,7 +68,6 @@ export const AdminControls = ({ token }: { token: string }) => {
         modelName="PermissionControls"
         icon={<PeopleIcon />}
       />
-      <RecordButton token={token} />
 
       {/* Invite users */}
       <Modal
@@ -85,7 +77,9 @@ export const AdminControls = ({ token }: { token: string }) => {
         modelName="InviteUsers"
         icon={<InviteIcon />}
       />
-      <button className="btn lk-button" onClick={handlePause}>{paused ? 'Unpause' : 'Pause'}</button>
+      <button className="btn lk-button" onClick={handlePause}>
+        {paused ? "Unpause" : "Pause"}
+      </button>
     </>
   );
 };

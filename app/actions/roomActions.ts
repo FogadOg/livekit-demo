@@ -1,6 +1,17 @@
 "use server";
 
-import { AccessToken, TokenVerifier, TrackSource } from "livekit-server-sdk";
+import egressClient from "@/lib/egressClient";
+import roomService from "@/lib/roomService";
+import { LivekitError } from "livekit-client";
+import {
+  AccessToken,
+  EncodedFileOutput,
+  RoomCompositeEgressRequest,
+  RoomEgress,
+  TokenVerifier,
+  TrackSource,
+} from "livekit-server-sdk";
+import { fileURLToPath } from "url";
 
 export async function handleCreateRoomForm(
   formData: FormData,
@@ -18,6 +29,36 @@ export async function handleCreateRoomForm(
   const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
 
   const roomId = Date.now().toString();
+
+  const roomEgressRequest = {
+    roomName: roomId,
+    fileOutputs: [{ filepath: "/out/videos/" }],
+
+    layout: "grid-dark",
+    customBaseUrl: "http://172.17.0.1:3000/egress?",
+    audioOnly: true,
+  };
+
+  const liveKitRoom = await roomService.createRoom({
+    name: roomId,
+    egress: new RoomEgress({ room: roomEgressRequest }),
+  });
+
+  const fileOutput = new EncodedFileOutput({
+    filepath: "/out/videos/{room_name}-{time}",
+  });
+
+  egressClient.startRoomCompositeEgress(
+    roomId,
+    {
+      file: fileOutput,
+    },
+    {
+      layout: "grid-dark",
+      customBaseUrl: "http://172.17.0.1:3000/egress?",
+    }
+  );
+
   at.addGrant({
     room: roomId,
     roomCreate: true,
