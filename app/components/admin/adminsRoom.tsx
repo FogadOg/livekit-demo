@@ -7,8 +7,10 @@ export default function AdminsRoom({
   room,
   setRooms,
 }: {
-  room: Room;
-  setRooms: Dispatch<SetStateAction<Set<Room>>>;
+  room: { name: string; numParticipants: number };
+  setRooms: Dispatch<
+    SetStateAction<Set<{ name: string; numParticipants: number }>>
+  >;
 }) {
   const adminToken = localStorage.getItem("roomAdmin-" + room.name);
   const roomUrl = "/room?roomId=" + room.name;

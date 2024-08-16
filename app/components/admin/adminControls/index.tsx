@@ -1,7 +1,6 @@
 import { Modal } from "../../modal";
 import { PermissionControls } from "./permissionControls";
 import { InviteUsersForm } from "./inviteUsersForm";
-import { RecordButton } from "./recordButton";
 import { PeopleIcon } from "@/app/assets/peopleIcon";
 import { InviteIcon } from "@/app/assets/inviteIcon";
 import { CameraManagement } from "./cameraManagement";
@@ -26,7 +25,6 @@ export const AdminControls = ({ token }: { token: string }) => {
         modelName="PermissionControls"
         icon={<PeopleIcon />}
       />
-      <RecordButton token={token} />
 
       {/* Invite users */}
       <Modal

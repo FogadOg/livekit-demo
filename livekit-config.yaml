@@ -1,5 +1,3 @@
-# Example config.yaml for LiveKit Server
-
 # General server settings
 log_level: debug
 
@@ -10,3 +8,31 @@ redis:
 ingress:
   rtmp_base_url: rtmp://localhost:1935/live
   whip_base_url: http://localhost:8080/whip
+
+webhook:
+  api_key: webhook_key
+  urls: 
+    - http://localhost:3000/api/livekit-webhook
+
+keys:
+  webhook_key: webhook_secret
+  devkey: secret
+
+room:
+#   # allow rooms to be automatically created when participants join, defaults to true
+  auto_create: false
+#   # number of seconds to keep the room open if no one joins
+#   empty_timeout: 300
+#   # number of seconds to keep the room open after everyone leaves
+#   departure_timeout: 20
+#   # limit number of participants that can be in a room, 0 for no limit
+#   max_participants: 0
+#   # only accept specific codecs for clients publishing to this room
+#   # this is useful to standardize codecs across clients
+#   # other supported codecs are video/h264, video/vp9, video/av1, audio/red
+#   enabled_codecs:
+#     - mime: audio/opus
+#     - mime: video/vp8
+#   # allow tracks to be unmuted remotely, defaults to false
+#   # tracks can always be muted from the Room Service APIs
+  enable_remote_unmute: true
