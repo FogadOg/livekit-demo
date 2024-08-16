@@ -3,14 +3,23 @@
 import React from "react";
 import {
   useRoomInfo,
+  useTracks,
 } from "@livekit/components-react";
 
 import { CustomGridLayout } from "./components/layouts/customGridLayout";
+import SpeakerLayout from "./components/layouts/SpeakerLayout";
+import { Track } from "livekit-client";
 
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
   const roomInfoData = roomInfo.metadata || "{}"
-  console.log("roomInfo.metadata: ",roomInfoData);
+  const tracks = useTracks(
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.ScreenShare, withPlaceholder: false },
+    ],
+    { onlySubscribed: false }
+  );
   
   try {
     if (JSON.parse(roomInfoData)["pause"] === "true"){
@@ -22,6 +31,6 @@ export const VideoConference = () => {
 
   //return <SpeakerLayout tracks={filteredTracks} />;
   return (
-    <CustomGridLayout/>
+      <SpeakerLayout tracks={tracks}/>
   );
 };
