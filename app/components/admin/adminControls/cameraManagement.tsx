@@ -28,7 +28,6 @@ export const CameraManagement = ({ token }: { token: string }) => {
             (microphone) =>
               microphone.participant.identity === videoRef.participant.identity
           );
-          matchingMicrophone?.publication;
 
           return (
             <>

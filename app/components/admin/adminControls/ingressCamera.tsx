@@ -8,9 +8,8 @@ import {
   VideoTrack,
 } from "@livekit/components-react";
 import { changeMetaDataToParticipant } from "@/app/actions/metadataAction";
-import { TrackEvent } from "livekit-client";
-import { muteTrack } from "@/app/actions/adminActions";
 import { useState } from "react";
+import useMuteTrack from "@/app/hooks/useMuteTrack";
 
 interface IngressCameraProps {
   videoRef: TrackReference;
@@ -21,20 +20,18 @@ export const IngressCamera = ({
   microphoneRef,
 }: IngressCameraProps) => {
   const room = useRoomInfo();
-  const [trackMuted, setTrackMuted] = useState(
-    microphoneRef?.publication.isMuted
-  );
 
-  if (microphoneRef) {
-    microphoneRef.publication.once(TrackEvent.Unmuted, () => {
-      console.log("Unmuted");
-      setTrackMuted(false);
-    });
-    microphoneRef.publication.once(TrackEvent.Muted, () => {
-      console.log("Muted");
-      setTrackMuted(true);
-    });
-  }
+  const { trackMuted, setTrackMuted } = useMuteTrack(microphoneRef);
+
+  const cameraToggled = videoRef.participant.metadata?.includes("Active");
+  const handleToggleCamera = () => {
+    changeMetaDataToParticipant(
+      room.name,
+      videoRef.participant.identity,
+      cameraToggled ? "Inactive" : "Active"
+    );
+  };
+
   return (
     <section className="m-3">
       {videoRef && <VideoTrack trackRef={videoRef} />}
@@ -46,17 +43,7 @@ export const IngressCamera = ({
 
         {microphoneRef && (
           <button
-            onClick={async (e) => {
-              e.preventDefault();
-
-              console.log("Muted");
-              await muteTrack(
-                room.name,
-                videoRef.participant.identity,
-                microphoneRef?.publication.trackSid!,
-                !trackMuted
-              );
-            }}
+            onClick={() => setTrackMuted(!trackMuted)}
             className="lk-button mx-auto"
           >
             {trackMuted ? <MicDisabledIcon /> : <MicIcon />}
@@ -64,23 +51,10 @@ export const IngressCamera = ({
           </button>
         )}
         <button
-          onClick={async (e) => {
-            e.preventDefault();
-            changeMetaDataToParticipant(
-              room.name,
-              videoRef.participant.identity,
-              videoRef.participant.metadata?.includes("Active")
-                ? "Inactive"
-                : "Active"
-            );
-          }}
+          onClick={() => handleToggleCamera()}
           className="lk-button mx-auto"
         >
-          {videoRef.participant.metadata?.includes("Active") ? (
-            <CameraIcon />
-          ) : (
-            <CameraDisabledIcon />
-          )}
+          {cameraToggled ? <CameraIcon /> : <CameraDisabledIcon />}
           Camera
         </button>
       </div>
