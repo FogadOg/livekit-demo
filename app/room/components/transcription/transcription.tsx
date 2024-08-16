@@ -4,16 +4,18 @@ import {
   useTrackTranscription,
   TrackReferenceOrPlaceholder,
   useRoomInfo,
+  useLocalParticipant,
 } from "@livekit/components-react";
 
 // Import necessary LiveKit types and styles
 import "@livekit/components-styles";
 
 import { appendTranscription } from "@/app/actions/transcription";
+import { ParticipantKind } from "livekit-client";
 
 export const Transcription = ({
   audioTrack,
-}: {
+}:  {
   audioTrack: TrackReferenceOrPlaceholder;
 }) => {
   const { segments } = useTrackTranscription(audioTrack);
@@ -21,8 +23,13 @@ export const Transcription = ({
   const [savedIndex, setSavedIndex] = useState(0);
 
   const roomInfo = useRoomInfo();
+  const localParticipant = useLocalParticipant().localParticipant;
   useEffect(() => {
-    if (audioTrack.participant.isLocal) {
+    if (
+      audioTrack.participant.isLocal ||
+      (localParticipant.identity === "Admin" &&
+        audioTrack.participant.kind === ParticipantKind.INGRESS)
+    ) {
       if (
         segments &&
         segments.length > 0 &&
