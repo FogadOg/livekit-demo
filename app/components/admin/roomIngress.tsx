@@ -39,7 +39,7 @@ export default function RoomIngress({
         value={"Start ingress"}
       />
       {ingressUrl !== "" && <p>Ingress url: {ingressUrl}</p>}
-      {ingressPassword !== "" && <p>Ingres password: {ingressPassword}</p>}
+      {ingressPassword !== "" && <p>Ingress stream key: {ingressPassword}</p>}
     </form>
   );
 }

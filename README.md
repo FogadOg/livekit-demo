@@ -66,3 +66,9 @@ ingress --config ingress-config.yaml
 ```bash
 lk load-test --room roomName --publishers 5 --subscribers 2 --simulate-speakers
 ```
+
+### Ingress testing
+
+```bash
+sudo ffmpeg -re -f lavfi -i testsrc=size=720x720:rate=30 -c:v libx264 -preset veryfast -pix_fmt yuv420p -f flv "rtmp://localhost:1935/live/streamkey"
+```
