@@ -1,24 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import {
-  Chat,
-  GridLayout,
-  ParticipantTile,
-  TrackReferenceOrPlaceholder,
-  useLocalParticipant,
-  useLocalParticipantPermissions,
   useRoomInfo,
-  useTracks,
 } from "@livekit/components-react";
-import { Track } from "livekit-client";
-import "@livekit/components-styles";
 
-import Caption from "./components/transcription/caption";
-import { TranscriptionButton } from "./components/transcription/transcriptionButton";
-import SpeakerLayout from "../egress/SpeakerLayout";
-import { CustomAudioRenderer } from "../components/customAudioRenderer";
-import tracksFilter from "../util/tracksFilter";
 import { CustomGridLayout } from "./components/layouts/customGridLayout";
 
 export const VideoConference = () => {
