@@ -60,13 +60,11 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
   }
   
   return (
-    <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
-      <div className="lk-focus-layout">
-        <CarouselLayout tracks={filteredTracks.filter((track)=>track.participant.identity !== mainTrack?.participant.identity)}>
-          <ParticipantTile />
-        </CarouselLayout>
-        <FocusLayout trackRef={lastSpoken as TrackReference} />
-      </div>
+    <div className="lk-focus-layout" style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
+      <CarouselLayout tracks={filteredTracks.filter((track)=>track.participant.identity !== mainTrack?.participant.identity)}>
+        <ParticipantTile />
+      </CarouselLayout>
+      <FocusLayout trackRef={lastSpoken as TrackReference} />
     </div>
   );
 };

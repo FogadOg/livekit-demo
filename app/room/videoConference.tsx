@@ -31,6 +31,8 @@ export const VideoConference = () => {
 
   //return <SpeakerLayout tracks={filteredTracks} />;
   return (
+    <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
       <SpeakerLayout tracks={tracks}/>
+    </div>
   );
 };
