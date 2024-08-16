@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { getIsAdmin } from "../actions/roomActions";
 import { TrackReference, useRoomInfo } from "@livekit/components-react";
 import { TrackEvent } from "livekit-client";
 import { muteTrack } from "../actions/adminActions";
@@ -22,13 +21,15 @@ export default function useMuteTrack(track?: TrackReference) {
   }
 
   useEffect(() => {
-    muteTrack(
-      room.name,
-      track?.participant.identity!,
-      track?.publication.trackSid!,
-      trackMuted!
-    );
+    if (track) {
+      muteTrack(
+        room.name,
+        track?.participant.identity!,
+        track?.publication.trackSid!,
+        trackMuted!
+      );
+    }
   }, [trackMuted]);
 
-  return {trackMuted, setTrackMuted};
+  return { trackMuted, setTrackMuted };
 }
