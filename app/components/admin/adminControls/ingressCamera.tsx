@@ -8,27 +8,29 @@ import {
   VideoTrack,
 } from "@livekit/components-react";
 import { changeMetaDataToParticipant } from "@/app/actions/metadataAction";
-import { useState } from "react";
 import useMuteTrack from "@/app/hooks/useMuteTrack";
 
 interface IngressCameraProps {
   videoRef: TrackReference;
   microphoneRef?: TrackReference;
+  adminToken: string;
 }
 export const IngressCamera = ({
   videoRef,
   microphoneRef,
+  adminToken,
 }: IngressCameraProps) => {
   const room = useRoomInfo();
 
-  const { trackMuted, setTrackMuted } = useMuteTrack(microphoneRef);
+  const { trackMuted, setTrackMuted } = useMuteTrack(adminToken, microphoneRef);
 
   const cameraToggled = videoRef.participant.metadata?.includes("Active");
   const handleToggleCamera = () => {
     changeMetaDataToParticipant(
       room.name,
       videoRef.participant.identity,
-      cameraToggled ? "Inactive" : "Active"
+      cameraToggled ? "Inactive" : "Active",
+      adminToken
     );
   };
 

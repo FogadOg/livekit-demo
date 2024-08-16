@@ -187,12 +187,15 @@ export async function muteTrack(
   roomId: string,
   participantIdentity: string,
   trackSid: string,
-  muted: boolean
+  muted: boolean,
+  token: string
 ) {
-  await roomService.mutePublishedTrack(
-    roomId,
-    participantIdentity,
-    trackSid,
-    muted
-  );
+  if (await getIsAdmin(token)) {
+    await roomService.mutePublishedTrack(
+      roomId,
+      participantIdentity,
+      trackSid,
+      muted
+    );
+  }
 }

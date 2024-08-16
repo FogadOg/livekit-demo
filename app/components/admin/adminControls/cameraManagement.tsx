@@ -23,20 +23,19 @@ export const CameraManagement = ({ token }: { token: string }) => {
   return (
     <>
       <div className="mb-10">
-        {cameras.map((videoRef, index) => {
+        {cameras.map((videoRef) => {
           const matchingMicrophone = microphones.find(
             (microphone) =>
               microphone.participant.identity === videoRef.participant.identity
           );
 
           return (
-            <>
               <IngressCamera
                 videoRef={videoRef}
                 microphoneRef={matchingMicrophone}
-                key={"Ingress-Camera" + index}
+                key={"Ingress-camera-"+videoRef.participant.identity}
+                adminToken={token}
               />
-            </>
           );
         })}
       </div>

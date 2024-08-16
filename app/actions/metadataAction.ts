@@ -1,6 +1,7 @@
 "use server";
 
 import roomService from "@/lib/roomService";
+import { getIsAdmin } from "./roomActions";
 
 export const getRoomMetadata = async (roomName: string) => {
   const room = (await roomService.listRooms([roomName]))[0];
@@ -32,7 +33,10 @@ export const addMetadataToRoom = async (
 export const changeMetaDataToParticipant = async (
   roomName: string,
   participantId: string,
-  data: string
+  data: string,
+  token: string
 ) => {
-  await roomService.updateParticipant(roomName, participantId, data);
+  if (await getIsAdmin(token)) {
+    await roomService.updateParticipant(roomName, participantId, data);
+  }
 };
