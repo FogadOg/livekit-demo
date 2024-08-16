@@ -28,10 +28,13 @@ This is a livekit demo. This demo is to showcase the capabilities of livekit.
 ```bash
 yarn dev
 ```
+
 ### Make sure redis is running
+
 ```bash
 sudo service redis-server start
 ```
+
 ### Livekit server
 
 ```bash
@@ -54,4 +57,12 @@ sudo docker run --rm --cap-add SYS_ADMIN -e EGRESS_CONFIG_FILE=/out/config.yaml 
 
 ```bash
 ingress --config ingress-config.yaml
+```
+
+## Other
+
+### Load test
+
+```bash
+lk load-test --room roomName --publishers 5 --subscribers 2 --simulate-speakers
 ```
