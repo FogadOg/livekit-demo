@@ -32,6 +32,7 @@ export const IngressCamera = ({
       cameraToggled ? "Inactive" : "Active",
       adminToken
     );
+    setTrackMuted(true)
   };
 
   return (

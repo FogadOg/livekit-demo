@@ -11,11 +11,9 @@ export default function useMuteTrack(token:string,track?: TrackReference) {
 
   if (track) {
     track.publication.once(TrackEvent.Unmuted, () => {
-      console.log("Unmuted");
       setTrackMuted(false);
     });
     track.publication.once(TrackEvent.Muted, () => {
-      console.log("Muted");
       setTrackMuted(true);
     });
   }
