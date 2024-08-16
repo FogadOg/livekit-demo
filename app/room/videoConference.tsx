@@ -7,10 +7,10 @@ import { CustomGridLayout } from "./components/layouts/customGridLayout";
 
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
-  const roomInfoData = roomInfo.metadata || "{}";
 
   try {
-    if (JSON.parse(roomInfoData)["pause"] === "true") {
+    const pause = JSON.parse(roomInfo.metadata!)["pause"];
+    if (pause) {
       return (
         <div
           style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
