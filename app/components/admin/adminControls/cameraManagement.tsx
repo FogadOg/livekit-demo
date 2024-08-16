@@ -22,7 +22,7 @@ export const CameraManagement = ({ token }: { token: string }) => {
   }
   return (
     <>
-      <form className="mb-10 menu">
+      <div className="mb-10">
         {cameras.map((videoRef, index) => {
           const matchingMicrophone = microphones.find(
             (microphone) =>
@@ -40,7 +40,7 @@ export const CameraManagement = ({ token }: { token: string }) => {
             </>
           );
         })}
-      </form>
+      </div>
 
       <RoomIngress roomName={room.name} adminToken={token} />
     </>

@@ -1,4 +1,8 @@
 import {
+  CameraDisabledIcon,
+  CameraIcon,
+  MicDisabledIcon,
+  MicIcon,
   TrackReference,
   useRoomInfo,
   VideoTrack,
@@ -32,51 +36,54 @@ export const IngressCamera = ({
     });
   }
   return (
-    <>
-      <li>
-        <label
-          className="flex justify-between items-center first-letter:capitalize"
-          htmlFor={videoRef.participant.identity}
-        >
+    <section className="m-3">
+      {videoRef && <VideoTrack trackRef={videoRef} />}
+      <div className="flex">
+        <p className="text-center font-bold my-auto mx-3">
+          Camera name:{" "}
           {videoRef.participant.name || videoRef.participant.identity}
+        </p>
 
-          {videoRef && <VideoTrack trackRef={videoRef} />}
+        {microphoneRef && (
+          <button
+            onClick={async (e) => {
+              e.preventDefault();
 
-          <input
-            type="checkbox"
-            name={videoRef.participant.identity}
-            className="toggle toggle-success"
-            id={videoRef.participant.identity}
-            checked={videoRef.participant.metadata?.includes("Active")}
-            onChange={async () => {
-              changeMetaDataToParticipant(
+              console.log("Muted");
+              await muteTrack(
                 room.name,
                 videoRef.participant.identity,
-                videoRef.participant.metadata?.includes("Active")
-                  ? "Inactive"
-                  : "Active"
+                microphoneRef?.publication.trackSid!,
+                !trackMuted
               );
             }}
-          />
-        </label>
-      </li>
-      {microphoneRef && (
+            className="lk-button mx-auto"
+          >
+            {trackMuted ? <MicDisabledIcon /> : <MicIcon />}
+            Microphone
+          </button>
+        )}
         <button
           onClick={async (e) => {
             e.preventDefault();
-
-            console.log("Muted");
-            await muteTrack(
+            changeMetaDataToParticipant(
               room.name,
               videoRef.participant.identity,
-              microphoneRef?.publication.trackSid!,
-              !trackMuted
+              videoRef.participant.metadata?.includes("Active")
+                ? "Inactive"
+                : "Active"
             );
           }}
+          className="lk-button mx-auto"
         >
-          {trackMuted && "un"}mute
+          {videoRef.participant.metadata?.includes("Active") ? (
+            <CameraIcon />
+          ) : (
+            <CameraDisabledIcon />
+          )}
+          Camera
         </button>
-      )}
-    </>
+      </div>
+    </section>
   );
 };
