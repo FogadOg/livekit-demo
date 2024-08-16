@@ -42,11 +42,6 @@ export const CustomGridLayout = () => {
     }
   })();
     
-  if (roomInfo.metadata?.includes("true")){
-    return <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }} className="w-full flex items-center justify-center"><h2 className="text-4xl">Meeting is paused</h2></div>
-  }
-
-  //return <SpeakerLayout tracks={filteredTracks} />;
   return (
     <div className="flex">
       <GridLayout
