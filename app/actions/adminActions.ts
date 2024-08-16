@@ -182,3 +182,17 @@ export async function kickParticipant(
     participantIdentity
   );
 }
+
+export async function muteTrack(
+  roomId: string,
+  participantIdentity: string,
+  trackSid: string,
+  muted: boolean
+) {
+  await roomService.mutePublishedTrack(
+    roomId,
+    participantIdentity,
+    trackSid,
+    muted
+  );
+}
