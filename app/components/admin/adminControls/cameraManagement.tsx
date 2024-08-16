@@ -1,15 +1,7 @@
 import { useRoomInfo, useTracks } from "@livekit/components-react";
-import {
-  ParticipantKind,
-  RoomEvent,
-  Track,
-  TrackEvent,
-  TrackPublication,
-} from "livekit-client";
+import { ParticipantKind, Track, TrackEvent } from "livekit-client";
 import RoomIngress from "../roomIngress";
 import { IngressCamera } from "./ingressCamera";
-import { TrackInfo } from "livekit-server-sdk";
-import { muteTrack, toggleRecording } from "@/app/actions/adminActions";
 
 export const CameraManagement = ({ token }: { token: string }) => {
   const cameras = useTracks([Track.Source.Camera]).filter(
@@ -37,29 +29,12 @@ export const CameraManagement = ({ token }: { token: string }) => {
               microphone.participant.identity === videoRef.participant.identity
           );
           matchingMicrophone?.publication;
-          matchingMicrophone?.publication.once(TrackEvent.Unmuted, () =>
-            console.log("Unmuted")
-          );
-          matchingMicrophone?.publication.once(TrackEvent.Muted, () =>
-            console.log("Muted")
-          );
+
           return (
             <>
-              <button
-                onClick={async (e) => {
-                  e.preventDefault();
-                  await muteTrack(
-                    room.name,
-                    videoRef.participant.identity,
-                    matchingMicrophone?.publication.trackSid!,
-                    false
-                  );
-                }}
-              >
-                Mute
-              </button>
               <IngressCamera
                 videoRef={videoRef}
+                microphoneRef={matchingMicrophone}
                 key={"Ingress-Camera" + index}
               />
             </>
