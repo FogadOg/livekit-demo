@@ -7,7 +7,7 @@ import {
   getRoomMetadata,
 } from "@/app/actions/metadataAction";
 
-export const CameraManagement = ({ token }: { token: string }) => {
+export const IngressManagement = ({ token }: { token: string }) => {
   const cameras = useTracks([Track.Source.Camera]).filter(
     (track) => track.participant.kind === ParticipantKind.INGRESS
   );
@@ -55,7 +55,7 @@ export const CameraManagement = ({ token }: { token: string }) => {
           onChange={(e) => {
             addMetadataToRoom(room.name, "ingressOnly", e.target.checked);
           }}
-          checked={
+          defaultChecked={
             room.metadata
               ? JSON.parse(room.metadata).ingressOnly ?? false
               : false

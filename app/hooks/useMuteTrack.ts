@@ -4,7 +4,7 @@ import { TrackEvent } from "livekit-client";
 import { muteTrack } from "../actions/adminActions";
 
 // Should update on permissions update?
-export default function useMuteTrack(token:string,track?: TrackReference) {
+export default function useMuteTrack(token: string, track?: TrackReference) {
   const [trackMuted, setTrackMuted] = useState(track?.publication.isMuted);
 
   const room = useRoomInfo();
@@ -30,5 +30,5 @@ export default function useMuteTrack(token:string,track?: TrackReference) {
     }
   }, [trackMuted]);
 
-  return { trackMuted, setTrackMuted };
+  return [trackMuted, setTrackMuted] as const;
 }
