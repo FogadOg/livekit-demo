@@ -41,6 +41,7 @@ export async function handleCreateRoomForm(
 
   const liveKitRoom = await roomService.createRoom({
     name: roomId,
+    egress: new RoomEgress({ room: roomEgressRequest }),
   });
 
   const fileOutput = new EncodedFileOutput({
