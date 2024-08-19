@@ -7,7 +7,7 @@ import {
   getRoomMetadata,
 } from "@/app/actions/metadataAction";
 
-export const CameraManagement = ({ token }: { token: string }) => {
+export const IngressManagement = ({ token }: { token: string }) => {
   const cameras = useTracks([Track.Source.Camera]).filter(
     (track) => track.participant.kind === ParticipantKind.INGRESS
   );
