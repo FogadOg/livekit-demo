@@ -28,7 +28,7 @@ export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
 
   room.on(RoomEvent.DataReceived, (payload, participant, kind) => {
     const strData = decoder.decode(payload);
-    console.log(`Got message from ${participant?.identity}`);
+    // console.log(`Got message from ${participant?.identity}`);
     console.log(`Message is ${strData}`);
   });
   return (
@@ -44,6 +44,17 @@ export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
           <PauseButton />
         </>
       )}
+      <button
+      className="lk-button"
+        onClick={() => {
+          localParticipant.localParticipant.publishData(
+            encoder.encode("Hello"),
+            { reliable: true, topic: "EmojiReaction" }
+          );
+        }}
+      >
+        Emoji React
+      </button>
       <ControlBar
         controls={{
           camera: permissions?.canPublishSources.includes(TrackSource.CAMERA),
@@ -56,16 +67,6 @@ export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
         }}
         {...props}
       />
-      <button
-        onClick={() => {
-          localParticipant.localParticipant.publishData(
-            encoder.encode("Hello"),
-            { reliable: true, topic: "EmojiReaction" }
-          );
-        }}
-      >
-        Emoji React
-      </button>
     </div>
   );
 }
