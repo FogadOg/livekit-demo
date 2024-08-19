@@ -56,11 +56,8 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
   })
 
 
-  if (!lastSpoken) {
+  if (!lastSpoken) {    
     return <CustomGridLayout/>;
-  } else if (remainingTracks.length === 0) {
-    const trackRef = lastSpoken as TrackReference;
-    return <VideoTrack trackRef={trackRef} />;
   }
   
   return (
