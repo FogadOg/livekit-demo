@@ -1,30 +1,36 @@
 "use server";
 
 import roomService from "@/lib/roomService";
-import { addMetadataToRoom } from "./metadataAction";
+import { addMetadataToRoom, getRoomMetadata } from "./metadataAction";
 
 export async function appendTranscription(
   username: string,
   roomName: string,
   transcription: string
 ) {
-  const room = (await roomService.listRooms([roomName]))[0];
-  let metadata;
-
-  if (room.metadata.length == 0) {
-    metadata = {};
-  } else {
-    metadata = JSON.parse(JSON.parse(room.metadata)["transcript"]);
-  }
-
+  
+  const userTranscript = await getUsersTranscript(roomName)
   try {
-    metadata[username] = metadata[username] + transcription;
-  } catch {
-    metadata[username] = transcription;
+    userTranscript[username] += transcription
+  }catch {
+    userTranscript[username] = transcription
+
   }
 
-  addMetadataToRoom(roomName, "transcript", JSON.stringify(metadata));
+  addMetadataToRoom(roomName, "transcript", userTranscript)
 }
+
+async function getUsersTranscript(roomName: string){
+  const room = (await roomService.listRooms([roomName]))[0];
+
+  const roomMetadata = await getRoomMetadata(room.name)
+  if(Object.keys(roomMetadata).length === 0) {
+    return  {}
+  }
+
+  return roomMetadata["transcript"];
+}
+
 
 export const GetTranscription = async (roomName: string) => {
   const metadata = (await roomService.listRooms([roomName]))[0].metadata;

@@ -1,3 +1,5 @@
+import { getRoomMetadata } from "@/app/actions/metadataAction";
+import { parseMetadata } from "@/app/util/parseMetadata";
 import { useRoomInfo } from "@livekit/components-react";
 import { Participant } from "livekit-client";
 import { useEffect, useState } from "react";
@@ -12,12 +14,14 @@ export const TranscriptTile = ({
 
   const [transcript, setTranscript] = useState("");
 
+
   useEffect(() => {
-    if (roomInfo.metadata) {
+      const parsedMetadata = parseMetadata(roomInfo.metadata?.toString()!)
+      
       try {
-        const { transcript: allTranscriptions } = JSON.parse(roomInfo.metadata);
-        const participantTranscription =
-          JSON.parse(allTranscriptions)[participant.identity];
+        const transcript = parsedMetadata["transcript"];
+        const participantTranscription = transcript[participant.identity];        
+        
         setTranscript(
           participantTranscription ||
             `${participant.name || participant.identity} hasn't spoken yet`
@@ -26,7 +30,6 @@ export const TranscriptTile = ({
         console.error("Error parsing metadata:", error);
         setTranscript("Error retrieving transcript");
       }
-    }
   }, [roomInfo]);
 
   return (
