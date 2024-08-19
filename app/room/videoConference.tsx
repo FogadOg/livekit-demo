@@ -26,8 +26,18 @@ export const VideoConference = () => {
       return <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }} className="w-full flex items-center justify-center"><h2 className="text-4xl">Meeting is paused</h2></div>
     }
 
-  }catch{
-  }
+  try {
+    if (JSON.parse(roomInfoData)["pause"] === "true") {
+      return (
+        <div
+          style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
+          className="w-full flex items-center justify-center"
+        >
+          <h2 className="text-4xl">Meeting is paused</h2>
+        </div>
+      );
+    }
+  } catch {}
 
   //return <SpeakerLayout tracks={filteredTracks} />;
   return (

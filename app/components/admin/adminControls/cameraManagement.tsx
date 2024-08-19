@@ -1,10 +1,13 @@
 import { useRoomInfo, useTracks } from "@livekit/components-react";
-import { ParticipantKind, Track } from "livekit-client";
+import { ParticipantKind, Track, TrackEvent } from "livekit-client";
 import RoomIngress from "../roomIngress";
 import { IngressCamera } from "./ingressCamera";
 
 export const CameraManagement = ({ token }: { token: string }) => {
   const cameras = useTracks([Track.Source.Camera]).filter(
+    (track) => track.participant.kind === ParticipantKind.INGRESS
+  );
+  const microphones = useTracks([Track.Source.Microphone]).filter(
     (track) => track.participant.kind === ParticipantKind.INGRESS
   );
 
@@ -19,11 +22,23 @@ export const CameraManagement = ({ token }: { token: string }) => {
   }
   return (
     <>
-      <form className="mb-10 menu">
-        {cameras.map((videoRef, index) => (
-          <IngressCamera videoRef={videoRef} key={"Ingress-Camera" + index} />
-        ))}
-      </form>
+      <div className="mb-10">
+        {cameras.map((videoRef) => {
+          const matchingMicrophone = microphones.find(
+            (microphone) =>
+              microphone.participant.identity === videoRef.participant.identity
+          );
+
+          return (
+              <IngressCamera
+                videoRef={videoRef}
+                microphoneRef={matchingMicrophone}
+                key={"Ingress-camera-"+videoRef.participant.identity}
+                adminToken={token}
+              />
+          );
+        })}
+      </div>
 
       <RoomIngress roomName={room.name} adminToken={token} />
     </>

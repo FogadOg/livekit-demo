@@ -20,7 +20,7 @@ export const TranscriptTile = ({
           JSON.parse(allTranscriptions)[participant.identity];
         setTranscript(
           participantTranscription ||
-            `${participant.identity} hasn't spoken yet`
+            `${participant.name || participant.identity} hasn't spoken yet`
         );
       } catch (error) {
         console.error("Error parsing metadata:", error);
