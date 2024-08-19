@@ -1,6 +1,8 @@
 import { addMetadataToRoom } from "@/app/actions/metadataAction";
 import { useRoomInfo } from "@livekit/components-react";
 import { useEffect, useState } from "react";
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 export const PauseButton = () => {
   const roomInfo = useRoomInfo();
@@ -46,7 +48,15 @@ export const PauseButton = () => {
   }, []);
   return (
     <button className="btn lk-button" onClick={handlePause}>
-      {paused ? "Unpause" : "Pause"}
+      {paused ? (
+        <>
+          <PlayArrowIcon/> Unpause
+        </>
+      ) : (
+        <>
+          <PauseIcon /> Pause
+        </>
+      )}
     </button>
   );
 };

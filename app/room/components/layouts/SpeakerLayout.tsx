@@ -5,6 +5,7 @@ import {
   FocusLayout,
   GridLayout,
   ParticipantTile,
+  TrackReferenceOrPlaceholder,
   VideoTrack,
   useLocalParticipantPermissions,
   useRoomInfo,
@@ -19,7 +20,7 @@ import { CustomGridLayout } from './customGridLayout';
 
 
 interface LayoutProps {
-  tracks: TrackReference[];
+  tracks: TrackReferenceOrPlaceholder[];
 }
 
 const SpeakerLayout = ({ tracks: references }: LayoutProps) => {

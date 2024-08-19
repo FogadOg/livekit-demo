@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
     "@livekit/components-react": "^2.3.6",
     "@livekit/components-styles": "^1.0.12",
     "@livekit/egress-sdk": "^0.2.0",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
     "@tailwindcss/typography": "^0.5.14",
     "livekit-client": "^2.3.2",
     "livekit-server-sdk": "^2.5.1",

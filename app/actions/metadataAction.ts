@@ -4,9 +4,15 @@ import roomService from "@/lib/roomService";
 import { getIsAdmin } from "./roomActions";
 
 export const getRoomMetadata = async (roomName: string) => {
-  const room = (await roomService.listRooms([roomName]))[0];
+  try{
+    const rooms = (await roomService.listRooms([roomName]));
+    const room = rooms[0]
+  
+    return JSON.parse(room.metadata)
 
-  return room.metadata;
+  } catch {
+    return {}
+  }
 };
 
 export const addMetadataToRoom = async (
@@ -16,18 +22,14 @@ export const addMetadataToRoom = async (
 ) => {
   const metadata = await getRoomMetadata(roomName);
 
-  let metadataObject;
-  if (metadata == "") {
-    metadataObject = {};
-  } else {
-    metadataObject = JSON.parse(metadata);
-  }
-  metadataObject[fieldName] = newData;
-
-  await roomService.updateRoomMetadata(
-    roomName,
-    JSON.stringify(metadataObject)
-  );
+  metadata[fieldName] = newData;
+  
+  try{
+    await roomService.updateRoomMetadata(
+      roomName,
+      JSON.stringify(metadata)
+    );
+  }catch{}
 };
 
 export const changeMetaDataToParticipant = async (
