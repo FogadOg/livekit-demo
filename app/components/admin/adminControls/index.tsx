@@ -16,7 +16,7 @@ export const AdminControls = ({ token }: { token: string }) => {
         role="tab"
         className="tab"
         aria-label="Manage ingress"
-        checked
+        defaultChecked
       />
       <div
         role="tabpanel"
