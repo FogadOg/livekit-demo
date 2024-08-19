@@ -21,6 +21,49 @@
     text-wrap: balance;
   }
 }
+
+@keyframes upFadeOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-450px); /* Move up by 50px */
+    opacity: 0;
+  }
+}
+
+@keyframes upWiggleFadeOut {
+  0% {
+    transform: translate(0, 0); /* No movement at start */
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-10px, -90px); /* Wiggle left */
+  }
+  40% {
+    transform: translate(10px, -180px); /* Wiggle right */
+  }
+  60% {
+    transform: translate(-10px, -270px); /* Wiggle left */
+  }
+  80% {
+    transform: translate(10px, -360px); /* Wiggle right */
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -450px); /* End up in the middle */
+    opacity: 0;
+  }
+}
+.animate-up-fade {
+  animation: upWiggleFadeOut 3s linear forwards; /* 3s duration to match the timeout */
+  position: absolute;
+}
+
 button.lk-close-button.lk-button.lk-chat-toggle {
   display: none;
 }
