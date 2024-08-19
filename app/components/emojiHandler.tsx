@@ -12,32 +12,35 @@ export function EmojiHandler() {
     const strData = decoder.decode(payload);
     // console.log(`Got message from ${participant?.identity}`);
     console.log(`Message is ${strData}`);
-    setReactions((oldList) => {
-      let newList = [...oldList];
-      newList.push(strData);
-      return newList;
-    });
+    addReaction(strData);
   });
 
-  const [reactions, setReactions] = useState<String[]>([]);
+  const addReaction = (reaction: string) => {
+    const id = Date.now();
+
+    setReactions((oldList) => [...oldList, { id, reaction }]);
+
+    setTimeout(() => {
+      setReactions((prevReactions) => prevReactions.filter((r) => r.id !== id));
+    }, 4000);
+  };
+  const [reactions, setReactions] = useState<
+    { id: number; reaction: string }[]
+  >([]);
 
   return (
     <div className="relative">
       <div className="fixed left-5 bottom-20">
-        {reactions.map((v, index) => (
-          <p key={index} className="animate-up-fade absolute text-2xl">
-            {v}
+        {reactions.map((reaction, index) => (
+          <p key={reaction.id} className="animate-up-fade absolute text-2xl">
+            {reaction.reaction}
           </p>
         ))}
       </div>
       <button
         className="lk-button"
         onClick={() => {
-          setReactions((oldList) => {
-            let newList = [...oldList];
-            newList.push("😊");
-            return newList;
-          });
+          addReaction("😊");
           localParticipant.localParticipant.publishData(encoder.encode("😊"), {
             reliable: true,
             topic: "EmojiReaction",
