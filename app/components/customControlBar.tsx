@@ -9,7 +9,7 @@ import useIsAdmin from "@/app/hooks/useIsAdmin";
 import { AdminControls } from "./admin/adminControls";
 import { Modal } from "./modal";
 import { PauseButton } from "./admin/adminControls/pauseButton";
-import { EmojiHandler } from "./emojiHandler";
+import { ReactionHandler } from "./reactionHandler";
 
 interface CustomControlBarProps extends ControlBarProps {
   token: string;
@@ -32,7 +32,7 @@ export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
           <PauseButton />
         </>
       )}
-      <EmojiHandler />
+      {permissions?.canPublishData && <ReactionHandler />}
       <ControlBar
         controls={{
           camera: permissions?.canPublishSources.includes(TrackSource.CAMERA),

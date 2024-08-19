@@ -1,8 +1,9 @@
 import { useLocalParticipant, useRoomContext } from "@livekit/components-react";
 import { RoomEvent } from "livekit-client";
 import { useState } from "react";
+import { AddReaction } from "./addReaction";
 
-export function EmojiHandler() {
+export function ReactionHandler() {
   const localParticipant = useLocalParticipant();
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
@@ -10,8 +11,6 @@ export function EmojiHandler() {
 
   room.on(RoomEvent.DataReceived, (payload, participant, kind) => {
     const strData = decoder.decode(payload);
-    // console.log(`Got message from ${participant?.identity}`);
-    console.log(`Message is ${strData}`);
     addReaction(strData);
   });
 
@@ -31,24 +30,14 @@ export function EmojiHandler() {
   return (
     <div className="relative">
       <div className="fixed left-5 bottom-20">
-        {reactions.map((reaction, index) => (
-          <p key={reaction.id} className="animate-up-fade absolute text-2xl">
+        {reactions.map((reaction) => (
+          <p key={reaction.id} className="animate-up-fade absolute text-4xl ">
             {reaction.reaction}
           </p>
         ))}
       </div>
-      <button
-        className="lk-button"
-        onClick={() => {
-          addReaction("😊");
-          localParticipant.localParticipant.publishData(encoder.encode("😊"), {
-            reliable: true,
-            topic: "EmojiReaction",
-          });
-        }}
-      >
-        Emoji React
-      </button>
+      <AddReaction addReaction={addReaction} />
+      
     </div>
   );
 }
