@@ -22,44 +22,61 @@ export const IngressCamera = ({
 }: IngressCameraProps) => {
   const room = useRoomInfo();
 
-  const { trackMuted, setTrackMuted } = useMuteTrack(adminToken, microphoneRef);
+  const [microphoneMuted, setMicrophoneMuted] = useMuteTrack(
+    adminToken,
+    microphoneRef
+  );
+  const [cameraMuted, setCameraMuted] = useMuteTrack(adminToken, videoRef);
 
-  const cameraToggled = videoRef.participant.metadata?.includes("Active");
+  const hidden = videoRef.participant.metadata?.includes("Active");
   const handleToggleCamera = () => {
     changeMetaDataToParticipant(
       room.name,
       videoRef.participant.identity,
-      cameraToggled ? "Inactive" : "Active",
+      hidden ? "Inactive" : "Active",
       adminToken
     );
-    setTrackMuted(true)
   };
 
   return (
     <section className="m-3">
+      <h2 className="text-center font-bold my-auto mx-3">
+        Ingress name:{" "}
+        {videoRef.participant.name || videoRef.participant.identity}
+      </h2>
       {videoRef && <VideoTrack trackRef={videoRef} />}
       <div className="flex">
-        <p className="text-center font-bold my-auto mx-3">
-          Camera name:{" "}
-          {videoRef.participant.name || videoRef.participant.identity}
-        </p>
-
         {microphoneRef && (
           <button
-            onClick={() => setTrackMuted(!trackMuted)}
+            onClick={() => setMicrophoneMuted((muted) => !muted)}
             className="lk-button mx-auto"
           >
-            {trackMuted ? <MicDisabledIcon /> : <MicIcon />}
+            {!microphoneMuted ? <MicIcon /> : <MicDisabledIcon />}
             Microphone
           </button>
         )}
         <button
-          onClick={() => handleToggleCamera()}
+          // onClick={() => handleToggleCamera()}
+          onClick={() => setCameraMuted((muted) => !muted)}
           className="lk-button mx-auto"
         >
-          {cameraToggled ? <CameraIcon /> : <CameraDisabledIcon />}
+          {!cameraMuted ? <CameraIcon /> : <CameraDisabledIcon />}
           Camera
         </button>
+
+        <label
+          htmlFor={"hidden" + videoRef.participant.identity}
+          className="my-auto mx-auto flex gap-1"
+        >
+          Hidden
+          <input
+            type="checkbox"
+            name={"hidden" + videoRef.participant.identity}
+            id={"hidden" + videoRef.participant.identity}
+            defaultChecked={!hidden}
+            onClick={handleToggleCamera}
+          />
+        </label>
       </div>
     </section>
   );
