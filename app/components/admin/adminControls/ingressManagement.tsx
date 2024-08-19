@@ -55,7 +55,7 @@ export const IngressManagement = ({ token }: { token: string }) => {
           onChange={(e) => {
             addMetadataToRoom(room.name, "ingressOnly", e.target.checked);
           }}
-          checked={
+          defaultChecked={
             room.metadata
               ? JSON.parse(room.metadata).ingressOnly ?? false
               : false
