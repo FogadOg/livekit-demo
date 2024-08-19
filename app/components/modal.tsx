@@ -3,7 +3,7 @@ import React, { useState } from "react";
 interface ModalProps {
   title: string;
   content: JSX.Element;
-  buttonText: string;
+  buttonText: JSX.Element | string;
   modelName: string;
   icon?: JSX.Element;
 }
