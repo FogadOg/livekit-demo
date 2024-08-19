@@ -9,6 +9,7 @@ import useIsAdmin from "@/app/hooks/useIsAdmin";
 import { AdminControls } from "./admin/adminControls";
 import { Modal } from "./modal";
 import { PauseButton } from "./admin/adminControls/pauseButton";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 interface CustomControlBarProps extends ControlBarProps {
   token: string;
@@ -24,7 +25,11 @@ export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
           <Modal
             title="Admin panel"
             content={<AdminControls token={token} />}
-            buttonText="View admin panel"
+            buttonText={              
+              <>
+                <AdminPanelSettingsIcon /> View admin panel
+              </>
+            }
             modelName="adminPanel"
           />
           <PauseButton/>
