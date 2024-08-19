@@ -1,11 +1,5 @@
-import { useState } from "react";
-import { Modal } from "../../modal";
 import { PermissionControls } from "./permissionControls";
 import { InviteUsersForm } from "./inviteUsersForm";
-import { PeopleIcon } from "@/app/assets/peopleIcon";
-import { InviteIcon } from "@/app/assets/inviteIcon";
-import { IngressIcon } from "@/app/assets/ingressIcon";
-import { PauseButton } from "./pauseButton";
 import { IngressManagement } from "./ingressManagement";
 
 export const AdminControls = ({ token }: { token: string }) => {
