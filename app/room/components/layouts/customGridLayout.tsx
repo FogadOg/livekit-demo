@@ -42,8 +42,6 @@ export const CustomGridLayout = () => {
     }
   })();
 
-
-  //return <SpeakerLayout tracks={filteredTracks} />;
   return (
     <div className="flex">
       <GridLayout

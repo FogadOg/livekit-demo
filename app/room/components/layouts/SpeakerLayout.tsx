@@ -3,6 +3,7 @@ import {
   CarouselLayout,
   Chat,
   FocusLayout,
+  GridLayout,
   ParticipantTile,
   VideoTrack,
   useLocalParticipantPermissions,
@@ -13,6 +14,8 @@ import { TranscriptionButton } from '../transcription/transcriptionButton';
 import Caption from '../transcription/caption';
 import { CustomAudioRenderer } from '../../../components/customAudioRenderer';
 import tracksFilter from '../../../util/tracksFilter';
+import { useEffect, useState } from 'react';
+import { CustomGridLayout } from './customGridLayout';
 
 
 interface LayoutProps {
@@ -20,11 +23,22 @@ interface LayoutProps {
 }
 
 const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
-  const sortedTracks = useVisualStableUpdate(references, 1);
-  const mainTrack = sortedTracks.shift();
-  const remainingTracks = useVisualStableUpdate(sortedTracks, 3);
 
   const filteredTracks = tracksFilter(references);
+  const [remainingTracks, setRemainingTracks] = useState(filteredTracks)
+
+
+  const mainTrack = filteredTracks.find((track) => track.participant.isSpeaking)
+
+  const [lastSpoken, setLastSpoken] = useState(mainTrack!)
+
+  useEffect(() => {
+    if(mainTrack){
+      setLastSpoken(mainTrack)
+      setRemainingTracks(filteredTracks.filter((track) => track.participant.identity !== mainTrack.participant.identity))
+    }
+  }, [filteredTracks])
+  
 
   const agentPresent = filteredTracks.length !== references.length;
 
@@ -41,40 +55,20 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
   })
 
 
-  if (!mainTrack) {
-    return <></>;
+  if (!lastSpoken) {
+    return <CustomGridLayout/>;
   } else if (remainingTracks.length === 0) {
-    const trackRef = mainTrack as TrackReference;
+    const trackRef = lastSpoken as TrackReference;
     return <VideoTrack trackRef={trackRef} />;
   }
   
   return (
-    <div>
-      <div className="lk-focus-layout">
-        <CarouselLayout
-          tracks={remainingTracks}
-          style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
-        >
-          <div className="relative">
-            <ParticipantTile className="h-full" />
-            <div className="absolute top-10 left-20">
-              {transcriptAvailable && <TranscriptionButton />}
-            </div>
-            <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-              {/* Caption visible if agent present*/}
-              {agentPresent && <Caption />}
-            </div>
-          </div>
-        </CarouselLayout>
-        <FocusLayout trackRef={mainTrack as TrackReference} />
-
-        <CustomAudioRenderer/>
-        {/* Chat visible if can chat */}
-      </div>
-      {participantPermissions?.canPublishData && <Chat />};
-
+    <div className="lk-focus-layout" style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
+      <CarouselLayout tracks={remainingTracks.filter((track)=>track.participant.identity !== mainTrack?.participant.identity)}>
+        <ParticipantTile />
+      </CarouselLayout>
+      <FocusLayout trackRef={lastSpoken as TrackReference} />
     </div>
-    
   );
 };
 
