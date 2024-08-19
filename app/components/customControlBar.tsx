@@ -8,6 +8,7 @@ import { TrackSource } from "livekit-server-sdk";
 import useIsAdmin from "@/app/hooks/useIsAdmin";
 import { AdminControls } from "./admin/adminControls";
 import { Modal } from "./modal";
+import { PauseButton } from "./admin/adminControls/pauseButton";
 
 interface CustomControlBarProps extends ControlBarProps {
   token: string;
@@ -19,13 +20,16 @@ export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
   return (
     <div className="lk-control-bar">
       {isAdmin && 
-        <Modal
-          title="Admin panel"
-          content={<AdminControls token={token} />}
-          buttonText="View admin panel"
-          modelName="adminPanel"
-        />
-      }
+        <>
+          <Modal
+            title="Admin panel"
+            content={<AdminControls token={token} />}
+            buttonText="View admin panel"
+            modelName="adminPanel"
+          />
+          <PauseButton/>
+        </>
+    }
       <ControlBar
         controls={{
           camera: permissions?.canPublishSources.includes(TrackSource.CAMERA),
