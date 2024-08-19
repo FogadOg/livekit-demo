@@ -2,6 +2,10 @@ import { useRoomInfo, useTracks } from "@livekit/components-react";
 import { ParticipantKind, Track, TrackEvent } from "livekit-client";
 import RoomIngress from "../roomIngress";
 import { IngressCamera } from "./ingressCamera";
+import {
+  addMetadataToRoom,
+  getRoomMetadata,
+} from "@/app/actions/metadataAction";
 
 export const CameraManagement = ({ token }: { token: string }) => {
   const cameras = useTracks([Track.Source.Camera]).filter(
@@ -30,17 +34,34 @@ export const CameraManagement = ({ token }: { token: string }) => {
           );
 
           return (
-              <IngressCamera
-                videoRef={videoRef}
-                microphoneRef={matchingMicrophone}
-                key={"Ingress-camera-"+videoRef.participant.identity}
-                adminToken={token}
-              />
+            <IngressCamera
+              videoRef={videoRef}
+              microphoneRef={matchingMicrophone}
+              key={"Ingress-camera-" + videoRef.participant.identity}
+              adminToken={token}
+            />
           );
         })}
       </div>
 
-      <RoomIngress roomName={room.name} adminToken={token} />
+      <div className="flex items-center gap-2">
+        <RoomIngress roomName={room.name} adminToken={token} />
+        <label htmlFor="ingressOnly">Ingress only</label>
+        <input
+          type="checkbox"
+          name="ingressOnly"
+          id="ingressOnly"
+          className="checkbox"
+          onChange={(e) => {
+            addMetadataToRoom(room.name, "ingressOnly", e.target.checked);
+          }}
+          checked={
+            room.metadata
+              ? JSON.parse(room.metadata).ingressOnly ?? false
+              : false
+          }
+        />
+      </div>
     </>
   );
 };
