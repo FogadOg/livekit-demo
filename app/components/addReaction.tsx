@@ -1,7 +1,6 @@
-import { useLocalParticipant, useRoomContext } from "@livekit/components-react";
-import { RoomEvent } from "livekit-client";
-import { useState } from "react";
+import { useLocalParticipant } from "@livekit/components-react";
 
+import AddReactionIcon from "@mui/icons-material/AddReaction";
 export function AddReaction({
   addReaction,
 }: {
@@ -19,7 +18,7 @@ export function AddReaction({
   return (
     <div className="dropdown dropdown-top">
       <div tabIndex={0} role="button" className="btn lk-button font-normal">
-        Emoji react
+        <AddReactionIcon />Emoji react 
       </div>
       <ul
         tabIndex={0}

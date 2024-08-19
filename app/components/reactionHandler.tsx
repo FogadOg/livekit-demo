@@ -1,11 +1,9 @@
-import { useLocalParticipant, useRoomContext } from "@livekit/components-react";
+import { useRoomContext } from "@livekit/components-react";
 import { RoomEvent } from "livekit-client";
 import { useState } from "react";
 import { AddReaction } from "./addReaction";
 
 export function ReactionHandler() {
-  const localParticipant = useLocalParticipant();
-  const encoder = new TextEncoder();
   const decoder = new TextDecoder();
   const room = useRoomContext();
 
