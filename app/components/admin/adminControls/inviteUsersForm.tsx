@@ -78,7 +78,7 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
               name="canPublishData"
               className="toggle toggle-success"
               id="canPublishData"
-              checked={permissions.canPublishData}
+              defaultChecked={permissions.canPublishData}
               onChange={handlePermissionChange}
             />
           </label>
@@ -92,7 +92,7 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
               name="hidden"
               className="radio toggle-success"
               id="visible"
-              checked={!permissions.hidden}
+              defaultChecked={!permissions.hidden}
               onChange={() => {
                 setPermissions((prev) => ({ ...prev, hidden: false }));
               }}
@@ -106,7 +106,7 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
               name="hidden"
               className="radio toggle-success"
               id="hidden"
-              checked={permissions.hidden}
+              defaultChecked={permissions.hidden}
               onChange={() => {
                 setPermissions((prev) => ({ ...prev, hidden: true }));
               }}
@@ -128,7 +128,7 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
                 name={source.toString()}
                 className="toggle toggle-success"
                 id={source.toString()}
-                checked={
+                defaultChecked={
                   permissions.canPublishSources?.includes(
                     (index + 1) as TrackSource
                   ) && !permissions.hidden
