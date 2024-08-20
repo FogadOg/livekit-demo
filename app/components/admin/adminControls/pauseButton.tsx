@@ -1,56 +1,26 @@
 import { addMetadataToRoom } from "@/app/actions/metadataAction";
 import { useRoomInfo } from "@livekit/components-react";
-import { useEffect, useState } from "react";
-import PauseIcon from '@mui/icons-material/Pause';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { useState } from "react";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { parseMetadata } from "@/app/util/parseMetadata";
 
 export const PauseButton = () => {
   const roomInfo = useRoomInfo();
 
-  const [paused, setPaused] = useState(false);
+  const pause = !!parseMetadata(roomInfo.metadata!).pause;
+  const [paused, setPaused] = useState(pause);
 
   async function handlePause() {
-    try {
-      const parsedData = JSON.parse(roomInfo.metadata!);
-      if (!parsedData["pause"]) {
-        addMetadataToRoom(roomInfo.name, "pause", true);
-        setPaused(true);
-      } else {
-        addMetadataToRoom(roomInfo.name, "pause", false);
-        setPaused(false);
-      }
-    } catch {
-      addMetadataToRoom(roomInfo.name, "pause", false);
-      setPaused(false);
-    }
+    addMetadataToRoom(roomInfo.name, "pause", !paused);
+    setPaused((isPaused) => !isPaused);
   }
 
-  async function isPaused() {
-    try {
-      const parsedData = JSON.parse(roomInfo.metadata!);
-      if (!parsedData["pause"]) {
-        return false;
-      } else {
-        return true;
-      }
-    } catch {
-      return false;
-    }
-  }
-
-  useEffect(() => {
-    const checkPausedStatus = async () => {
-      const paused = await isPaused();
-      setPaused(paused);
-    };
-
-    checkPausedStatus();
-  }, []);
   return (
     <button className="btn lk-button" onClick={handlePause}>
       {paused ? (
         <>
-          <PlayArrowIcon/> Unpause
+          <PlayArrowIcon /> Unpause
         </>
       ) : (
         <>

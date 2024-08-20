@@ -9,6 +9,7 @@ import useIsAdmin from "@/app/hooks/useIsAdmin";
 import { AdminControls } from "./admin/adminControls";
 import { Modal } from "./modal";
 import { PauseButton } from "./admin/adminControls/pauseButton";
+import { ReactionHandler } from "./reactionHandler";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 interface CustomControlBarProps extends ControlBarProps {
@@ -18,9 +19,10 @@ interface CustomControlBarProps extends ControlBarProps {
 export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
   const permissions = useLocalParticipantPermissions();
   const isAdmin = useIsAdmin(token);
+
   return (
     <div className="lk-control-bar">
-      {isAdmin && 
+      {isAdmin && (
         <>
           <Modal
             title="Admin panel"
@@ -32,9 +34,10 @@ export function CustomControlBar({ token, ...props }: CustomControlBarProps) {
             }
             modelName="adminPanel"
           />
-          <PauseButton/>
+          <PauseButton />
         </>
-    }
+      )}
+      {permissions?.canPublishData && <ReactionHandler />}
       <ControlBar
         controls={{
           camera: permissions?.canPublishSources.includes(TrackSource.CAMERA),
