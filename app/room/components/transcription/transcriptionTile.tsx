@@ -29,7 +29,7 @@ export const TranscriptTile = ({
       console.error("Error parsing metadata:", error);
       setTranscript("Error retrieving transcript");
     }
-  }, [roomInfo]);
+  }, [roomInfo, participant.name, participant.identity]);
 
   return (
     <div className="flex flex-col gap-16 h-full ">

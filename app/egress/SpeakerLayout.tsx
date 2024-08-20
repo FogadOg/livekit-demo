@@ -23,7 +23,7 @@ import {
   VideoTrack,
   useVisualStableUpdate,
 } from "@livekit/components-react";
-import { LayoutProps } from "./common.ts";
+import { LayoutProps } from "./common";
 
 const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
   const sortedTracks = useVisualStableUpdate(references, 1);

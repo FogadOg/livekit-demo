@@ -11,7 +11,7 @@ import {
 } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import "@livekit/components-styles";
-import useTracksFilter from "@/app/util/tracksFilter";
+import useTracksFilter from "@/app/util/useTracksFilter";
 import { TranscriptionButton } from "../transcription/transcriptionButton";
 import Caption from "../transcription/caption";
 import { CustomAudioRenderer } from "@/app/components/customAudioRenderer";

@@ -42,7 +42,7 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
         )
       );
     }
-  }, [filteredTracks]);
+  }, [filteredTracks, mainTrack]);
 
   const agentPresent = filteredTracks.length !== references.length;
 

@@ -46,7 +46,7 @@ export default function useRoomState({
     };
 
     fetchRoomState();
-  }, [permissionToken, roomId]);
+  }, [permissionToken, roomId, setToken]);
 
   return { roomExists, expired, roomId };
 }

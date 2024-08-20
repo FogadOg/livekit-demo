@@ -28,7 +28,7 @@ export default function useMuteTrack(token: string, track?: TrackReference) {
         token
       );
     }
-  }, [trackMuted]);
+  }, [trackMuted, room.name, token, track]);
 
   return [trackMuted, setTrackMuted] as const;
 }
