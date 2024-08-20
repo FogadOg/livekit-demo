@@ -20,7 +20,7 @@ import { CustomAudioRenderer } from '../../../components/customAudioRenderer';
 import tracksFilter from '../../../util/tracksFilter';
 import { useEffect, useState } from 'react';
 import { CustomGridLayout } from './customGridLayout';
-
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 
 interface LayoutProps {
   tracks: TrackReferenceOrPlaceholder[];
@@ -68,8 +68,8 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
       <CarouselLayout tracks={remainingTracks.filter((track)=>track.participant.identity !== mainTrack?.participant.identity)}>
         <div className="relative">
           <ParticipantTile className="h-full" />
-          <div className="absolute top-10 left-20">
-            {transcriptAvailable && <TranscriptionButton/>}
+          <div className="absolute top-5 left-5">
+            {transcriptAvailable && <TranscriptionButton icon={<RecordVoiceOverIcon/>}/>}
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
             {/* Caption visible if agent present*/}
@@ -81,7 +81,7 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
       <div className="relative">
           <ParticipantTile className="h-full" trackRef={lastSpoken as TrackReference}/>
           <div className="absolute top-10 left-20">
-            {transcriptAvailable && <TranscriptionButton trackRef={lastSpoken as TrackReference}/>}
+            {transcriptAvailable && <TranscriptionButton trackRef={lastSpoken as TrackReference} hasButtonText={true}/>}
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
             {agentPresent && <Caption trackRef={lastSpoken as TrackReference}/>}
