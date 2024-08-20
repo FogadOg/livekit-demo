@@ -28,7 +28,7 @@ export function PermissionControls({ token }: { token: string }) {
             key={p.identity}
             title={`${p.identity} permissions`}
             content={<PermissionPanel p={p} token={token} />}
-            buttonText={`${p.identity}'s permissions`}
+            buttonText={`${p.identity}s permissions`}
             modelName={`user ${p.identity} permissions`}
             icon={<PermissionIcon />}
           />

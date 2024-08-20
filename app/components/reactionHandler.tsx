@@ -1,5 +1,5 @@
 import { useRoomContext } from "@livekit/components-react";
-import { RemoteParticipant, RoomEvent } from "livekit-client";
+import { DataPacket_Kind, RemoteParticipant, RoomEvent } from "livekit-client";
 import { useEffect, useState } from "react";
 import { AddReaction } from "./addReaction";
 
@@ -10,7 +10,10 @@ export function ReactionHandler() {
   const addReaction = (reaction: string, identity: string) => {
     const id = Date.now();
 
-    setReactions((oldList) => [...oldList, { id, reaction, participantId: identity }]);
+    setReactions((oldList) => [
+      ...oldList,
+      { id, reaction, participantId: identity },
+    ]);
 
     setTimeout(() => {
       setReactions((prevReactions) => prevReactions.filter((r) => r.id !== id));
@@ -20,10 +23,14 @@ export function ReactionHandler() {
   useEffect(() => {
     const handleDataReceived = (
       payload: Uint8Array,
-      participant: RemoteParticipant | undefined
+      participant: RemoteParticipant | undefined,
+      kind: DataPacket_Kind | undefined,
+      topic?: string | undefined
     ) => {
-      const strData = decoder.decode(payload);
-      addReaction(strData, participant?.identity!);
+      if (topic && topic == "EmojiReaction") {
+        const strData = decoder.decode(payload);
+        addReaction(strData, participant?.identity!);
+      }
     };
     room.on(RoomEvent.DataReceived, handleDataReceived);
 
@@ -40,9 +47,14 @@ export function ReactionHandler() {
     <div className="relative">
       <div className="fixed left-5 bottom-20">
         {reactions.map((reaction) => (
-          <div key={reaction.id} className="animate-up-fade absolute flex items-center gap-2">
+          <div
+            key={reaction.id}
+            className="animate-up-fade absolute flex items-center gap-2"
+          >
             <p className="text-4xl">{reaction.reaction}</p>
-            <p className="bg-base-200 px-2 rounded-xl">{reaction.participantId}</p>
+            <p className="bg-base-200 px-2 rounded-xl">
+              {reaction.participantId}
+            </p>
           </div>
         ))}
       </div>

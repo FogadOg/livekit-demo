@@ -15,7 +15,7 @@ import { ParticipantKind } from "livekit-client";
 
 export const Transcription = ({
   audioTrack,
-}:  {
+}: {
   audioTrack: TrackReferenceOrPlaceholder;
 }) => {
   const { segments } = useTrackTranscription(audioTrack);
@@ -45,7 +45,7 @@ export const Transcription = ({
         setSavedIndex(segments.length);
       }
     }
-  }, [audioTrack, segments, savedIndex]);
+  }, [audioTrack, segments, savedIndex, localParticipant.identity, roomInfo.name]);
 
   if (segments && segments.length > 0) {
     return <p className="bg-[rgba(0,0,0,0.5)] p-2">{segments.at(-1)?.text}</p>;

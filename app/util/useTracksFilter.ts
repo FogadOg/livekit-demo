@@ -9,7 +9,7 @@ import { ParticipantKind } from "livekit-client";
 
 type Track = TrackReference | TrackReferenceOrPlaceholder;
 
-const tracksFilter = (tracks: Track[]) => {
+const useTracksFilter = (tracks: Track[]) => {
   const filteredTracks = tracks.filter(
     (track) =>
       !track.participant.isAgent &&
@@ -34,7 +34,7 @@ const tracksFilter = (tracks: Track[]) => {
   } catch {
     return filteredTracks;
   }
-  return filteredTracks
+  return filteredTracks;
 };
 
-export default tracksFilter;
+export default useTracksFilter;

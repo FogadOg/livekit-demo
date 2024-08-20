@@ -11,11 +11,10 @@ import {
 } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import "@livekit/components-styles";
-import tracksFilter from "@/app/util/tracksFilter";
+import useTracksFilter from "@/app/util/useTracksFilter";
 import { TranscriptionButton } from "../transcription/transcriptionButton";
 import Caption from "../transcription/caption";
 import { CustomAudioRenderer } from "@/app/components/customAudioRenderer";
-
 
 export const CustomGridLayout = () => {
   const tracks = useTracks(
@@ -26,7 +25,7 @@ export const CustomGridLayout = () => {
     { onlySubscribed: false }
   );
 
-  const filteredTracks = tracksFilter(tracks);
+  const filteredTracks = useTracksFilter(tracks);
 
   const agentPresent = filteredTracks.length !== tracks.length;
 
@@ -55,11 +54,11 @@ export const CustomGridLayout = () => {
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
             {/* Caption visible if agent present*/}
-            {agentPresent && <Caption/>}
+            {agentPresent && <Caption />}
           </div>
         </div>
       </GridLayout>
-      <CustomAudioRenderer/>
+      <CustomAudioRenderer />
       {/* Chat visible if can chat */}
       {participantPermissions?.canPublishData && <Chat />};
     </div>

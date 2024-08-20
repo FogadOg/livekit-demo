@@ -184,7 +184,7 @@ export default function Home() {
           >
             <div className="w-80">
               <h1 className="text-2xl">
-                Looks like you don't have create token &#9940;
+                Looks like you don&apos;t have create token &#9940;
               </h1>
               <GetCreateTokenForm />
             </div>

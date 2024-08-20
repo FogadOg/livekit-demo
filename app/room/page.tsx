@@ -1,24 +1,11 @@
 "use client";
-
-import RoomView from "./components/room/roomView";
-import RoomAccess from "./components/room/roomAccess";
-import useToken from "../hooks/useToken";
+import { Suspense } from "react";
+import RoomPage from "./roomPage";
 
 export default function Page() {
-  const { token, setToken, permissionsToken } = useToken();
-
-  if (token !== "") {
-    return <RoomView token={token} />;
-  }
-
-  if (!permissionsToken) {
-    return (
-      <>
-        <h1 className="font-bold text-xl">No token?</h1>
-        <p>You are missing token from url? Please make sure to copy full url</p>
-      </>
-    );
-  }
-
-  return <RoomAccess setToken={setToken} permissionToken={permissionsToken} />;
+  return (
+    <Suspense fallback={"loading..."}>
+      <RoomPage />
+    </Suspense>
+  );
 }

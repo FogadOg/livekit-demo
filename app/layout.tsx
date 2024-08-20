@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Livekit demo",
-  description: "A livekit demo to explore it's features",
+  description: "A livekit demo to explore its features",
 };
 
 export default function RootLayout({

@@ -28,7 +28,7 @@ export default function AdminsRooms() {
     } else {
       getRooms();
     }
-  }, []);
+  }, [roomNames]);
 
   return (
     <>

@@ -39,7 +39,7 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
       setUrl(`${baseUrl}?permissionsToken=${permissionToken}`);
     };
     tokenUrl();
-  }, [permissions, roomInfo]);
+  }, [permissions, roomInfo, token]);
 
   const handleSourceChange = (source: TrackSource) => {
     setPermissions((prevPermissions) => {

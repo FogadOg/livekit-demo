@@ -14,23 +14,22 @@ export const TranscriptTile = ({
 
   const [transcript, setTranscript] = useState("");
 
-
   useEffect(() => {
-      const parsedMetadata = parseMetadata(roomInfo.metadata?.toString()!)
-      
-      try {
-        const transcript = parsedMetadata["transcript"];
-        const participantTranscription = transcript[participant.identity];        
-        
-        setTranscript(
-          participantTranscription ||
-            `${participant.name || participant.identity} hasn't spoken yet`
-        );
-      } catch (error) {
-        console.error("Error parsing metadata:", error);
-        setTranscript("Error retrieving transcript");
-      }
-  }, [roomInfo]);
+    const parsedMetadata = parseMetadata(roomInfo.metadata?.toString()!);
+
+    try {
+      const transcript = parsedMetadata["transcript"];
+      const participantTranscription = transcript[participant.identity];
+
+      setTranscript(
+        participantTranscription ||
+          `${participant.name || participant.identity} hasn't spoken yet`
+      );
+    } catch (error) {
+      console.error("Error parsing metadata:", error);
+      setTranscript("Error retrieving transcript");
+    }
+  }, [roomInfo, participant.name, participant.identity]);
 
   return (
     <div className="flex flex-col gap-16 h-full ">
