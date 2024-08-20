@@ -7,7 +7,7 @@ import {
   useTracks,
 } from "@livekit/components-react";
 import { TrackReference } from "@livekit/components-react";
-import tracksFilter from "../util/tracksFilter";
+import useTracksFilter from "../util/useTracksFilter";
 
 /** @public */
 export interface RoomAudioRendererProps {
@@ -49,7 +49,7 @@ export function CustomAudioRenderer({ volume, muted }: RoomAudioRendererProps) {
     (ref: TrackReference) =>
       !isLocal(ref.participant) && ref.publication.kind === Track.Kind.Audio
   );
-  const filteredTracks = tracksFilter(tracks);
+  const filteredTracks = useTracksFilter(tracks);
 
   return (
     <div style={{ display: "none" }}>

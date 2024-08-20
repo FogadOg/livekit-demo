@@ -31,7 +31,7 @@ import SingleSpeakerLayout from "./SingleSpeakerLayout";
 
 import SpeakerLayout from "./SpeakerLayout";
 import React from "react";
-import tracksFilter from "../util/tracksFilter";
+import useTracksFilter from "../util/useTracksFilter";
 interface RoomPageProps {
   url: string;
   token: string;
@@ -118,7 +118,7 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
       onlySubscribed: true,
     }
   );
-  const filteredTracks = tracksFilter(tracks);
+  const filteredTracks = useTracksFilter(tracks);
   let interfaceStyle = "dark";
   if (layout.endsWith("-light")) {
     interfaceStyle = "light";
