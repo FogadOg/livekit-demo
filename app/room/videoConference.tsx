@@ -1,20 +1,18 @@
 "use client";
 
 import React from "react";
-import {
-  useRoomInfo,
-  useTracks,
-} from "@livekit/components-react";
+import { useRoomInfo, useTracks } from "@livekit/components-react";
 
 import { CustomGridLayout } from "./components/layouts/customGridLayout";
 import SpeakerLayout from "./components/layouts/SpeakerLayout";
 import { Track } from "livekit-client";
 import { parseMetadata } from "../util/parseMetadata";
+import useTracksFilter from "../util/useTracksFilter";
 
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
 
-  const roomInfoData = roomInfo.metadata || "{}"
+  const roomInfoData = roomInfo.metadata || "{}";
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -22,7 +20,8 @@ export const VideoConference = () => {
     ],
     { onlySubscribed: false }
   );
-  
+  const filteredTracks = useTracksFilter(tracks);
+
   try {
     const pause = parseMetadata(roomInfo.metadata!)["pause"];
     if (pause) {
@@ -37,13 +36,13 @@ export const VideoConference = () => {
     }
   } catch {}
 
-  if(parseMetadata(roomInfo.metadata!)["layout"] == "speaker"){
+  if (parseMetadata(roomInfo.metadata!)["layout"] == "speaker") {
     return (
       <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
-        <SpeakerLayout tracks={tracks}/>
+        <SpeakerLayout tracks={filteredTracks} />
       </div>
     );
   }
 
-  return (<CustomGridLayout/>)
+  return <CustomGridLayout />;
 };

@@ -18,13 +18,13 @@ import { useEffect, useState } from "react";
 import { CustomGridLayout } from "./customGridLayout";
 import useTracksFilter from "@/app/util/useTracksFilter";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
+import { ParticipantKind } from "livekit-client";
 
 interface LayoutProps {
   tracks: TrackReferenceOrPlaceholder[];
 }
 
-const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
-  const filteredTracks = useTracksFilter(references);
+const SpeakerLayout = ({ tracks: filteredTracks }: LayoutProps) => {
   const [remainingTracks, setRemainingTracks] = useState(filteredTracks);
 
   const mainTrack =
@@ -45,7 +45,9 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
     }
   }, [filteredTracks]);
 
-  const agentPresent = filteredTracks.length !== references.length;
+  const agentPresent = filteredTracks.some(
+    (track) => track.participant.kind === ParticipantKind.AGENT
+  );
 
   const participantPermissions = useLocalParticipantPermissions();
 
