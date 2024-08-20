@@ -9,7 +9,6 @@ export const PauseButton = () => {
   const roomInfo = useRoomInfo();
 
   const pause = !!parseMetadata(roomInfo.metadata!).pause;
-  console.debug(pause);
   const [paused, setPaused] = useState(pause);
 
   async function handlePause() {
