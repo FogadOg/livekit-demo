@@ -1,7 +1,7 @@
 import { addMetadataToRoom } from "@/app/actions/metadataAction"
 import { useRoomInfo } from "@livekit/components-react"
-
-
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 
 
 export const LayoutChange = () => {
@@ -17,8 +17,12 @@ export const LayoutChange = () => {
     }
     return (
         <div>
-            <button className="btn lk-button" onClick={changeToGridLayout}>Change to grid layout</button>
-            <button className="btn lk-button" onClick={changeToSpeakerLayout}>Change to speaker layout</button>
+            <button className="btn lk-button" onClick={changeToGridLayout}>
+                <ViewModuleIcon/>
+            </button>
+            <button className="btn lk-button" onClick={changeToSpeakerLayout}>
+                <ViewSidebarIcon/>
+            </button>
         </div>
     )
 }
