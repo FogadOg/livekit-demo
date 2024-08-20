@@ -27,11 +27,11 @@ interface LayoutProps {
 const SpeakerLayout = ({ tracks: filteredTracks }: LayoutProps) => {
   const [remainingTracks, setRemainingTracks] = useState(filteredTracks);
 
-  const mainTrack =
-    filteredTracks.find((track) => track.participant.isSpeaking) ||
-    filteredTracks[0];
+  const mainTrack = filteredTracks.find(
+    (track) => track.participant.isSpeaking
+  );
 
-  const [lastSpoken, setLastSpoken] = useState(mainTrack!);
+  const [lastSpoken, setLastSpoken] = useState(mainTrack || filteredTracks[0]);
 
   useEffect(() => {
     if (mainTrack) {
