@@ -86,13 +86,18 @@ function CompositeTemplate({ layout: initialLayout }: CompositeTemplateProps) {
         }
       }
 
+      const handleTrackSubscribed = () => {
+        EgressHelper.startRecording();
+      };
+
       if (hasTrack) {
         EgressHelper.startRecording();
       } else {
-        room.once(RoomEvent.TrackSubscribed, () =>
-          EgressHelper.startRecording()
-        );
+        room.once(RoomEvent.TrackSubscribed, handleTrackSubscribed);
       }
+      return () => {
+        room.off(RoomEvent.TrackSubscribed, handleTrackSubscribed);
+      };
     }
   }, [room]);
 
