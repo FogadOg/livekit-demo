@@ -9,6 +9,7 @@ import {
 import { CustomGridLayout } from "./components/layouts/customGridLayout";
 import SpeakerLayout from "./components/layouts/SpeakerLayout";
 import { Track } from "livekit-client";
+import { parseMetadata } from "../util/parseMetadata";
 
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
@@ -36,10 +37,13 @@ export const VideoConference = () => {
     }
   } catch {}
 
-  //return <SpeakerLayout tracks={filteredTracks} />;
-  return (
-    <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
-      <SpeakerLayout tracks={tracks}/>
-    </div>
-  );
+  if(parseMetadata(roomInfo.metadata!)["layout"] == "speaker"){
+    return (
+      <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
+        <SpeakerLayout tracks={tracks}/>
+      </div>
+    );
+  }
+  
+  return (<CustomGridLayout/>)
 };
