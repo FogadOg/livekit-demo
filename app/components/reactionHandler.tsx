@@ -1,16 +1,11 @@
 import { useRoomContext } from "@livekit/components-react";
-import { RoomEvent } from "livekit-client";
-import { useState } from "react";
+import { RemoteParticipant, RoomEvent } from "livekit-client";
+import { useEffect, useState } from "react";
 import { AddReaction } from "./addReaction";
 
 export function ReactionHandler() {
   const decoder = new TextDecoder();
   const room = useRoomContext();
-
-  room.on(RoomEvent.DataReceived, (payload, participant, kind) => {
-    const strData = decoder.decode(payload);
-    addReaction(strData);
-  });
 
   const addReaction = (reaction: string) => {
     const id = Date.now();
@@ -21,6 +16,22 @@ export function ReactionHandler() {
       setReactions((prevReactions) => prevReactions.filter((r) => r.id !== id));
     }, 4000);
   };
+
+  useEffect(() => {
+    const handleDataReceived = (
+      payload: Uint8Array,
+      participant: RemoteParticipant | undefined
+    ) => {
+      const strData = decoder.decode(payload);
+      addReaction(strData);
+    };
+    room.on(RoomEvent.DataReceived, handleDataReceived);
+
+    return () => {
+      room.off(RoomEvent.DataReceived, handleDataReceived);
+    };
+  });
+
   const [reactions, setReactions] = useState<
     { id: number; reaction: string }[]
   >([]);
@@ -35,7 +46,6 @@ export function ReactionHandler() {
         ))}
       </div>
       <AddReaction addReaction={addReaction} />
-      
     </div>
   );
 }
