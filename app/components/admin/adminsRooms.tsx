@@ -8,13 +8,13 @@ export default function AdminsRooms() {
   const [rooms, setRooms] = useState<
     Set<{ name: string; numParticipants: number }>
   >(new Set());
-  const keys = Object.keys(localStorage);
-
-  const roomNames = keys
-    .filter((key) => key.startsWith("roomAdmin-"))
-    .map((room) => room.replace("roomAdmin-", ""));
-
   useEffect(() => {
+    const keys = Object.keys(localStorage);
+
+    const roomNames = keys
+      .filter((key) => key.startsWith("roomAdmin-"))
+      .map((room) => room.replace("roomAdmin-", ""));
+
     const getRooms = async () => {
       const newRooms = await filterActiveRooms(roomNames);
       setRooms(new Set([...newRooms]));
@@ -28,7 +28,7 @@ export default function AdminsRooms() {
     } else {
       getRooms();
     }
-  }, [roomNames]);
+  }, []);
 
   return (
     <>
