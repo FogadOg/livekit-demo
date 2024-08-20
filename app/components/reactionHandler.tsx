@@ -7,10 +7,10 @@ export function ReactionHandler() {
   const decoder = new TextDecoder();
   const room = useRoomContext();
 
-  const addReaction = (reaction: string) => {
+  const addReaction = (reaction: string, identity: string) => {
     const id = Date.now();
 
-    setReactions((oldList) => [...oldList, { id, reaction }]);
+    setReactions((oldList) => [...oldList, { id, reaction, participantId: identity }]);
 
     setTimeout(() => {
       setReactions((prevReactions) => prevReactions.filter((r) => r.id !== id));
@@ -23,7 +23,7 @@ export function ReactionHandler() {
       participant: RemoteParticipant | undefined
     ) => {
       const strData = decoder.decode(payload);
-      addReaction(strData);
+      addReaction(strData, participant?.identity!);
     };
     room.on(RoomEvent.DataReceived, handleDataReceived);
 
@@ -33,16 +33,17 @@ export function ReactionHandler() {
   });
 
   const [reactions, setReactions] = useState<
-    { id: number; reaction: string }[]
+    { id: number; reaction: string; participantId: string }[]
   >([]);
 
   return (
     <div className="relative">
       <div className="fixed left-5 bottom-20">
         {reactions.map((reaction) => (
-          <p key={reaction.id} className="animate-up-fade absolute text-4xl ">
-            {reaction.reaction}
-          </p>
+          <div key={reaction.id} className="animate-up-fade absolute flex items-center gap-2">
+            <p className="text-4xl">{reaction.reaction}</p>
+            <p className="bg-base-200 px-2 rounded-xl">{reaction.participantId}</p>
+          </div>
         ))}
       </div>
       <AddReaction addReaction={addReaction} />

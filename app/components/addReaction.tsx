@@ -4,12 +4,12 @@ import AddReactionIcon from "@mui/icons-material/AddReaction";
 export function AddReaction({
   addReaction,
 }: {
-  addReaction: (reaction: string) => void;
+  addReaction: (reaction: string, identity: string) => void;
 }) {
   const localParticipant = useLocalParticipant();
   const encoder = new TextEncoder();
   const sendReaction = (reaction: string) => {
-    addReaction(reaction);
+    addReaction(reaction, localParticipant.localParticipant.identity);
     localParticipant.localParticipant.publishData(encoder.encode(reaction), {
       reliable: true,
       topic: "EmojiReaction",
@@ -18,7 +18,8 @@ export function AddReaction({
   return (
     <div className="dropdown dropdown-top">
       <div tabIndex={0} role="button" className="btn lk-button font-normal">
-        <AddReactionIcon />Emoji react 
+        <AddReactionIcon />
+        Emoji react
       </div>
       <ul
         tabIndex={0}
