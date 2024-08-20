@@ -24,7 +24,7 @@ export const VideoConference = () => {
   );
   
   try {
-    const pause = JSON.parse(roomInfo.metadata!)["pause"];
+    const pause = parseMetadata(roomInfo.metadata!)["pause"];
     if (pause) {
       return (
         <div
@@ -44,6 +44,6 @@ export const VideoConference = () => {
       </div>
     );
   }
-  
+
   return (<CustomGridLayout/>)
 };
