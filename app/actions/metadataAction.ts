@@ -17,12 +17,12 @@ export const getRoomMetadata = async (roomName: string) => {
 
 export const addMetadataToRoom = async (
   roomName: string,
-  fieldName: string,
-  newData: any
+  key: string,
+  value: any
 ) => {
   const metadata = await getRoomMetadata(roomName);
 
-  metadata[fieldName] = newData;
+  metadata[key] = value;
   
   try{
     await roomService.updateRoomMetadata(
