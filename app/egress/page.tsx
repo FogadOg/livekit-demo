@@ -1,13 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "@livekit/components-styles";
 import "@livekit/components-styles/prefabs";
 import EgressHelper from "@livekit/egress-sdk";
 import RoomPage from "./egressRoom";
 
 export default function Page() {
+  const [liveKitUrl, setLiveKitUrl] = useState("");
+  const [token, setToken] = useState("");
+  const [layout, setLayout] = useState("");
+
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      setLiveKitUrl(EgressHelper.getLiveKitURL());
+      setToken(EgressHelper.getAccessToken());
+      setLayout(EgressHelper.getLayout());
+    }
     // Add class to the body
     document.body.classList.add("egress-body");
 
@@ -19,12 +28,7 @@ export default function Page() {
 
   return (
     <div className="container w-full">
-        <RoomPage
-          // EgressHelper retrieves parameters passed to the page
-          url={EgressHelper.getLiveKitURL()}
-          token={EgressHelper.getAccessToken()}
-          layout={EgressHelper.getLayout()}
-        />
+      <RoomPage url={liveKitUrl} token={token} layout={layout} />
     </div>
   );
 }
