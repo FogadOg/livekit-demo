@@ -2,6 +2,7 @@ import { PermissionControls } from "./permissionControls";
 import { InviteUsersForm } from "./inviteUsersForm";
 import { IngressManagement } from "./ingressManagement";
 import { Layouts } from "./layouts";
+import { LayoutChange } from "./layoutChange";
 
 export const AdminControls = ({ token }: { token: string }) => {
 
@@ -27,6 +28,12 @@ export const AdminControls = ({ token }: { token: string }) => {
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
           <InviteUsersForm token={token} />
         </div>
+
+        <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Change layout" />
+        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+          <LayoutChange/>
+        </div>
+        
       </div>
   );
 };
