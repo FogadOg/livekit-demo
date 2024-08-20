@@ -1,6 +1,5 @@
 import { TrackReference } from '@livekit/components-core';
 import {
-  AudioTrack,
   CarouselLayout,
   Chat,
   FocusLayout,
@@ -9,18 +8,16 @@ import {
   TrackReferenceOrPlaceholder,
   VideoTrack,
   useLocalParticipantPermissions,
-  useParticipants,
   useRoomInfo,
   useVisualStableUpdate,
 } from '@livekit/components-react';
-import { getTrackReferenceId } from "@livekit/components-core";
 import { TranscriptionButton } from '../transcription/transcriptionButton';
 import Caption from '../transcription/caption';
 import { CustomAudioRenderer } from '../../../components/customAudioRenderer';
 import { useEffect, useState } from 'react';
 import { CustomGridLayout } from './customGridLayout';
-import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import useTracksFilter from '@/app/util/useTracksFilter';
+
 
 interface LayoutProps {
   tracks: TrackReferenceOrPlaceholder[];
@@ -56,39 +53,21 @@ const SpeakerLayout = ({ tracks: references }: LayoutProps) => {
     } catch {
       return false;
     }
-  })()
+  })
 
 
-  if (!lastSpoken) {    
+  if (!lastSpoken) {
+    return <CustomGridLayout/>;
+  } else if (remainingTracks.length === 0) {
     return <CustomGridLayout/>;
   }
   
   return (
     <div className="lk-focus-layout" style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
       <CarouselLayout tracks={remainingTracks.filter((track)=>track.participant.identity !== mainTrack?.participant.identity)}>
-        <div className="relative">
-          <ParticipantTile className="h-full" />
-          <div className="absolute top-5 left-5">
-            {transcriptAvailable && <TranscriptionButton icon={<RecordVoiceOverIcon/>}/>}
-          </div>
-          <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-            {/* Caption visible if agent present*/}
-            {agentPresent && <Caption/>}
-          </div>
-        </div>
+        <ParticipantTile />
       </CarouselLayout>
-
-      <div className="relative">
-          <ParticipantTile className="h-full" trackRef={lastSpoken as TrackReference}/>
-          <div className="absolute top-10 left-20">
-            {transcriptAvailable && <TranscriptionButton trackRef={lastSpoken as TrackReference} hasButtonText={true}/>}
-          </div>
-          <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-            {agentPresent && <Caption trackRef={lastSpoken as TrackReference}/>}
-          </div>
-        </div>
-      <CustomAudioRenderer/>
-
+      <FocusLayout trackRef={lastSpoken as TrackReference} />
     </div>
   );
 };
