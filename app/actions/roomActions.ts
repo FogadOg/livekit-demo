@@ -26,7 +26,7 @@ export async function handleCreateRoomForm(
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
-  const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
+  const at = new AccessToken(apiKey, apiSecret, { identity: "Admin", ttl: 0 });
 
   const roomId = Date.now().toString();
 
