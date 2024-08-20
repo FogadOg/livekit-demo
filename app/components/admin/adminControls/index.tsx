@@ -1,6 +1,7 @@
 import { PermissionControls } from "./permissionControls";
 import { InviteUsersForm } from "./inviteUsersForm";
 import { IngressManagement } from "./ingressManagement";
+import { Layouts } from "./layouts";
 
 export const AdminControls = ({ token }: { token: string }) => {
 
@@ -16,7 +17,7 @@ export const AdminControls = ({ token }: { token: string }) => {
           name="my_tabs_2"
           role="tab"
           className="tab"
-          aria-label="Manage ingress"
+          aria-label="Manage users"
           />
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
           <PermissionControls token={token} />

@@ -50,7 +50,7 @@ export const CustomGridLayout = () => {
         <div className="relative">
           <ParticipantTile className="h-full" />
           <div className="absolute top-10 left-20">
-            {transcriptAvailable && <TranscriptionButton />}
+            {transcriptAvailable && <TranscriptionButton hasButtonText={true}/>}
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
             {/* Caption visible if agent present*/}
