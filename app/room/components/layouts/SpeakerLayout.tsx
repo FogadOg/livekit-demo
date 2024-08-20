@@ -9,6 +9,7 @@ import {
   VideoTrack,
   useLocalParticipantPermissions,
   useRoomInfo,
+  useTracks,
   useVisualStableUpdate,
 } from "@livekit/components-react";
 import { TranscriptionButton } from "../transcription/transcriptionButton";
@@ -18,14 +19,17 @@ import { useEffect, useState } from "react";
 import { CustomGridLayout } from "./customGridLayout";
 import useTracksFilter from "@/app/util/useTracksFilter";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
-import { ParticipantKind } from "livekit-client";
+import { ParticipantKind, Track } from "livekit-client";
 
-interface LayoutProps {
-  tracks: TrackReferenceOrPlaceholder[];
-}
-
-const SpeakerLayout = ({ tracks: filteredTracks }: LayoutProps) => {
-  const [remainingTracks, setRemainingTracks] = useState(filteredTracks);
+const SpeakerLayout = () => {
+  const tracks = useTracks(
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.ScreenShare, withPlaceholder: false },
+    ],
+    { onlySubscribed: false }
+  );
+  const filteredTracks = useTracksFilter(tracks);
 
   const mainTrack = filteredTracks.find(
     (track) => track.participant.isSpeaking
@@ -36,12 +40,8 @@ const SpeakerLayout = ({ tracks: filteredTracks }: LayoutProps) => {
   useEffect(() => {
     if (mainTrack) {
       setLastSpoken(mainTrack);
-      setRemainingTracks(
-        filteredTracks.filter(
-          (track) =>
-            track.participant.identity !== mainTrack.participant.identity
-        )
-      );
+    } else if (!lastSpoken) {
+      setLastSpoken(filteredTracks[0]);
     }
   }, [filteredTracks]);
 
@@ -61,9 +61,10 @@ const SpeakerLayout = ({ tracks: filteredTracks }: LayoutProps) => {
     }
   })();
 
+  // * Should never happen
   if (!lastSpoken) {
     return <CustomGridLayout />;
-  } else if (remainingTracks.length === 0) {
+  } else if (filteredTracks.length === 0) {
     return <CustomGridLayout />;
   }
 
@@ -73,9 +74,9 @@ const SpeakerLayout = ({ tracks: filteredTracks }: LayoutProps) => {
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
       <CarouselLayout
-        tracks={remainingTracks.filter(
+        tracks={filteredTracks.filter(
           (track) =>
-            track.participant.identity !== mainTrack?.participant.identity
+            track.participant.identity !== lastSpoken?.participant.identity
         )}
       >
         <div className="relative">

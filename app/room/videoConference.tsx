@@ -12,16 +12,6 @@ import useTracksFilter from "../util/useTracksFilter";
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
 
-  const roomInfoData = roomInfo.metadata || "{}";
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false },
-    ],
-    { onlySubscribed: false }
-  );
-  const filteredTracks = useTracksFilter(tracks);
-
   try {
     const pause = parseMetadata(roomInfo.metadata!)["pause"];
     if (pause) {
@@ -39,7 +29,7 @@ export const VideoConference = () => {
   if (parseMetadata(roomInfo.metadata!)["layout"] == "speaker") {
     return (
       <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
-        <SpeakerLayout tracks={filteredTracks} />
+        <SpeakerLayout />
       </div>
     );
   }
