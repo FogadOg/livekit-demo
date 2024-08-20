@@ -44,8 +44,10 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
   if (!roomExists) {
     return (
       <>
-        <h1 className="font-bold text-xl">Sorry, couldn't find the room</h1>
-        <p>Couldn't find the room you are looking for</p>
+        <h1 className="font-bold text-xl">
+          Sorry, couldn&apos;t find the room
+        </h1>
+        <p>Couldn&apos;t find the room you are looking for</p>
       </>
     );
   }

@@ -16,7 +16,7 @@ export const TranscriptionButton = ({ trackRef }: TranscriptionButtonProps) => {
     <Modal
       title={`${participant.name || participant.identity}s transcription`}
       content={<TranscriptTile participant={participant} />}
-      buttonText={`${participant.name || participant.identity}'s transcript`}
+      buttonText={`${participant.name || participant.identity}s transcript`}
       modelName={`${participant.identity}s transcription`}
     />
   );
