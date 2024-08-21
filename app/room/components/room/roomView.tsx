@@ -19,7 +19,18 @@ const RoomView = ({ token }: RoomProps) => {
 
   return (
     <div className="overflow-hidden">
-      <LayoutContextProvider>
+      <LayoutContextProvider
+        onWidgetChange={(state) => {
+          const chatElement = document.querySelector(".lk-chat") as HTMLElement;
+          const chatIndicator = document.querySelector(
+            "#chatIndicator"
+          ) as HTMLElement;
+          if (chatElement && chatIndicator) {
+            chatElement.style.display = state.showChat ? "grid" : "none";
+            chatIndicator.style.display = state.showChat ? "none" : "block";
+          }
+        }}
+      >
         <LiveKitRoom
           video={true}
           audio={true}

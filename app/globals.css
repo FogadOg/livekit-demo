@@ -64,9 +64,6 @@
   position: absolute;
 }
 
-button.lk-close-button.lk-button.lk-chat-toggle {
-  display: none;
-}
 ul.lk-list.lk-chat-messages {
   overflow-y: scroll;
   height: 78vh;
