@@ -8,6 +8,7 @@ import SpeakerLayout from "./components/layouts/SpeakerLayout";
 import { Track } from "livekit-client";
 import { parseMetadata } from "../util/parseMetadata";
 import useTracksFilter from "../util/useTracksFilter";
+import ChatIndicator from "./components/chatIndicator";
 
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
@@ -34,7 +35,8 @@ export const VideoConference = () => {
         <div className="relative flex-1">
           <SpeakerLayout />
         </div>
-        {participantPermissions?.canPublishData && <Chat />}
+      {participantPermissions?.canPublishData && <Chat />}
+      {participantPermissions?.canPublishData && <ChatIndicator />}
       </div>
     );
   }
@@ -45,6 +47,7 @@ export const VideoConference = () => {
         <CustomGridLayout />
       </div>
       {participantPermissions?.canPublishData && <Chat />}
+      {participantPermissions?.canPublishData && <ChatIndicator />}
     </div>
   )
 };
