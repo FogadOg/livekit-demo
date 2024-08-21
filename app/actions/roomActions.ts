@@ -150,7 +150,8 @@ export async function tokenFromPermissionToken(
 }
 
 export async function getIsAdmin(token: string): Promise<boolean> {
-  let { valid, token: validatedToken } = await validateToken(token);
+  let { valid, token: validatedToken, expired } = await validateToken(token);
+  console.log("--Admin expired", expired);
   if (!valid) {
     return false;
   }
