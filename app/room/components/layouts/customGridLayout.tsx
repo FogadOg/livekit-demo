@@ -3,48 +3,24 @@
 import React from "react";
 import {
   GridLayout,
-  ParticipantTile,
-  useLocalParticipantPermissions,
-  useRoomInfo,
-  useTracks,
+  TrackReferenceOrPlaceholder,
 } from "@livekit/components-react";
-import { ParticipantKind, Track } from "livekit-client";
 import "@livekit/components-styles";
-import useTracksFilter from "@/app/util/useTracksFilter";
-import { TranscriptionButton } from "../transcription/transcriptionButton";
-import Caption from "../transcription/caption";
 import { CustomParticipantTile } from "./customParticipantTile";
 
-export const CustomGridLayout = () => {
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false },
-    ],
-    { onlySubscribed: false }
-  );
-
-  const filteredTracks = useTracksFilter(tracks);
-
-  const agentPresent = tracks.some(
-    (track) => track.participant.kind === ParticipantKind.AGENT
-  );
-
-  const participantPermissions = useLocalParticipantPermissions();
-
-  const roomInfo = useRoomInfo();
-
-  const transcriptAvailable = (() => {
-    try {
-      return !!JSON.parse(roomInfo.metadata || "{}").transcript;
-    } catch {
-      return false;
-    }
-  })();
-
+interface customLayoutProps {
+  tracks: TrackReferenceOrPlaceholder[];
+  agentPresent: boolean;
+  transcriptAvailable: boolean;
+}
+export const CustomGridLayout = ({
+  tracks,
+  agentPresent,
+  transcriptAvailable,
+}: customLayoutProps) => {
   return (
     <GridLayout
-      tracks={filteredTracks}
+      tracks={tracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
       <CustomParticipantTile
