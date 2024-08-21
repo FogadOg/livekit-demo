@@ -9,7 +9,7 @@ import {
   useRoomInfo,
   useTracks,
 } from "@livekit/components-react";
-import { Track } from "livekit-client";
+import { ParticipantKind, Track } from "livekit-client";
 import "@livekit/components-styles";
 import useTracksFilter from "@/app/util/useTracksFilter";
 import { TranscriptionButton } from "../transcription/transcriptionButton";
@@ -27,7 +27,9 @@ export const CustomGridLayout = () => {
 
   const filteredTracks = useTracksFilter(tracks);
 
-  const agentPresent = filteredTracks.length !== tracks.length;
+  const agentPresent = tracks.some(
+    (track) => track.participant.kind === ParticipantKind.AGENT
+  );
 
   const participantPermissions = useLocalParticipantPermissions();
 
@@ -50,7 +52,9 @@ export const CustomGridLayout = () => {
         <div className="relative">
           <ParticipantTile className="h-full" />
           <div className="absolute top-10 left-20">
-            {transcriptAvailable && <TranscriptionButton hasButtonText={true}/>}
+            {transcriptAvailable && (
+              <TranscriptionButton hasButtonText={true} />
+            )}
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
             {/* Caption visible if agent present*/}
