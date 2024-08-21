@@ -8,29 +8,25 @@ export async function appendTranscription(
   roomName: string,
   transcription: string
 ) {
-  
-  const userTranscript = await getUsersTranscript(roomName)
+  const userTranscript = await getUsersTranscript(roomName);
   try {
-    userTranscript[username] += transcription
-  }catch {
-    userTranscript[username] = transcription
-
+    userTranscript[username] += transcription;
+  } catch {
+    userTranscript[username] = transcription;
   }
 
-  addMetadataToRoom(roomName, "transcript", userTranscript)
+  addMetadataToRoom(roomName, "transcript", userTranscript);
 }
 
-async function getUsersTranscript(roomName: string){
+async function getUsersTranscript(roomName: string) {
   const room = (await roomService.listRooms([roomName]))[0];
 
-  const roomMetadata = await getRoomMetadata(room.name)
-  if(Object.keys(roomMetadata).length === 0) {
-    return  {}
+  const roomMetadata = await getRoomMetadata(room.name);
+  if (Object.keys(roomMetadata).length === 0 || !roomMetadata["transcript"]) {
+    return {};
   }
-
   return roomMetadata["transcript"];
 }
-
 
 export const GetTranscription = async (roomName: string) => {
   const metadata = (await roomService.listRooms([roomName]))[0].metadata;
