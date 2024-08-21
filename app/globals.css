@@ -64,9 +64,10 @@
   position: absolute;
 }
 
-ul.lk-list.lk-chat-messages {
+.lk-chat {
   overflow-y: scroll;
-  height: 100%;
+  height: calc(100vh - var(--lk-control-bar-height)) !important;
+  /* height: 10px !important; */
 }
 
 .egress-body {
