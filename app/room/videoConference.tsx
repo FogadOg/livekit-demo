@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Chat, useLocalParticipantPermissions, useRoomInfo, useTracks } from "@livekit/components-react";
+import {
+  Chat,
+  useLocalParticipantPermissions,
+  useRoomInfo,
+  useTracks,
+} from "@livekit/components-react";
 
 import { CustomGridLayout } from "./components/layouts/customGridLayout";
 import SpeakerLayout from "./components/layouts/SpeakerLayout";
@@ -12,7 +17,7 @@ import ChatIndicator from "./components/chatIndicator";
 
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
-  const [layout, setLayout] = useState(<CustomGridLayout />)
+  const [layout, setLayout] = useState(<CustomGridLayout />);
   const participantPermissions = useLocalParticipantPermissions();
 
   try {
@@ -35,19 +40,19 @@ export const VideoConference = () => {
         <div className="relative flex-1">
           <SpeakerLayout />
         </div>
-      {participantPermissions?.canPublishData && <Chat />}
-      {participantPermissions?.canPublishData && <ChatIndicator />}
+        {participantPermissions?.canPublishData && <Chat className="none" />}
+        {participantPermissions?.canPublishData && <ChatIndicator />}
       </div>
     );
   }
 
   return (
     <div className="flex">
-      <div className="relative flex-1"> 
+      <div className="relative flex-1">
         <CustomGridLayout />
       </div>
-      {participantPermissions?.canPublishData && <Chat />}
+      {participantPermissions?.canPublishData && <Chat className="none" />}
       {participantPermissions?.canPublishData && <ChatIndicator />}
     </div>
-  )
+  );
 };
