@@ -15,6 +15,7 @@ import useTracksFilter from "@/app/util/useTracksFilter";
 import { TranscriptionButton } from "../transcription/transcriptionButton";
 import Caption from "../transcription/caption";
 import { CustomAudioRenderer } from "@/app/components/customAudioRenderer";
+import ChatIndicator from "../chatIndicator";
 
 export const CustomGridLayout = () => {
   const tracks = useTracks(
@@ -65,6 +66,7 @@ export const CustomGridLayout = () => {
       <CustomAudioRenderer />
       {/* Chat visible if can chat */}
       {participantPermissions?.canPublishData && <Chat />}
+      {participantPermissions?.canPublishData && <ChatIndicator />}
     </div>
   );
 };

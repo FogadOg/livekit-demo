@@ -22,12 +22,12 @@ const RoomView = ({ token }: RoomProps) => {
       <LayoutContextProvider
         onWidgetChange={(state) => {
           const chatElement = document.querySelector(".lk-chat") as HTMLElement;
-          if (chatElement) {
-            if (state.showChat) {
-              chatElement.style.display = "none";
-            } else {
-              chatElement.style.display = "grid";
-            }
+          const chatIndicator = document.querySelector(
+            "#chatIndicator"
+          ) as HTMLElement;
+          if (chatElement && chatIndicator) {
+            chatElement.style.display = state.showChat ? "grid" : "none";
+            chatIndicator.style.display = state.showChat ? "none" : "block";
           }
         }}
       >
