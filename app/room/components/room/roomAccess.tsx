@@ -63,14 +63,17 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
   }
 
   return (
-    <PreJoin
-      onSubmit={(options) => {
-        submitUsername(options.username);
-      }}
-      onError={(error) => {
-        console.error('Error during pre-join:', error);
-      }}
-    />
+    <div className="flex items-center justify-center h-screen">
+      <PreJoin
+        onSubmit={(options) => {
+          submitUsername(options.username);
+        }}
+        onError={(error) => {
+          console.error('Error during pre-join:', error);
+        }}
+      />
+
+    </div>
   );
 };
 
