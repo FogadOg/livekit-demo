@@ -2,8 +2,8 @@
 
 import { validatedRoomPasswordAndUsername } from "@/app/actions/userActions";
 import "@livekit/components-styles";
-import RoomAccessForm from "./roomAccessForm";
 import useRoomState from "@/app/hooks/useRoomState";
+import { PreJoin } from "@livekit/components-react";
 
 interface RoomAccessProps {
   setToken: (token: string) => void;
@@ -52,7 +52,6 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
     );
   }
 
-  // Loading
   if (roomId === "") {
     return (
       <div className="flex flex-col gap-2 m-5">
@@ -62,7 +61,20 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
       </div>
     );
   }
-  return <RoomAccessForm submitUsername={submitUsername} />;
+
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <PreJoin
+        onSubmit={(options) => {
+          submitUsername(options.username);
+        }}
+        onError={(error) => {
+          console.error('Error during pre-join:', error);
+        }}
+      />
+
+    </div>
+  );
 };
 
 export default RoomAccess;
