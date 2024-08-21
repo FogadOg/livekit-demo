@@ -12,7 +12,7 @@ import useTracksFilter from "@/app/util/useTracksFilter";
 import { ParticipantKind, Track } from "livekit-client";
 import { CustomParticipantTile } from "./customParticipantTile";
 
-const SpeakerLayout = () => {
+const CustomSpeakerLayout = () => {
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -40,8 +40,6 @@ const SpeakerLayout = () => {
     (track) => track.participant.kind === ParticipantKind.AGENT
   );
 
-  const participantPermissions = useLocalParticipantPermissions();
-
   const roomInfo = useRoomInfo();
 
   const transcriptAvailable = (() => {
@@ -52,14 +50,12 @@ const SpeakerLayout = () => {
     }
   })();
 
-  // * Should never happen
   if (!lastSpoken) {
     return <CustomGridLayout />;
   } else if (filteredTracks.length === 0) {
     return <CustomGridLayout />;
   }
 
-  console.log("Last spoken", lastSpoken);
   return (
     <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
       <div
@@ -90,4 +86,4 @@ const SpeakerLayout = () => {
   );
 };
 
-export default SpeakerLayout;
+export default CustomSpeakerLayout;
