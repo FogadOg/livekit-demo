@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import {
   LayoutContextProvider,
   LiveKitRoom,
+  PreJoin,
   RoomAudioRenderer,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
