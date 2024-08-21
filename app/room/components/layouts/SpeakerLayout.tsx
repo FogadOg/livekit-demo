@@ -45,7 +45,7 @@ const SpeakerLayout = () => {
     }
   }, [filteredTracks]);
 
-  const agentPresent = filteredTracks.some(
+  const agentPresent = tracks.some(
     (track) => track.participant.kind === ParticipantKind.AGENT
   );
 
