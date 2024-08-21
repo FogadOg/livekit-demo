@@ -40,7 +40,9 @@ export const VideoConference = () => {
         <div className="relative flex-1">
           <SpeakerLayout />
         </div>
-        {participantPermissions?.canPublishData && <Chat className="none" />}
+        {participantPermissions?.canPublishData && (
+          <Chat style={{ display: "none" }} />
+        )}
         {participantPermissions?.canPublishData && <ChatIndicator />}
       </div>
     );
@@ -51,7 +53,9 @@ export const VideoConference = () => {
       <div className="relative flex-1">
         <CustomGridLayout />
       </div>
-      {participantPermissions?.canPublishData && <Chat className="none" />}
+      {participantPermissions?.canPublishData && (
+        <Chat style={{ display: "none" }} />
+      )}
       {participantPermissions?.canPublishData && <ChatIndicator />}
     </div>
   );
