@@ -64,9 +64,6 @@ export const CustomGridLayout = () => {
         </div>
       </GridLayout>
       <CustomAudioRenderer />
-      {/* Chat visible if can chat */}
-      {participantPermissions?.canPublishData && <Chat />}
-      {participantPermissions?.canPublishData && <ChatIndicator />}
     </div>
   );
 };
