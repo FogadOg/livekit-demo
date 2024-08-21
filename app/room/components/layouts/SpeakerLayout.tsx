@@ -1,19 +1,16 @@
 import { TrackReference } from "@livekit/components-core";
 import {
   CarouselLayout,
-  ParticipantTile,
+  TrackRefContext,
   useLocalParticipantPermissions,
   useRoomInfo,
   useTracks,
 } from "@livekit/components-react";
-import { TranscriptionButton } from "../transcription/transcriptionButton";
-import Caption from "../transcription/caption";
 import { useEffect, useState } from "react";
 import { CustomGridLayout } from "./customGridLayout";
 import useTracksFilter from "@/app/util/useTracksFilter";
-import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import { ParticipantKind, Track } from "livekit-client";
-import { CustomParticipantTile } from "./customParticpantTile";
+import { CustomParticipantTile } from "./customParticipantTile";
 
 const SpeakerLayout = () => {
   const tracks = useTracks(
@@ -62,6 +59,7 @@ const SpeakerLayout = () => {
     return <CustomGridLayout />;
   }
 
+  console.log("Last spoken", lastSpoken);
   return (
     <div style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
       <div
@@ -80,25 +78,13 @@ const SpeakerLayout = () => {
           />
         </CarouselLayout>
 
-        <div className="relative">
-          <ParticipantTile
-            className="h-full"
-            trackRef={lastSpoken as TrackReference}
+        <TrackRefContext.Provider value={lastSpoken as TrackReference}>
+          <CustomParticipantTile
+            agentPresent={agentPresent}
+            transcriptAvailable={transcriptAvailable}
+            transcriptButtonText={true}
           />
-          <div className="absolute top-10 left-20">
-            {transcriptAvailable && (
-              <TranscriptionButton
-                trackRef={lastSpoken as TrackReference}
-                hasButtonText={true}
-              />
-            )}
-          </div>
-          <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-            {agentPresent && (
-              <Caption trackRef={lastSpoken as TrackReference} />
-            )}
-          </div>
-        </div>
+        </TrackRefContext.Provider>
       </div>
     </div>
   );

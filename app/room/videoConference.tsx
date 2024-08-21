@@ -20,21 +20,18 @@ export const VideoConference = () => {
   const roomInfo = useRoomInfo();
   const participantPermissions = useLocalParticipantPermissions();
 
-  try {
-    const pause = parseMetadata(roomInfo.metadata!)["pause"];
-    if (pause) {
-      return (
-        <div
-          style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
-          className="w-full flex items-center justify-center"
-        >
-          <h2 className="text-4xl">Meeting is paused</h2>
-        </div>
-      );
-    }
-  } catch {}
+  if (parseMetadata(roomInfo.metadata!)["pause"]) {
+    return (
+      <div
+        style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
+        className="w-full flex items-center justify-center"
+      >
+        <h2 className="text-4xl">Meeting is paused</h2>
+      </div>
+    );
+  }
 
-  if (parseMetadata(roomInfo.metadata!)["layout"] == "speaker") {
+  if (parseMetadata(roomInfo.metadata!)["layout"] === "speaker") {
     return (
       <div className="flex">
         <div className="relative flex-1">

@@ -13,7 +13,7 @@ import "@livekit/components-styles";
 import useTracksFilter from "@/app/util/useTracksFilter";
 import { TranscriptionButton } from "../transcription/transcriptionButton";
 import Caption from "../transcription/caption";
-import { CustomParticipantTile } from "./customParticpantTile";
+import { CustomParticipantTile } from "./customParticipantTile";
 
 export const CustomGridLayout = () => {
   const tracks = useTracks(
