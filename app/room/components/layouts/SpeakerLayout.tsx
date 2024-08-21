@@ -1,25 +1,19 @@
 import { TrackReference } from "@livekit/components-core";
 import {
   CarouselLayout,
-  Chat,
-  FocusLayout,
-  GridLayout,
   ParticipantTile,
-  TrackReferenceOrPlaceholder,
-  VideoTrack,
   useLocalParticipantPermissions,
   useRoomInfo,
   useTracks,
-  useVisualStableUpdate,
 } from "@livekit/components-react";
 import { TranscriptionButton } from "../transcription/transcriptionButton";
 import Caption from "../transcription/caption";
-import { CustomAudioRenderer } from "../../../components/customAudioRenderer";
 import { useEffect, useState } from "react";
 import { CustomGridLayout } from "./customGridLayout";
 import useTracksFilter from "@/app/util/useTracksFilter";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import { ParticipantKind, Track } from "livekit-client";
+import { CustomParticipantTile } from "./customParticpantTile";
 
 const SpeakerLayout = () => {
   const tracks = useTracks(
@@ -80,18 +74,10 @@ const SpeakerLayout = () => {
               track.participant.identity !== lastSpoken?.participant.identity
           )}
         >
-          <div className="relative">
-            <ParticipantTile className="h-full" />
-            <div className="absolute top-5 left-5">
-              {transcriptAvailable && (
-                <TranscriptionButton icon={<RecordVoiceOverIcon />} />
-              )}
-            </div>
-            <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-              {/* Caption visible if agent present*/}
-              {agentPresent && <Caption />}
-            </div>
-          </div>
+          <CustomParticipantTile
+            agentPresent={agentPresent}
+            transcriptAvailable={transcriptAvailable}
+          />
         </CarouselLayout>
 
         <div className="relative">
@@ -108,15 +94,13 @@ const SpeakerLayout = () => {
             )}
           </div>
           <div className="absolute top-[75%] origin-top left-[2%] max-w-[96%] xl:top-[80%] xl:left-[20%] xl:max-w-[65%]">
-            {agentPresent && <Caption trackRef={lastSpoken as TrackReference} />}
+            {agentPresent && (
+              <Caption trackRef={lastSpoken as TrackReference} />
+            )}
           </div>
         </div>
-        <CustomAudioRenderer />
-
       </div>
-
     </div>
-
   );
 };
 

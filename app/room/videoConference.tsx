@@ -14,10 +14,10 @@ import { Track } from "livekit-client";
 import { parseMetadata } from "../util/parseMetadata";
 import useTracksFilter from "../util/useTracksFilter";
 import ChatIndicator from "./components/chatIndicator";
+import { CustomAudioRenderer } from "../components/customAudioRenderer";
 
 export const VideoConference = () => {
   const roomInfo = useRoomInfo();
-  const [layout, setLayout] = useState(<CustomGridLayout />);
   const participantPermissions = useLocalParticipantPermissions();
 
   try {
@@ -40,6 +40,8 @@ export const VideoConference = () => {
         <div className="relative flex-1">
           <SpeakerLayout />
         </div>
+
+        <CustomAudioRenderer />
         {participantPermissions?.canPublishData && (
           <Chat style={{ display: "none" }} />
         )}
@@ -53,6 +55,8 @@ export const VideoConference = () => {
       <div className="relative flex-1">
         <CustomGridLayout />
       </div>
+
+      <CustomAudioRenderer />
       {participantPermissions?.canPublishData && (
         <Chat style={{ display: "none" }} />
       )}
