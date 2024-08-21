@@ -121,7 +121,7 @@ export async function generatePermissionToken(
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
-  const at = new AccessToken(apiKey, apiSecret, { ttl: "5m" });
+  const at = new AccessToken(apiKey, apiSecret, { ttl: "3h" });
   // Removing roomJoin and canSubscribe
   const { roomJoin, canSubscribe, ...videoGrant } = permissions;
 
