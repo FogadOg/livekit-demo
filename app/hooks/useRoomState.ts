@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { validateToken } from "../actions/roomActions";
-import { getRoomState } from "../actions/userActions";
+import {
+  getRoomState,
+  validatedRoomPasswordAndUsername,
+} from "../actions/userActions";
 
 interface useRoomStateProps {
   permissionToken: string;
@@ -16,7 +19,9 @@ export default function useRoomState({
 
   useEffect(() => {
     const fetchRoomState = async () => {
-      const { valid, room, expired } = await validateToken(permissionToken);
+      const { valid, room, expired, hidden } = await validateToken(
+        permissionToken
+      );
 
       if (!valid) {
         setExpired(expired!);
@@ -26,9 +31,20 @@ export default function useRoomState({
 
       setRoomId(room!);
       const roomState = await getRoomState(room!);
-      if (roomState.valid) {
-      } else {
+      if (!roomState.valid) {
         setRoomExists(false);
+      }
+
+      if (hidden) {
+        let { message, token } = await validatedRoomPasswordAndUsername(
+          roomId,
+          `hidden user-${Date.now()}-${Math.random()}-${Math.random() * 2}`,
+          permissionToken
+        );
+
+        if (token) {
+          setToken(token);
+        }
       }
     };
 
