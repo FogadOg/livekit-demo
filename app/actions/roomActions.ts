@@ -97,6 +97,7 @@ export async function validateToken(permissionToken: string) {
       token: token,
       valid: true,
       canSubscribe: token.video?.canSubscribe,
+      hidden: token.video?.hidden,
     };
   } catch (error: any) {
     let roomId = error.payload?.video?.room as string;
