@@ -28,7 +28,7 @@ const CustomSpeakerLayout = ({
     } else if (!lastSpoken) {
       setLastSpoken(tracks[0]);
     }
-  }, [tracks]);
+  }, [tracks, mainTrack, lastSpoken]);
 
   if (!lastSpoken || tracks.length === 0) {
     return (

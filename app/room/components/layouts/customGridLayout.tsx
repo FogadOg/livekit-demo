@@ -26,6 +26,7 @@ export const CustomGridLayout = ({
       <CustomParticipantTile
         agentPresent={agentPresent}
         transcriptAvailable={transcriptAvailable}
+        transcriptButtonText={true}
       />
     </GridLayout>
   );
