@@ -26,7 +26,7 @@ export async function handleCreateRoomForm(
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
-  const at = new AccessToken(apiKey, apiSecret, { identity: "Admin", ttl: 0 });
+  const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
 
   const roomId = Date.now().toString();
 
@@ -41,6 +41,7 @@ export async function handleCreateRoomForm(
 
   const liveKitRoom = await roomService.createRoom({
     name: roomId,
+    egress: new RoomEgress({ room: roomEgressRequest }),
   });
 
   const fileOutput = new EncodedFileOutput({
@@ -150,8 +151,7 @@ export async function tokenFromPermissionToken(
 }
 
 export async function getIsAdmin(token: string): Promise<boolean> {
-  let { valid, token: validatedToken, expired } = await validateToken(token);
-  console.log("--Admin expired", expired);
+  let { valid, token: validatedToken } = await validateToken(token);
   if (!valid) {
     return false;
   }
