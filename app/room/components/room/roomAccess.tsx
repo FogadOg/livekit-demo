@@ -3,14 +3,16 @@
 import { validatedRoomPasswordAndUsername } from "@/app/actions/userActions";
 import "@livekit/components-styles";
 import useRoomState from "@/app/hooks/useRoomState";
-import { PreJoin } from "@livekit/components-react";
+import { LocalUserChoices, PreJoin } from "@livekit/components-react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface RoomAccessProps {
   setToken: (token: string) => void;
   permissionToken: string;
+  setPreJoinChoices:   Dispatch<SetStateAction<LocalUserChoices | undefined>>  ;
 }
 
-const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
+const RoomAccess = ({ setToken, permissionToken, setPreJoinChoices }: RoomAccessProps) => {
   const { expired, roomExists, roomId } = useRoomState({
     permissionToken,
     setToken,
@@ -24,7 +26,6 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
     );
     if (token) {
       setToken(token);
-      // localStorage.setItem("room-" + roomId.toString(), token);
     } else if (message !== "") {
       alert(message);
     } else {
@@ -67,6 +68,12 @@ const RoomAccess = ({ setToken, permissionToken }: RoomAccessProps) => {
       <PreJoin
         onSubmit={(options) => {
           submitUsername(options.username);
+          setPreJoinChoices(options)
+        }}
+        defaults={{
+          username: "",
+          videoEnabled: true,
+          audioEnabled: true,
         }}
         onError={(error) => {
           console.error('Error during pre-join:', error);
