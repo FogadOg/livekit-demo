@@ -3,13 +3,16 @@
 import RoomView from "./components/room/roomView";
 import RoomAccess from "./components/room/roomAccess";
 import useToken from "../hooks/useToken";
+import { useState } from "react";
+import { LocalUserChoices } from "@livekit/components-react";
 
 export default function RoomPage() {
+  const [preJoinChoices, setPreJoinChoices] =  useState<LocalUserChoices | undefined>(undefined)
+
   const { token, setToken, permissionsToken } = useToken();
   if (token !== "") {
-    return <RoomView token={token}/>;
+    return <RoomView token={token} preJoinChoices={preJoinChoices}/>;
   }
-
   if (!permissionsToken) {
     return (
       <>
@@ -19,5 +22,5 @@ export default function RoomPage() {
     );
   }
 
-  return <RoomAccess setToken={setToken} permissionToken={permissionsToken} />;
+  return <RoomAccess setToken={setToken} permissionToken={permissionsToken} setPreJoinChoices={setPreJoinChoices}/>;
 }
