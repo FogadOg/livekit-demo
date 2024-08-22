@@ -12,11 +12,23 @@ const CreateRoom = () => {
 
     setMessage("Creating room...");
     const formData = new FormData(event.currentTarget);
+    const roomName = formData.get("roomName");
 
-    let { valid, token, expired, newRoomId } = await handleCreateRoomForm(
-      formData,
-      localStorage.getItem("createToken")!
-    );
+    if (typeof roomName !== "string" || roomName === "") {
+      setMessage("Room name is required");
+      return;
+    }
+
+    let { valid, token, expired, newRoomId, roomNameTaken } =
+      await handleCreateRoomForm(
+        roomName,
+        localStorage.getItem("createToken")!
+      );
+
+    if (roomNameTaken) {
+      setMessage("Room name taken");
+      return;
+    }
 
     if (!valid) {
       if (expired) {
@@ -36,28 +48,31 @@ const CreateRoom = () => {
   };
 
   return (
-      <form onSubmit={handleSubmit} className="flex flex-col card-body card w-80 shadow-lg rounded-3xl border-base-200 border-2 gap-6">
-        <h2 className="text-2xl font-bold card-title">Create room</h2>
-        <div>
-          <input
-            type="text"
-            name="roomName"
-            id="roomName"
-            className="input input-bordered"
-            placeholder="Room name"
-            required
-          />
-        </div>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col card-body card w-80 shadow-lg rounded-3xl border-base-200 border-2 gap-6"
+    >
+      <h2 className="text-2xl font-bold card-title">Create room</h2>
+      <div>
+        <input
+          type="text"
+          name="roomName"
+          id="roomName"
+          className="input input-bordered"
+          placeholder="Room name"
+          required
+        />
+      </div>
 
-        <div>
-          <input
-            type="submit"
-            value="Submit"
-            className="btn btn-primary rounded-xl"
-          />
-        </div>
-        <p>{message}</p>
-      </form>
+      <div>
+        <input
+          type="submit"
+          value="Submit"
+          className="btn btn-primary rounded-xl"
+        />
+      </div>
+      <p>{message}</p>
+    </form>
   );
 };
 
