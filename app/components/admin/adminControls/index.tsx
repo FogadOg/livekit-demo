@@ -16,15 +16,15 @@ export const AdminControls = ({ token }: { token: string }) => {
           type="radio"
           name="my_tabs_2"
           role="tab"
-          className="tab h-14 "
-          aria-label="Manage ingress"
+          className="tab h-14"
+          aria-label="Invite users"
           defaultChecked
         />
         <div
           role="tabpanel"
           className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-[500px]"
         >
-          <IngressManagement token={token} />
+          <InviteUsersForm token={token} />
         </div>
 
         <input
@@ -45,14 +45,14 @@ export const AdminControls = ({ token }: { token: string }) => {
           type="radio"
           name="my_tabs_2"
           role="tab"
-          className="tab h-14"
-          aria-label="Invite users"
+          className="tab h-14 "
+          aria-label="Manage ingress"
         />
         <div
           role="tabpanel"
           className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-[500px]"
         >
-          <InviteUsersForm token={token} />
+          <IngressManagement token={token} />
         </div>
 
         <input
