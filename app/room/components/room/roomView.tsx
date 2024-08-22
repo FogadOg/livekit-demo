@@ -55,8 +55,8 @@ const RoomView = ({ token, preJoinChoices }: RoomProps) => {
         }}
       >
         <LiveKitRoom
-          video={true}
-          audio={true}
+          video={preJoinChoices?.videoEnabled}
+          audio={preJoinChoices?.audioEnabled}
           options={roomOptions}
           token={token}
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
