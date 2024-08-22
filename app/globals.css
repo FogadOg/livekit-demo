@@ -132,3 +132,8 @@
   border-radius: .75rem;
   box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
 }
+li[data-lk-active=true] {
+  color: #fff;
+  background-color: #1f8cf9;
+  border-radius: .5rem;
+}
