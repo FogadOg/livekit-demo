@@ -24,6 +24,8 @@ export const Transcription = ({
 
   const roomInfo = useRoomInfo();
   const localParticipant = useLocalParticipant().localParticipant;
+  const [spokeThreeSecondsAgo, setSpokeThreeSecondsAgo] = useState(false);
+
   useEffect(() => {
     if (
       audioTrack.participant.isLocal ||
@@ -45,9 +47,39 @@ export const Transcription = ({
         setSavedIndex(segments.length);
       }
     }
-  }, [audioTrack, segments, savedIndex, localParticipant.identity, roomInfo.name]);
+  }, [
+    audioTrack,
+    segments,
+    savedIndex,
+    localParticipant.identity,
+    roomInfo.name,
+  ]);
 
-  if (segments && segments.length > 0) {
+  useEffect(() => {
+    if (audioTrack.participant.lastSpokeAt instanceof Date) {
+      const timeDifference =
+        new Date().getTime() - audioTrack.participant.lastSpokeAt.getTime();
+
+      setSpokeThreeSecondsAgo(timeDifference >= 4000);
+
+      // Optional: You can set up an interval to update the state more frequently if needed
+      const intervalId = setInterval(() => {
+        if (audioTrack.participant.lastSpokeAt instanceof Date) {
+          const updatedTimeDifference =
+            new Date().getTime() - audioTrack.participant.lastSpokeAt.getTime();
+          setSpokeThreeSecondsAgo(updatedTimeDifference >= 4000);
+        }
+      }, 1000); // Update every second
+
+      return () => clearInterval(intervalId); // Clean up interval on component unmount
+    }
+  }, [audioTrack.participant.lastSpokeAt]);
+
+  if (
+    segments &&
+    segments.length > 0 &&
+    (!spokeThreeSecondsAgo || audioTrack.participant.isSpeaking)
+  ) {
     return <p className="bg-[rgba(0,0,0,0.5)] p-2">{segments.at(-1)?.text}</p>;
   }
 
