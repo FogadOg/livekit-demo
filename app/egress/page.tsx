@@ -28,7 +28,12 @@ export default function Page() {
 
   return (
     <div className="container w-full">
-      <RoomPage url={liveKitUrl} token={token} layout={layout} />
+      {/* <RoomPage url={liveKitUrl} token={token} layout={layout} /> */}
+      <RoomPage
+        url={EgressHelper.getLiveKitURL()}
+        token={EgressHelper.getAccessToken()}
+        layout={EgressHelper.getLayout()}
+      />
     </div>
   );
 }

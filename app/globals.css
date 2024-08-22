@@ -22,6 +22,16 @@
   }
 }
 
+/* .lk-participant-media-video[data-lk-source="camera"] {
+  object-fit: contain !important;
+  background-color: var(--lk-bg2);
+} */
+
+.ingress > video {
+  object-fit: contain !important;
+  background-color: var(--lk-bg2);
+}
+
 @keyframes upFadeOut {
   0% {
     transform: translateY(0);

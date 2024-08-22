@@ -9,7 +9,9 @@ export function ReactionHandler() {
 
   const addReaction = (reaction: string, identity: string) => {
     const id = Date.now();
-
+    if (identity.startsWith("hidden user")) {
+      identity = "";
+    }
     setReactions((oldList) => [
       ...oldList,
       { id, reaction, participantId: identity },
@@ -29,7 +31,6 @@ export function ReactionHandler() {
     ) => {
       if (topic && topic == "EmojiReaction") {
         const strData = decoder.decode(payload);
-        addReaction(strData, participant?.identity!);
       }
     };
     room.on(RoomEvent.DataReceived, handleDataReceived);
