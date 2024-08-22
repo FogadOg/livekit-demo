@@ -31,6 +31,7 @@ export function ReactionHandler() {
     ) => {
       if (topic && topic == "EmojiReaction") {
         const strData = decoder.decode(payload);
+        addReaction(strData, participant?.identity!);
       }
     };
     room.on(RoomEvent.DataReceived, handleDataReceived);
