@@ -16,11 +16,29 @@ import { RoomOptions } from "livekit-client";
 
 interface RoomProps {
   token: string;
+  preJoinChoices: LocalUserChoices | undefined
 }
 
-const RoomView = ({ token }: RoomProps) => {
+const RoomView = ({ token, preJoinChoices }: RoomProps) => {
   const router = useRouter();
-  
+
+
+  const roomOptions = useMemo((): RoomOptions => {
+    if(preJoinChoices) {
+      return {
+        videoCaptureDefaults: {
+          deviceId: preJoinChoices!.videoDeviceId ?? undefined,
+        },
+        audioCaptureDefaults: {
+          deviceId: preJoinChoices!.audioDeviceId ?? undefined,
+        },
+        adaptiveStream: { pixelDensity: "screen" },
+        dynacast: true,
+      };
+
+    }
+    return {}
+  }, [preJoinChoices]);
 
   return (
     <div className="overflow-hidden">
@@ -37,9 +55,9 @@ const RoomView = ({ token }: RoomProps) => {
         }}
       >
         <LiveKitRoom
-          video={true}
-          audio={true}        
-          options={{}}
+          video={preJoinChoices?.videoEnabled}
+          audio={preJoinChoices?.audioEnabled}
+          options={roomOptions}
           token={token}
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
           data-lk-theme="default"

@@ -24,6 +24,8 @@ export const Transcription = ({
 
   const roomInfo = useRoomInfo();
   const localParticipant = useLocalParticipant().localParticipant;
+  const [spokeThreeSecondsAgo, setSpokeThreeSecondsAgo] = useState(false);
+
   useEffect(() => {
     if (
       audioTrack.participant.isLocal ||
@@ -45,9 +47,34 @@ export const Transcription = ({
         setSavedIndex(segments.length);
       }
     }
-  }, [audioTrack, segments, savedIndex, localParticipant.identity, roomInfo.name]);
+  }, [
+    audioTrack,
+    segments,
+    savedIndex,
+    localParticipant.identity,
+    roomInfo.name,
+  ]);
 
-  if (segments && segments.length > 0) {
+  useEffect(() => {
+    const updateSpokenStatus = () => {
+      if (audioTrack.participant.lastSpokeAt instanceof Date) {
+        const updatedTimeDifference =
+          new Date().getTime() - audioTrack.participant.lastSpokeAt.getTime();
+        setSpokeThreeSecondsAgo(updatedTimeDifference >= 4000);
+      }
+    };
+
+    // Initial update
+    updateSpokenStatus();
+    const intervalId = setInterval(updateSpokenStatus, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [audioTrack.participant.lastSpokeAt]);
+
+  const shouldDisplayCaption =
+    segments && segments.length > 0 && !spokeThreeSecondsAgo;
+
+  if (shouldDisplayCaption) {
     return <p className="bg-[rgba(0,0,0,0.5)] p-2">{segments.at(-1)?.text}</p>;
   }
 
