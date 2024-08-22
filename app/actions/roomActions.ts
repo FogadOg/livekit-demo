@@ -2,19 +2,17 @@
 
 import egressClient from "@/lib/egressClient";
 import roomService from "@/lib/roomService";
-import { LivekitError } from "livekit-client";
 import {
   AccessToken,
   EncodedFileOutput,
-  RoomCompositeEgressRequest,
   RoomEgress,
   TokenVerifier,
   TrackSource,
 } from "livekit-server-sdk";
-import { fileURLToPath } from "url";
+import { filterActiveRooms } from "./adminActions";
 
 export async function handleCreateRoomForm(
-  formData: FormData,
+  roomName: string,
   roomCreateToken: string
 ) {
   const { valid, token, expired } = await validateToken(roomCreateToken);
@@ -23,15 +21,18 @@ export async function handleCreateRoomForm(
     return { valid: false, expired: expired };
   }
 
+  const roomNameTaken = (await filterActiveRooms([roomName])).length !== 0;
+  if (roomNameTaken) {
+    return { valid: true, roomNameTaken: true };
+  }
+
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
   const at = new AccessToken(apiKey, apiSecret, { identity: "Admin" });
 
-  const roomId = Date.now().toString();
-
   const roomEgressRequest = {
-    roomName: roomId,
+    roomName: roomName,
     fileOutputs: [{ filepath: "/out/videos/" }],
 
     layout: "grid-dark",
@@ -40,7 +41,7 @@ export async function handleCreateRoomForm(
   };
 
   const liveKitRoom = await roomService.createRoom({
-    name: roomId,
+    name: roomName,
     egress: new RoomEgress({ room: roomEgressRequest }),
   });
 
@@ -49,7 +50,7 @@ export async function handleCreateRoomForm(
   });
 
   egressClient.startRoomCompositeEgress(
-    roomId,
+    roomName,
     {
       file: fileOutput,
     },
@@ -60,7 +61,7 @@ export async function handleCreateRoomForm(
   );
 
   at.addGrant({
-    room: roomId,
+    room: roomName,
     roomCreate: true,
     roomJoin: true,
     canSubscribe: true,
@@ -75,7 +76,7 @@ export async function handleCreateRoomForm(
     ],
   });
 
-  return { token: await at.toJwt(), newRoomId: roomId, valid: true };
+  return { token: await at.toJwt(), newRoomId: roomName, valid: true };
 }
 
 // Returns room id to be used to check if name taken

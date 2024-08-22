@@ -18,7 +18,7 @@ export default function AdminsRoom({
     <div className="shadow-lg p-7 grid gap-5">
       <div className="flex flex-row-3 divide-x">
         <p className="px-3">Room participants: {room.numParticipants}</p>
-        <h2 className="px-3">Room id {room.name}</h2>
+        <h2 className="px-3">Room id: {room.name}</h2>
       </div>
 
       <div className="flex gap-2">
