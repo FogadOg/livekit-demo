@@ -70,6 +70,11 @@ const RoomAccess = ({ setToken, permissionToken, setPreJoinChoices }: RoomAccess
           submitUsername(options.username);
           setPreJoinChoices(options)
         }}
+        defaults={{
+          username: "",
+          videoEnabled: true,
+          audioEnabled: true,
+        }}
         onError={(error) => {
           console.error('Error during pre-join:', error);
         }}
