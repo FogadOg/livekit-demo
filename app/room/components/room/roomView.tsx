@@ -20,7 +20,6 @@ interface RoomProps {
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
-  
 
   return (
     <div className="overflow-hidden">
@@ -38,8 +37,8 @@ const RoomView = ({ token }: RoomProps) => {
       >
         <LiveKitRoom
           video={true}
-          audio={true}        
-          options={{}}
+          audio={true}
+          options={{ adaptiveStream: true, dynacast: true }}
           token={token}
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
           data-lk-theme="default"
