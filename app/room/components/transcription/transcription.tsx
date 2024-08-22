@@ -72,9 +72,7 @@ export const Transcription = ({
   }, [audioTrack.participant.lastSpokeAt]);
 
   const shouldDisplayCaption =
-    segments &&
-    segments.length > 0 &&
-    (!spokeThreeSecondsAgo || audioTrack.participant.isSpeaking);
+    segments && segments.length > 0 && !spokeThreeSecondsAgo;
 
   if (shouldDisplayCaption) {
     return <p className="bg-[rgba(0,0,0,0.5)] p-2">{segments.at(-1)?.text}</p>;
