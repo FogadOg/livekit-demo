@@ -6,9 +6,8 @@ import useToken from "../hooks/useToken";
 
 export default function RoomPage() {
   const { token, setToken, permissionsToken } = useToken();
-
   if (token !== "") {
-    return <RoomView token={token} />;
+    return <RoomView token={token}/>;
   }
 
   if (!permissionsToken) {

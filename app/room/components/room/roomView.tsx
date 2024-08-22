@@ -4,12 +4,15 @@ import { useRouter } from "next/navigation";
 import {
   LayoutContextProvider,
   LiveKitRoom,
+  LocalUserChoices,
   PreJoin,
   RoomAudioRenderer,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { CustomControlBar } from "../../../components/customControlBar";
 import { VideoConference } from "../../videoConference";
+import { useMemo } from "react";
+import { RoomOptions } from "livekit-client";
 
 interface RoomProps {
   token: string;
@@ -17,6 +20,7 @@ interface RoomProps {
 
 const RoomView = ({ token }: RoomProps) => {
   const router = useRouter();
+  
 
   return (
     <div className="overflow-hidden">
@@ -34,7 +38,8 @@ const RoomView = ({ token }: RoomProps) => {
       >
         <LiveKitRoom
           video={true}
-          audio={true}
+          audio={true}        
+          options={{}}
           token={token}
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
           data-lk-theme="default"
