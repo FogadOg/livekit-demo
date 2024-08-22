@@ -56,30 +56,27 @@ export const Transcription = ({
   ]);
 
   useEffect(() => {
-    if (audioTrack.participant.lastSpokeAt instanceof Date) {
-      const timeDifference =
-        new Date().getTime() - audioTrack.participant.lastSpokeAt.getTime();
+    const updateSpokenStatus = () => {
+      if (audioTrack.participant.lastSpokeAt instanceof Date) {
+        const updatedTimeDifference =
+          new Date().getTime() - audioTrack.participant.lastSpokeAt.getTime();
+        setSpokeThreeSecondsAgo(updatedTimeDifference >= 4000);
+      }
+    };
 
-      setSpokeThreeSecondsAgo(timeDifference >= 4000);
+    // Initial update
+    updateSpokenStatus();
+    const intervalId = setInterval(updateSpokenStatus, 1000);
 
-      // Optional: You can set up an interval to update the state more frequently if needed
-      const intervalId = setInterval(() => {
-        if (audioTrack.participant.lastSpokeAt instanceof Date) {
-          const updatedTimeDifference =
-            new Date().getTime() - audioTrack.participant.lastSpokeAt.getTime();
-          setSpokeThreeSecondsAgo(updatedTimeDifference >= 4000);
-        }
-      }, 1000); // Update every second
-
-      return () => clearInterval(intervalId); // Clean up interval on component unmount
-    }
+    return () => clearInterval(intervalId);
   }, [audioTrack.participant.lastSpokeAt]);
 
-  if (
+  const shouldDisplayCaption =
     segments &&
     segments.length > 0 &&
-    (!spokeThreeSecondsAgo || audioTrack.participant.isSpeaking)
-  ) {
+    (!spokeThreeSecondsAgo || audioTrack.participant.isSpeaking);
+
+  if (shouldDisplayCaption) {
     return <p className="bg-[rgba(0,0,0,0.5)] p-2">{segments.at(-1)?.text}</p>;
   }
 
