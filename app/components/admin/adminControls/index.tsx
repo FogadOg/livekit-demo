@@ -50,7 +50,7 @@ export const AdminControls = ({ token }: { token: string }) => {
         />
         <div
           role="tabpanel"
-          className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-[500px]"
+          className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-[500px] overflow-y-scroll"
         >
           <IngressManagement token={token} />
         </div>
