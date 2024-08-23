@@ -1,7 +1,7 @@
 "use client";
 
 import RoomView from "./components/room/roomView";
-import RoomAccess from "./components/room/roomAccess";
+import PreJoinRoom from "./components/room/preJoinRoom";
 import useToken from "../hooks/useToken";
 import { useState } from "react";
 import { LocalUserChoices } from "@livekit/components-react";
@@ -22,5 +22,5 @@ export default function RoomPage() {
     );
   }
 
-  return <RoomAccess setToken={setToken} permissionToken={permissionsToken} setPreJoinChoices={setPreJoinChoices}/>;
+  return <PreJoinRoom setToken={setToken} permissionToken={permissionsToken} setPreJoinChoices={setPreJoinChoices}/>;
 }
