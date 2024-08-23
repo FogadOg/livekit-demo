@@ -1,7 +1,7 @@
 "use client";
 
 import RoomView from "./components/room/roomView";
-import RoomAccess from "./components/room/roomAccess";
+import RoomAccess from "./components/room/preJoinRoom";
 import useToken from "../hooks/useToken";
 import { useState } from "react";
 import { LocalUserChoices } from "@livekit/components-react";
