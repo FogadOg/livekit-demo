@@ -6,13 +6,13 @@ import useRoomState from "@/app/hooks/useRoomState";
 import { LocalUserChoices, PreJoin } from "@livekit/components-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
-interface RoomAccessProps {
+interface PreJoinRoomProps {
   setToken: (token: string) => void;
   permissionToken: string;
   setPreJoinChoices:   Dispatch<SetStateAction<LocalUserChoices | undefined>>  ;
 }
 
-const RoomAccess = ({ setToken, permissionToken, setPreJoinChoices }: RoomAccessProps) => {
+const PreJoinRoom = ({ setToken, permissionToken, setPreJoinChoices }: PreJoinRoomProps) => {
   const { expired, roomExists, roomId } = useRoomState({
     permissionToken,
     setToken,
@@ -84,4 +84,4 @@ const RoomAccess = ({ setToken, permissionToken, setPreJoinChoices }: RoomAccess
   );
 };
 
-export default RoomAccess;
+export default PreJoinRoom;
