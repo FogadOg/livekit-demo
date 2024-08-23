@@ -171,6 +171,7 @@ export default function Home() {
           </p>
         </div>
 
+        <div className="mt-10"></div>
         {gettingCreateToken && (
           <div className="w-full mt-10" id="roomCreate">
             <span className="loading loading-spinner loading-lg m-auto block"></span>
