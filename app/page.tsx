@@ -143,6 +143,10 @@ export default function Home() {
               Livekit.
             </a>
           </p>
+          <p>
+            One ingress instance can have multiple jobs depeding on ingress
+            type. Tested self where each job took ~1 core and 120mb ram.
+          </p>
 
           <h3 className="">Egress (Recording) requirements:</h3>
           <p>
@@ -155,6 +159,10 @@ export default function Home() {
             >
               Livekit.
             </a>
+            <p>
+              Tested with one egress instance and two egresses running together.
+              Used 8 cores and 650mb ram.
+            </p>
           </p>
           <h3 className="">Bandwidth:</h3>
           <p>
