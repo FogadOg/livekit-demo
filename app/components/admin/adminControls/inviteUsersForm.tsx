@@ -140,6 +140,7 @@ export const InviteUsersForm = ({ token }: { token: string }) => {
           </li>
         ))}
       </form>
+      <p>PS: Link will expire in 5 minutes after you copy</p>
       <button
         className="btn btn-primary"
         onClick={() => {
