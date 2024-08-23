@@ -88,6 +88,13 @@ const PreJoinRoom = ({ setToken, permissionToken, setPreJoinChoices }: PreJoinRo
         }}
         onError={(error) => {
           console.error('Error during pre-join:', error);
+          if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+            alert("No camera or microphone was found. Please connect a device and try again.");
+          } else if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+            alert("Permission to access camera or microphone was denied. Please allow access and try again.");
+          } else {
+            alert("An unexpected error occurred during pre-join. Please check your devices and try again.");
+          }
         }}
       />
 
